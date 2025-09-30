@@ -19,5 +19,12 @@
     "title": "Capstone: K-Means Clustering on Retail Data",
     "section": "Running Code",
     "text": "Running Code\nWhen you click the Render button a document will be generated that includes both content and the output of embedded code. You can embed code like this:\n\n1 + 1\n\n[1] 2\n\n\nYou can add options to executable code like this\n\n\n[1] 4\n\n\nThe echo: false option disables the printing of code (only output is displayed)."
+  },
+  {
+    "objectID": "index.html#introduction",
+    "href": "index.html#introduction",
+    "title": "Capstone: K-Means Clustering on Retail Data",
+    "section": "Introduction",
+    "text": "Introduction\nIn retail, not all customers are the same. Some shop often and spend a lot, while others buy less or shop only occasionally. Treating all customers the same can lead to missed opportunities. K-Means clustering helps retailers by grouping customers with similar behaviors, such as spending levels or shopping frequency. These groups can then be targeted with the right offers, discounts, and services. Beyond customers, K-Means can also be used in inventory management, dividing products into fast-moving, stable, or slow-moving categories to reduce waste and improve stock planning."
   }
 ]
