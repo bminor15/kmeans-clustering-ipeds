@@ -8,8 +8,8 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - href: data.qmd
-        text: Data
+      - href: literature.qmd
+        text: Literature
       - href: methods.qmd
         text: Methods
       - href: results.qmd

@@ -1,0 +1,47 @@
+---
+title: "Literature Review"
+format: html
+engine: knitr
+---
+
+## Benjamin Minor's Literature Review
+
+## 1) Grocery stores in Kenya (customer segmentation)
+
+**Title:** Application of K-Means Clustering for Customer Segmentation in Grocery Stores in Kenya  
+**Link:** <https://ijstm.inarah.co.id/index.php/ijstm/article/view/1024>
+
+**Summary:**  
+This study groups grocery shoppers using K Means on transaction and basic demographic data. It matters because smaller stores still need simple ways to understand buying patterns and target customers better. The authors cleaned the data, tested cluster counts with the elbow method, and profiled the groups by behavior. The results gave clear segments that stores can use for marketing and stocking, though the setup is limited by the data available to small shops.
+
+---
+
+## 2) Department store case (user profiling)
+
+**Title:** Applying K-Means Clustering for User Profiling in Retail: A Department Store Case Study  
+**Link:** <https://www.atlantis-press.com/article/125992628.pdf>
+
+**Summary:**  
+This paper uses membership and transaction data from a department store to build shopper profiles with K Means. It’s important because simple, interpretable clusters help teams design targeted offers and loyalty programs. The authors picked the number of clusters using the elbow method and the Calinski–Harabasz index, then described each group in plain terms. It shows a straightforward pipeline from retail data to actionable profiles, but it does not bring in extra context like demographics.
+
+---
+
+## 3) Online retail with weighted K Means (RFM)
+
+**Title:** Customer analytics for online retailers using weighted K-Means and RFM analysis  
+**Link:** <https://pdfs.semanticscholar.org/2094/679b670242e4177670b839fd7736fc454afa.pdf>
+
+**Summary:**  
+This study tries to improve customer segmentation by combining RFM features (recency, frequency, monetary) with a weighted K Means variant. The goal is cleaner groups that help with targeting and retention. Using a large UK online retail dataset, the authors built RFM, compared standard vs weighted K Means, and evaluated with silhouette scores. Weighted K Means did better (about 0.40 vs 0.30), but using only RFM can miss other behavior, so the view of the customer is still limited.
+
+---
+
+## 4) Comparing clustering algorithms on UK retail data
+
+**Title:** An Exploration of Clustering Algorithms for Customer Segmentation in the UK Retail Market  
+**Link:** <https://arxiv.org/pdf/2402.04103>
+
+**Summary:**  
+This paper compares several clustering methods for retail segmentation using RFM features, including K Means, Gaussian Mixture Models, DBSCAN, BIRCH, and agglomerative clustering. It matters because the choice of algorithm changes how useful the groups are for marketing and planning. The results showed GMM scored highest on silhouette (around 0.80) in this setup, with K Means and others lower. The dataset is mostly transactions, so the clusters do not include extra context like demographics or browsing.
+
+
