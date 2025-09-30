@@ -6,9 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Lavanya Guntupalli, Benjamin Minor">
 
-<title>Capstone: K-Means Clustering on Retail Data – Capstone Project: K-Means Clustering on Retail Data</title>
+<title>Literature Review – Capstone Project: K-Means Clustering on Retail Data</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -89,11 +88,11 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./literature.html"> 
+    <a class="nav-link active" href="./literature.html" aria-current="page"> 
 <span class="menu-text">Literature</span></a>
   </li>  
   <li class="nav-item">
@@ -124,7 +123,11 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#benjamin-minors-literature-review" id="toc-benjamin-minors-literature-review" class="nav-link active" data-scroll-target="#benjamin-minors-literature-review">Benjamin Minor’s Literature Review</a></li>
+  <li><a href="#grocery-stores-in-kenya-customer-segmentation" id="toc-grocery-stores-in-kenya-customer-segmentation" class="nav-link" data-scroll-target="#grocery-stores-in-kenya-customer-segmentation">1) Grocery stores in Kenya (customer segmentation)</a></li>
+  <li><a href="#department-store-case-user-profiling" id="toc-department-store-case-user-profiling" class="nav-link" data-scroll-target="#department-store-case-user-profiling">2) Department store case (user profiling)</a></li>
+  <li><a href="#online-retail-with-weighted-k-means-rfm" id="toc-online-retail-with-weighted-k-means-rfm" class="nav-link" data-scroll-target="#online-retail-with-weighted-k-means-rfm">3) Online retail with weighted K Means (RFM)</a></li>
+  <li><a href="#comparing-clustering-algorithms-on-uk-retail-data" id="toc-comparing-clustering-algorithms-on-uk-retail-data" class="nav-link" data-scroll-target="#comparing-clustering-algorithms-on-uk-retail-data">4) Comparing clustering algorithms on UK retail data</a></li>
   </ul>
 </nav>
     </div>
@@ -133,19 +136,13 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Capstone: K-Means Clustering on Retail Data</h1>
+<h1 class="title">Literature Review</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Lavanya Guntupalli, Benjamin Minor </p>
-          </div>
-  </div>
     
   
     
@@ -156,10 +153,39 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="introduction" class="level2">
-<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>In retail, not all customers are the same. Some shop often and spend a lot, while others buy less or shop only occasionally. Treating all customers the same can lead to missed opportunities. K-Means clustering helps retailers by grouping customers with similar behaviors, such as spending levels or shopping frequency. These groups can then be targeted with the right offers, discounts, and services. Beyond customers, K-Means can also be used in inventory management, dividing products into fast-moving, stable, or slow-moving categories to reduce waste and improve stock planning.</p>
-<p>For this project we are working with a retail dataset that holds transactional records with details on purchases and spending patterns. Our plan is to clean and prepare the data, choose features that capture customer and product behavior, and then apply K-Means clustering to see how the groups form. From there we will evaluate the clusters and describe them in clear terms, showing how the results can guide decisions for marketing, promotions, and inventory.</p>
+<section id="benjamin-minors-literature-review" class="level2">
+<h2 class="anchored" data-anchor-id="benjamin-minors-literature-review">Benjamin Minor’s Literature Review</h2>
+</section>
+<section id="grocery-stores-in-kenya-customer-segmentation" class="level2">
+<h2 class="anchored" data-anchor-id="grocery-stores-in-kenya-customer-segmentation">1) Grocery stores in Kenya (customer segmentation)</h2>
+<p><strong>Title:</strong> Application of K-Means Clustering for Customer Segmentation in Grocery Stores in Kenya<br>
+<strong>Link:</strong> <a href="https://ijstm.inarah.co.id/index.php/ijstm/article/view/1024" class="uri">https://ijstm.inarah.co.id/index.php/ijstm/article/view/1024</a></p>
+<p><strong>Summary:</strong><br>
+This study groups grocery shoppers using K Means on transaction and basic demographic data. It matters because smaller stores still need simple ways to understand buying patterns and target customers better. The authors cleaned the data, tested cluster counts with the elbow method, and profiled the groups by behavior. The results gave clear segments that stores can use for marketing and stocking, though the setup is limited by the data available to small shops.</p>
+<hr>
+</section>
+<section id="department-store-case-user-profiling" class="level2">
+<h2 class="anchored" data-anchor-id="department-store-case-user-profiling">2) Department store case (user profiling)</h2>
+<p><strong>Title:</strong> Applying K-Means Clustering for User Profiling in Retail: A Department Store Case Study<br>
+<strong>Link:</strong> <a href="https://www.atlantis-press.com/article/125992628.pdf" class="uri">https://www.atlantis-press.com/article/125992628.pdf</a></p>
+<p><strong>Summary:</strong><br>
+This paper uses membership and transaction data from a department store to build shopper profiles with K Means. It’s important because simple, interpretable clusters help teams design targeted offers and loyalty programs. The authors picked the number of clusters using the elbow method and the Calinski–Harabasz index, then described each group in plain terms. It shows a straightforward pipeline from retail data to actionable profiles, but it does not bring in extra context like demographics.</p>
+<hr>
+</section>
+<section id="online-retail-with-weighted-k-means-rfm" class="level2">
+<h2 class="anchored" data-anchor-id="online-retail-with-weighted-k-means-rfm">3) Online retail with weighted K Means (RFM)</h2>
+<p><strong>Title:</strong> Customer analytics for online retailers using weighted K-Means and RFM analysis<br>
+<strong>Link:</strong> <a href="https://pdfs.semanticscholar.org/2094/679b670242e4177670b839fd7736fc454afa.pdf" class="uri">https://pdfs.semanticscholar.org/2094/679b670242e4177670b839fd7736fc454afa.pdf</a></p>
+<p><strong>Summary:</strong><br>
+This study tries to improve customer segmentation by combining RFM features (recency, frequency, monetary) with a weighted K Means variant. The goal is cleaner groups that help with targeting and retention. Using a large UK online retail dataset, the authors built RFM, compared standard vs weighted K Means, and evaluated with silhouette scores. Weighted K Means did better (about 0.40 vs 0.30), but using only RFM can miss other behavior, so the view of the customer is still limited.</p>
+<hr>
+</section>
+<section id="comparing-clustering-algorithms-on-uk-retail-data" class="level2">
+<h2 class="anchored" data-anchor-id="comparing-clustering-algorithms-on-uk-retail-data">4) Comparing clustering algorithms on UK retail data</h2>
+<p><strong>Title:</strong> An Exploration of Clustering Algorithms for Customer Segmentation in the UK Retail Market<br>
+<strong>Link:</strong> <a href="https://arxiv.org/pdf/2402.04103" class="uri">https://arxiv.org/pdf/2402.04103</a></p>
+<p><strong>Summary:</strong><br>
+This paper compares several clustering methods for retail segmentation using RFM features, including K Means, Gaussian Mixture Models, DBSCAN, BIRCH, and agglomerative clustering. It matters because the choice of algorithm changes how useful the groups are for marketing and planning. The results showed GMM scored highest on silhouette (around 0.80) in this setup, with K Means and others lower. The dataset is mostly transactions, so the clusters do not include extra context like demographics or browsing.</p>
 
 
 </section>
