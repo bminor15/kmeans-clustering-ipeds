@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "Capstone: K-Means Clustering on Retail Data",
     "section": "",
-    "text": "In retail, not all customers are the same. Some shop often and spend a lot, while others buy less or shop only occasionally. Treating all customers the same can lead to missed opportunities. K-Means clustering helps retailers by grouping customers with similar behaviors, such as spending levels or shopping frequency. These groups can then be targeted with the right offers, discounts, and services. Beyond customers, K-Means can also be used in inventory management, dividing products into fast-moving, stable, or slow-moving categories to reduce waste and improve stock planning.\nFor this project we are working with a retail dataset that holds transactional records with details on purchases and spending patterns. Our plan is to clean and prepare the data, choose features that capture customer and product behavior, and then apply K-Means clustering to see how the groups form. From there we will evaluate the clusters and describe them in clear terms, showing how the results can guide decisions for marketing, promotions, and inventory."
+    "text": "Slides: slides.html ( Go to slides.qmd to edit)"
   },
   {
     "objectID": "index.html#quarto",
@@ -24,8 +24,8 @@
     "objectID": "index.html#introduction",
     "href": "index.html#introduction",
     "title": "Capstone: K-Means Clustering on Retail Data",
-    "section": "",
-    "text": "In retail, not all customers are the same. Some shop often and spend a lot, while others buy less or shop only occasionally. Treating all customers the same can lead to missed opportunities. K-Means clustering helps retailers by grouping customers with similar behaviors, such as spending levels or shopping frequency. These groups can then be targeted with the right offers, discounts, and services. Beyond customers, K-Means can also be used in inventory management, dividing products into fast-moving, stable, or slow-moving categories to reduce waste and improve stock planning.\nFor this project we are working with a retail dataset that holds transactional records with details on purchases and spending patterns. Our plan is to clean and prepare the data, choose features that capture customer and product behavior, and then apply K-Means clustering to see how the groups form. From there we will evaluate the clusters and describe them in clear terms, showing how the results can guide decisions for marketing, promotions, and inventory."
+    "section": "Introduction",
+    "text": "Introduction\nIn retail, not all customers are the same. Some shop often and spend a lot, while others buy less or shop only occasionally. Treating all customers the same can lead to missed opportunities. K-Means clustering helps retailers by grouping customers with similar behaviors, such as spending levels or shopping frequency. These groups can then be targeted with the right offers, discounts, and services. Beyond customers, K-Means can also be used in inventory management, dividing products into fast-moving, stable, or slow-moving categories to reduce waste and improve stock planning.\nFor this project we are working with a retail dataset that holds transactional records with details on purchases and spending patterns. Our plan is to clean and prepare the data, choose features that capture customer and product behavior, and then apply K-Means clustering to see how the groups form. From there we will evaluate the clusters and describe them in clear terms, showing how the results can guide decisions for marketing, promotions, and inventory.\nThe introduction should:\n\nDevelop a storyline that captures attention and maintains interest.\nYour audience is your peers\nClearly state the problem or question you’re addressing.\n\n\n\nIntroduce why it is relevant needs.\nProvide an overview of your approach.\n\nExample of writing including citing references:\nThis is an introduction to ….. regression, which is a non-parametric estimator that estimates the conditional expectation of two variables which is random. The goal of a kernel regression is to discover the non-linear relationship between two random variables. To discover the non-linear relationship, kernel estimator or kernel smoothing is the main method to estimate the curve for non-parametric statistics. In kernel estimator, weight function is known as kernel function (efr2008?). Cite this paper (bro2014principal?). The GEE (wang2014?). The PCA (daffertshofer2004pca?). Topology can be used in machine learning (adams2021topology?)\nFor Symbolic Regression (wang2019symbolic?) This is my work and I want to add more work…\nCite new paper (su2012linear?)"
   },
   {
     "objectID": "literature.html#grocery-stores-in-kenya-customer-segmentation",
@@ -54,5 +54,89 @@
     "title": "Literature Review",
     "section": "4) Comparing clustering algorithms on UK retail data",
     "text": "4) Comparing clustering algorithms on UK retail data\nTitle: An Exploration of Clustering Algorithms for Customer Segmentation in the UK Retail Market\nLink: https://arxiv.org/pdf/2402.04103\nSummary:\nThis paper compares several clustering methods for retail segmentation using RFM features, including K Means, Gaussian Mixture Models, DBSCAN, BIRCH, and agglomerative clustering. It matters because the choice of algorithm changes how useful the groups are for marketing and planning. The results showed GMM scored highest on silhouette (around 0.80) in this setup, with K Means and others lower. The dataset is mostly transactions, so the clusters do not include extra context like demographics or browsing."
+  },
+  {
+    "objectID": "index.html#methods",
+    "href": "index.html#methods",
+    "title": "Capstone: K-Means Clustering on Retail Data",
+    "section": "Methods",
+    "text": "Methods\n\nDetail the models or algorithms used.\nJustify your choices based on the problem and data.\n\nThe common non-parametric regression model is \\(Y_i = m(X_i) + \\varepsilon_i\\), where \\(Y_i\\) can be defined as the sum of the regression function value \\(m(x)\\) for \\(X_i\\). Here \\(m(x)\\) is unknown and \\(\\varepsilon_i\\) some errors. With the help of this definition, we can create the estimation for local averaging i.e. \\(m(x)\\) can be estimated with the product of \\(Y_i\\) average and \\(X_i\\) is near to \\(x\\). In other words, this means that we are discovering the line through the data points with the help of surrounding data points. The estimation formula is printed below (R-base?):\n\\[\nM_n(x) = \\sum_{i=1}^{n} W_n (X_i) Y_i  \\tag{1}\n\\]\\(W_n(x)\\) is the sum of weights that belongs to all real numbers. Weights are positive numbers and small if \\(X_i\\) is far from \\(x\\).\nAnother equation:\n\\[\ny_i = \\beta_0 + \\beta_1 X_1 +\\varepsilon_i\n\\]"
+  },
+  {
+    "objectID": "index.html#analysis-and-results",
+    "href": "index.html#analysis-and-results",
+    "title": "Capstone: K-Means Clustering on Retail Data",
+    "section": "Analysis and Results",
+    "text": "Analysis and Results\n\nData Exploration and Visualization\n\nDescribe your data sources and collection process.\nPresent initial findings and insights through visualizations.\nHighlight unexpected patterns or anomalies.\n\nA study was conducted to determine how…\n\n\nCode\n# loading packages \nlibrary(tidyverse)\nlibrary(knitr)\nlibrary(ggthemes)\nlibrary(ggrepel)\nlibrary(dslabs)\n\n\n\n\nCode\nimport pandas as pd\n\n\n\n\nCode\n# Load Data\nkable(head(murders))\n\n\n\n\n\nstate\nabb\nregion\npopulation\ntotal\n\n\n\n\nAlabama\nAL\nSouth\n4779736\n135\n\n\nAlaska\nAK\nWest\n710231\n19\n\n\nArizona\nAZ\nWest\n6392017\n232\n\n\nArkansas\nAR\nSouth\n2915918\n93\n\n\nCalifornia\nCA\nWest\n37253956\n1257\n\n\nColorado\nCO\nWest\n5029196\n65\n\n\n\n\n\nCode\nggplot1 = murders %&gt;% ggplot(mapping = aes(x=population/10^6, y=total)) \n\n  ggplot1 + geom_point(aes(col=region), size = 4) +\n  geom_text_repel(aes(label=abb)) +\n  scale_x_log10() +\n  scale_y_log10() +\n  geom_smooth(formula = \"y~x\", method=lm,se = F)+\n  xlab(\"Populations in millions (log10 scale)\") + \n  ylab(\"Total number of murders (log10 scale)\") +\n  ggtitle(\"US Gun Murders in 2010\") +\n  scale_color_discrete(name = \"Region\")+\n      theme_bw()\n\n\n\n\n\n\n\n\n\n\n\nModeling and Results\n\nExplain your data preprocessing and cleaning steps.\nPresent your key findings in a clear and concise manner.\nUse visuals to support your claims.\nTell a story about what the data reveals.\n\n\n\nConclusion\n\nSummarize your key findings.\nDiscuss the implications of your results."
+  },
+  {
+    "objectID": "slides.html",
+    "href": "slides.html",
+    "title": "Present a great story for data science projects",
+    "section": "",
+    "text": "Important\n\n\n\nRemember: Your goal is to make your audience understand and care about your findings. By crafting a compelling story, you can effectively communicate the value of your data science project.\nCarefully read this template since it has instructions and tips to writing!\nMore information about revealjs: https://quarto.org/docs/reference/formats/presentations/revealjs.html"
+  },
+  {
+    "objectID": "slides.html#introduction",
+    "href": "slides.html#introduction",
+    "title": "Present a great story for data science projects",
+    "section": "Introduction",
+    "text": "Introduction\n\nDevelop a storyline that captures attention and maintains interest.\nYour audience is your peers\nClearly state the problem or question you’re addressing.\nIntroduce why it is relevant needs.\nProvide an overview of your approach.\n\nIn kernel estimator, weight function is known as kernel function (Efromovich 2008). Cite this paper (Bro and Smilde 2014). The GEE (Wang 2014). The PCA (Daffertshofer et al. 2004)*"
+  },
+  {
+    "objectID": "slides.html#methods",
+    "href": "slides.html#methods",
+    "title": "Present a great story for data science projects",
+    "section": "Methods",
+    "text": "Methods\n\nDetail the models or algorithms used.\nJustify your choices based on the problem and data."
+  },
+  {
+    "objectID": "slides.html#data-exploration-and-visualization",
+    "href": "slides.html#data-exploration-and-visualization",
+    "title": "Present a great story for data science projects",
+    "section": "Data Exploration and Visualization",
+    "text": "Data Exploration and Visualization\n\nDescribe your data sources and collection process.\nPresent initial findings and insights through visualizations.\nHighlight unexpected patterns or anomalies."
+  },
+  {
+    "objectID": "slides.html#data-exploration-and-visualization-1",
+    "href": "slides.html#data-exploration-and-visualization-1",
+    "title": "Present a great story for data science projects",
+    "section": "Data Exploration and Visualization",
+    "text": "Data Exploration and Visualization\nA study was conducted to determine how…"
+  },
+  {
+    "objectID": "slides.html#modeling-and-results",
+    "href": "slides.html#modeling-and-results",
+    "title": "Present a great story for data science projects",
+    "section": "Modeling and Results",
+    "text": "Modeling and Results\n\nExplain your data preprocessing and cleaning steps.\nPresent your key findings in a clear and concise manner.\nUse visuals to support your claims.\nTell a story about what the data reveals."
+  },
+  {
+    "objectID": "slides.html#conclusion",
+    "href": "slides.html#conclusion",
+    "title": "Present a great story for data science projects",
+    "section": "Conclusion",
+    "text": "Conclusion\n\nSummarize your key findings.\nDiscuss the implications of your results."
+  },
+  {
+    "objectID": "index2.html",
+    "href": "index2.html",
+    "title": "Capstone: K-Means Clustering on Retail Data",
+    "section": "",
+    "text": "In retail, not all customers are the same. Some shop often and spend a lot, while others buy less or shop only occasionally. Treating all customers the same can lead to missed opportunities. K-Means clustering helps retailers by grouping customers with similar behaviors, such as spending levels or shopping frequency. These groups can then be targeted with the right offers, discounts, and services. Beyond customers, K-Means can also be used in inventory management, dividing products into fast-moving, stable, or slow-moving categories to reduce waste and improve stock planning.\nFor this project we are working with a retail dataset that holds transactional records with details on purchases and spending patterns. Our plan is to clean and prepare the data, choose features that capture customer and product behavior, and then apply K-Means clustering to see how the groups form. From there we will evaluate the clusters and describe them in clear terms, showing how the results can guide decisions for marketing, promotions, and inventory."
+  },
+  {
+    "objectID": "index2.html#introduction",
+    "href": "index2.html#introduction",
+    "title": "Capstone: K-Means Clustering on Retail Data",
+    "section": "",
+    "text": "In retail, not all customers are the same. Some shop often and spend a lot, while others buy less or shop only occasionally. Treating all customers the same can lead to missed opportunities. K-Means clustering helps retailers by grouping customers with similar behaviors, such as spending levels or shopping frequency. These groups can then be targeted with the right offers, discounts, and services. Beyond customers, K-Means can also be used in inventory management, dividing products into fast-moving, stable, or slow-moving categories to reduce waste and improve stock planning.\nFor this project we are working with a retail dataset that holds transactional records with details on purchases and spending patterns. Our plan is to clean and prepare the data, choose features that capture customer and product behavior, and then apply K-Means clustering to see how the groups form. From there we will evaluate the clusters and describe them in clear terms, showing how the results can guide decisions for marketing, promotions, and inventory."
+  },
+  {
+    "objectID": "index.html#references",
+    "href": "index.html#references",
+    "title": "Capstone: K-Means Clustering on Retail Data",
+    "section": "References",
+    "text": "References\nAgarwal, R., A. Singh, and K. Chaudhary. 2019. “Comparative Analysis of Store Clustering Techniques in Retail Management.” International Journal of Retail Analytics 8 (2): 45–59. https://doi.org/10.1016/j.retaila.2019.02.004\nBala, S. 2012. “Inventory Forecasting Using Cluster Analysis and Regression Techniques.” International Journal of Operations and Supply Chain Management 5 (4): 33–41. https://www.ioscm.org/inventory-forecasting\nFarhan, R., and A. Heikal. 2024. “Customer Segmentation of Used Car Buyers Using K-Means Clustering.” Journal of Business and Data Analytics 12 (1): 22–30. https://doi.org/10.1177/jbda.2024.1103\nHuang, J., P.-M. Tu, Z. Liu, W. Song, and L. Li. 2023. “Applying K-Means Clustering for User Profiling in Retail: A Department Store Case Study.” Atlantis Press Proceedings. https://www.atlantis-press.com/article/125992628.pdf\nJain, A. K. 2010. “Data Clustering: 50 Years Beyond K-Means.” Pattern Recognition Letters 31 (8): 651–66. https://doi.org/10.1016/j.patrec.2009.09.011\nJohn, O., O. Shobayo, and J. Ogunleye. 2024. “An Exploration of Clustering Algorithms for Customer Segmentation in the UK Retail Market.” arXiv preprint arXiv:2402.04103. https://arxiv.org/pdf/2402.04103\nKanungo, T., D. M. Mount, N. S. Netanyahu, C. D. Piatko, R. Silverman, and A. Y. Wu. 2002. “An Efficient K-Means Clustering Algorithm: Analysis and Implementation.” IEEE Transactions on Pattern Analysis and Machine Intelligence 24 (7): 881–92. https://doi.org/10.1109/TPAMI.2002.1017616\nLikas, A., N. Vlassis, and J. J. Verbeek. 2003. “The Global K-Means Clustering Algorithm.” Pattern Recognition 36 (2): 451–61. https://doi.org/10.1016/S0031-3203(02)00060-2\nLloyd, S. 1982. “Least Squares Quantization in PCM.” IEEE Transactions on Information Theory 28 (2): 129–37. https://doi.org/10.1109/TIT.1982.1056489\nMacQueen, J. B. 1967. “Some Methods for Classification and Analysis of Multivariate Observations.” In Proceedings of the Fifth Berkeley Symposium on Mathematical Statistics and Probability, 1:281–97. Berkeley: University of California Press.\nOmol, E., D. Onyangor, L. Mburu, and P. Abuonji. 2024. “Application of K-Means Clustering for Customer Segmentation in Grocery Stores in Kenya.” International Journal of Science and Technology Management 4 (2): 12–18. https://ijstm.inarah.co.id/index.php/ijstm/article/view/1024\nOmol, E., L. Mburu, and M. Kariuki. 2023. “Digital Maturity and Customer Engagement for SMEs in Retail.” African Journal of Data Science and Innovation 5 (1): 41–48. https://doi.org/10.1234/ajdsi.2023.410\nPrasetiya, A., and R. Prayoga. 2025. “A Systematic Review of Retail Customer Segmentation Techniques.” Indonesian Journal of Information Systems 9 (3): 77–90. https://doi.org/10.20885/ijis.vol9.iss3.art5\nRios, A., and E. Vera. 2023. “Dynamic Pricing and Inventory Control in Retail Using Cluster Analysis.” Retail Management Review 14 (1): 15–27. https://doi.org/10.1016/j.rema.2023.01.004\nSerwah, K., T. Ofori, and A. Boateng. 2023. “Customer Analytics for Online Retailers Using Weighted K-Means and RFM Analysis.” Semantics Scholar Papers. https://pdfs.semanticscholar.org/2094/679b670242e4177670b839fd7736fc454afa.pdf\nSitorus, F., N. A. Hidayat, and Y. Santoso. 2023. “Implementation of K-Means for Inventory Projection in Retail Operations.” Journal of Information Systems and Technology 5 (2): 112–21. https://doi.org/10.33455/jist.2023.021\nSyahra, D., A. Rahman, and S. Lubis. 2025. “Customer Segmentation Using RFM and K-Means Clustering to Support CRM in Retail Industry.” Sinkron Journal of Information and Communication Technology 9 (1): 54–61. https://www.researchgate.net/publication/394047969\nTsai, C.-Y., and C.-C. Chiu. 2004. “A Purchase-Based Market Segmentation Methodology Using the RFM Model and K-Means Technique.” Expert Systems with Applications 27 (3): 465–84. https://doi.org/10.1016/j.eswa.2004.05.002\nUlfa, L., M. Kusuma, and A. Sari. 2022. “Product Clustering Analysis on the Marketplace Using K-Means Approach (Case Study: Shopee).” ASE Journal of Applied Research 6 (4): 201–9. https://www.researchgate.net/publication/365377295\nWilbert, P. 2023. “RFM and K-Means Clustering for Customer Segmentation in Online Retail.” Journal of Data Mining and Applications 10 (2): 66–74. https://doi.org/10.1016/j.jdma.2023.06.004"
   }
 ]
