@@ -1,7 +1,7 @@
 ---
 title: "Capstone: K-Means Clustering on Retail Data"
 subtitle: "This is a Report Template Quarto"
-author: "Lavanya Guntupalli, Benjamin Minor"
+author: "Lavanya Guntupalli, Benjamin Minor, Charan Gullipalli, Arun Pandian"
 date: '`r Sys.Date()`'
 format:
   html:
@@ -35,11 +35,23 @@ Nice report!
 
 ## Introduction
 
-In retail, not all customers are the same. Some shop often and spend a lot, while others buy less or shop only occasionally. Treating all customers the same can lead to missed opportunities. K-Means clustering helps retailers by grouping customers with similar behaviors, such as spending levels or shopping frequency. These groups can then be targeted with the right offers, discounts, and services. Beyond customers, K-Means can also be used in inventory management, dividing products into fast-moving, stable, or slow-moving categories to reduce waste and improve stock planning.
+In retail, not all customers are the same. Some shop often and spend a
+lot, while others buy less or shop only occasionally. Treating all
+customers the same can lead to missed opportunities. K-Means clustering
+helps retailers by grouping customers with similar behaviors, such as
+spending levels or shopping frequency. These groups can then be targeted
+with the right offers, discounts, and services. Beyond customers,
+K-Means can also be used in inventory management, dividing products into
+fast-moving, stable, or slow-moving categories to reduce waste and
+improve stock planning.
 
-For this project we are working with a retail dataset that holds transactional records with details on purchases and spending patterns. Our plan is to clean and prepare the data, choose features that capture customer and product behavior, and then apply K-Means clustering to see how the groups form. From there we will evaluate the clusters and describe them in clear terms, showing how the results can guide decisions for marketing, promotions, and inventory.
-
-
+For this project we are working with a retail dataset that holds
+transactional records with details on purchases and spending patterns.
+Our plan is to clean and prepare the data, choose features that capture
+customer and product behavior, and then apply K-Means clustering to see
+how the groups form. From there we will evaluate the clusters and
+describe them in clear terms, showing how the results can guide
+decisions for marketing, promotions, and inventory.
 
 The introduction should:
 
@@ -72,6 +84,16 @@ For Symbolic Regression [@wang2019symbolic] *This is my work and I want
 to add more work...*
 
 Cite new paper [@su2012linear]
+
+## Literature
+
+Customer segmentation through clustering techniques has become essential for retailers to understand consumer behavior and improve marketing and inventory decisions. K-Means clustering is still a popular technique among these due to its ease of use, interpretability, and effectiveness when working with big datasets. The following studies show how K-Means has been successfully used in a variety of retail settings, including department shops, supermarkets, and online platforms.
+K-Means was utilized in another study on a department store example to create user profiles using membership and transaction data. The authors identified ideal clusters that reflected important shopper kinds, such as high-value regulars and sporadic low spenders, using the elbow approach and the Calinski–Harabasz index. Although the study highlighted the importance of clustering for targeted marketing and loyalty programs, it lacked behavioral or demographic diversity, which prevented a more thorough understanding of consumer motives.
+A study that used a weighted K-Means version with RFM (Recency, Frequency, Monetary) analysis aimed to improve segmentation accuracy in the online retail industry. The weighted version outperformed the regular K-Means (around 0.30) in terms of silhouette scores using a sizable UK retail dataset (about 0.40). More useful client clusters for targeting and retention were produced by this method. However, it overlooked other behavioral elements like browsing or engagement patterns because it just used RFM data.
+Several clustering techniques, including K-Means, Gaussian Mixture Models (GMM), DBSCAN, BIRCH, and Agglomerative clustering, were investigated using RFM-based features in a comparative analysis on UK retail data. The results indicated that K-Means remained the most practical due to its simplicity and quick computation, but GMM performed the best (silhouette score ~0.80). The study came to the conclusion that segmentation quality is greatly impacted by algorithm choice, and that results might be further improved with richer datasets.
+All things considered, the examined literature suggests K-Means clustering is a dependable and flexible method for retail customer segmentation. It enables data-driven marketing, inventory, and customer relationship management initiatives by assisting organizations in meaningfully grouping their customers. Although the majority of studies still only use transactional data, those that incorporate weighted features or RFM analysis show increased accuracy. In order to obtain more thorough and useful segmentation findings, future studies should investigate hybrid models and incorporate behavioral and demographic data.
+
+
 
 ## Methods
 
@@ -166,4 +188,3 @@ ggplot1 = murders %>% ggplot(mapping = aes(x=population/10^6, y=total))
 -   Discuss the implications of your results.
 
 ## References
- 
