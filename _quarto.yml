@@ -1,0 +1,11 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Capstone Project: K-Means Clustering on Retail Data"
+
+format:
+  html:
+    theme: cosmo
+    toc: true
