@@ -5,10 +5,11 @@ date: '`r Sys.Date()`'
 format:
   html:
     code-fold: true
+    link-citations: true       # <-- move here
+    link-bibliography: true    # <-- and here
 course: Capstone Projects in Data Science
 bibliography: references.bib # file contains bibtex for references
 #always_allow_html: true # this allows to get PDF with HTML features
-nocite: "@*"
 self-contained: true
 execute: 
   warning: false
@@ -25,23 +26,16 @@ to edit)
 
 ## Introduction
 
-In retail, not all customers are the same. Some shop often and spend a
-lot, while others buy less or shop only occasionally. Treating all
-customers the same can lead to missed opportunities. K-Means clustering
-helps retailers by grouping customers with similar behaviors, such as
-spending levels or shopping frequency. These groups can then be targeted
-with the right offers, discounts, and services. Beyond customers,
-K-Means can also be used in inventory management, dividing products into
-fast-moving, stable, or slow-moving categories to reduce waste and
-improve stock planning.
+In today's data-driven corporate environment, understanding customer behavior and effectively managing inventories are key to organizational success. With the increased availability of transactional, demographic, and behavioral data, data mining and clustering techniques—particularly K-Means clustering—have become critical decision-making tools in retail, logistics, and marketing. Recent studies emphasize that algorithm selection and data preprocessing directly affect the qualityyy of insights derived from clustering [@prasetiya2025review].
 
-For this project we are working with a retail dataset that holds
-transactional records with details on purchases and spending patterns.
-Our plan is to clean and prepare the data, choose features that capture
-customer and product behavior, and then apply K-Means clustering to see
-how the groups form. From there we will evaluate the clusters and
-describe them in clear terms, showing how the results can guide
-decisions for marketing, promotions, and inventory.
+K-Means clustering is a machine learning technique that divides data into distinct clusters based on similarities, allowing businesses to identify patterns that would not be visible using traditional analysis. Research has demonstrated that it can greatly enhance consumer segmentation, inventory forecasting, and marketing optimization across various industries. For example, a weighted K-Means model produced more meaningful and stable customer clusters compared to the standard model [@omol2024kenya]. Similarly, comparative work on the same dataset found that while more complex models can sometimes yield higher precision, K-Means remains valuable for its interpretability and speed in operational settings [@prasetiya2025review].
+
+In emerging markets, K-Means has also proven beneficial for small and resource-limited businesses. Clustering transactional and demographic data enables grocery stores to identify clear patterns of consumer purchasing behavior [@sitorus2023inventory]. Likewise, studies show that clustering supports targeted marketing, loyalty programs, and more efficient stock management [@bala2012inventory; @sitorus2023inventory; @ulfa2022shopee]. Collectively, these works underscore that even small or localized retailers can leverage K-Means-based segmentation to align supply, demand, and promotional strategy.
+
+Beyond retail, advances in clustering algorithms—including weighted K-Means for RFM-based customer analysis [@serwah2023weighted], as well as Global and Mini-Batch K-Means [@likas2003global]—have improved computational efficiency and accuracy, reducing issues like random initialization and scalability on large datasets. These enhancements make K-Means increasingly suitable for real-time analytics and modern business intelligence frameworks, while Omol et al. [@omol2024kenya] demonstrate its continued effectiveness in traditional retail segmentation contexts.
+
+In summary, the literature shows that K-Means clustering is more than a statistical technique; it is a strategic enabler for data-informed decision-making. By uncovering relevant behavioral patterns in large datasets, firms can deepen customer understanding, optimize resource allocation, and forecast demand more accurately. Integrating K-Means into corporate analytics frameworks is thus a crucial step toward operational excellence and maintaining competitiveness in the digital economy.
+
 
 
 ## Literature
