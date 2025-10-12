@@ -109,44 +109,45 @@ $$
 
 ### Data Exploration and Visualization
 
--   Describe your data sources and collection process.
+The dataset used in this project comes from the Online Retail dataset, a well-known open-source e-commerce dataset that tracks transactions from a UK-based store between 2010 and 2011 [@ulfa2022shopee]. Each record represents a single purchase and includes details such as invoice number, product code, quantity, price, customer ID, and country. This structure closely follows what similar retail segmentation studies used to analyze purchasing behavior and frequency [@omol2024kenya; @huang2023department].
 
--   Present initial findings and insights through visualizations.
+Before analysis, the data was cleaned to remove canceled or incomplete orders (identified by invoices starting with “C”) and any entries missing customer IDs. This mirrors the preprocessing approach used in other K-Means retail applications to ensure only valid transactions are analyzed [@syahra2025crm].
 
--   Highlight unexpected patterns or anomalies.
+This dataset is particularly useful because it allows us to calculate RFM (Recency, Frequency, and Monetary value) metrics that can be used for clustering. These metrics have proven effective in segmenting customers based on engagement and spending behavior [@serwah2023weighted; @john2024ukretail]. By applying K-Means clustering to these variables, we aim to uncover meaningful customer groups that reflect different shopping patterns and value to the business.
 
-A study was conducted to determine how...
+#### Summary Statistics and Data Overview
 
 ```{r, warning=FALSE, echo=T, message=FALSE}
 # loading packages 
 library(tidyverse)
+library(readxl)
+library(lubridate)
+library(scales)
 library(knitr)
-library(ggthemes)
-library(ggrepel)
-library(dslabs)
+library(kableExtra)
 ```
 
 ```{python}
 import pandas as pd
+import numpy as np
+from pathlib import Path
 ```
 
 ```{r, warning=FALSE, echo=TRUE}
-# Load Data
-kable(head(murders))
+# Load data
+retail_raw <- read_excel("Online Retail.xlsx")
 
-ggplot1 = murders %>% ggplot(mapping = aes(x=population/10^6, y=total)) 
+# Clean dataset
+retail <- retail_raw %>%
+  mutate(InvoiceNo = as.character(InvoiceNo),
+         InvoiceDate = as.POSIXct(InvoiceDate, tz = "UTC"),
+         TotalSales = Quantity * UnitPrice) %>%
+  filter(!str_starts(InvoiceNo, "C")) %>%
+  filter(!is.na(CustomerID)) %>%
+  filter(Quantity > 0, UnitPrice > 0)
 
-  ggplot1 + geom_point(aes(col=region), size = 4) +
-  geom_text_repel(aes(label=abb)) +
-  scale_x_log10() +
-  scale_y_log10() +
-  geom_smooth(formula = "y~x", method=lm,se = F)+
-  xlab("Populations in millions (log10 scale)") + 
-  ylab("Total number of murders (log10 scale)") +
-  ggtitle("US Gun Murders in 2010") +
-  scale_color_discrete(name = "Region")+
-      theme_bw()
-  
+kable(head(retail), caption = "Sample/Test of Cleaned Online Retail Data") %>%
+  kable_styling(full_width = FALSE)
 
 ```
 
