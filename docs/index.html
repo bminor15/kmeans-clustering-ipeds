@@ -6,10 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Lavanya Guntupalli, Benjamin Minor, Charan Gullipalli, Arun Pandian">
-<meta name="dcterms.date" content="2025-10-12">
+<meta name="author" content="Benjamin Minor">
+<meta name="dcterms.date" content="2025-10-16">
 
-<title>Capstone: K-Means Clustering on Retail Data – Capstone Project: K-Means Clustering on Retail Data</title>
+<title>Data-Driven Segmentation of U.S. Colleges and Universities Using K-Means Clustering on IPEDS Data – Capstone Project: K-Means Clustering on Retail Data</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,40 +20,6 @@ ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
 width: 0.8em;
 margin: 0 0.8em 0.2em -1em;  vertical-align: middle;
-}
-
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-{ counter-reset: source-line 0; }
-pre.numberSource code > span
-{ position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-{ content: counter(source-line);
-position: relative; left: -1em; text-align: right; vertical-align: baseline;
-border: none; display: inline-block;
--webkit-touch-callout: none; -webkit-user-select: none;
--khtml-user-select: none; -moz-user-select: none;
--ms-user-select: none; user-select: none;
-padding: 0 4px; width: 4em;
-}
-pre.numberSource { margin-left: 3em; padding-left: 4px; }
-div.sourceCode
-{ }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 
 div.csl-bib-body { }
@@ -4752,230 +4718,6 @@ vertical-align: -.125em;
     "search-label": "Search"
   }
 }</script>
-<script>$(document).ready(function(){
-    if (typeof $('[data-toggle="tooltip"]').tooltip === 'function') {
-        $('[data-toggle="tooltip"]').tooltip();
-    }
-    if ($('[data-toggle="popover"]').popover === 'function') {
-        $('[data-toggle="popover"]').popover();
-    }
-});
-</script>
-<style type="text/css">
-.lightable-minimal {
-border-collapse: separate;
-border-spacing: 16px 1px;
-width: 100%;
-margin-bottom: 10px;
-}
-.lightable-minimal td {
-margin-left: 5px;
-margin-right: 5px;
-}
-.lightable-minimal th {
-margin-left: 5px;
-margin-right: 5px;
-}
-.lightable-minimal thead tr:last-child th {
-border-bottom: 2px solid #00000050;
-empty-cells: hide;
-}
-.lightable-minimal tbody tr:first-child td {
-padding-top: 0.5em;
-}
-.lightable-minimal.lightable-hover tbody tr:hover {
-background-color: #f5f5f5;
-}
-.lightable-minimal.lightable-striped tbody tr:nth-child(even) {
-background-color: #f5f5f5;
-}
-.lightable-classic {
-border-top: 0.16em solid #111111;
-border-bottom: 0.16em solid #111111;
-width: 100%;
-margin-bottom: 10px;
-margin: 10px 5px;
-}
-.lightable-classic tfoot tr td {
-border: 0;
-}
-.lightable-classic tfoot tr:first-child td {
-border-top: 0.14em solid #111111;
-}
-.lightable-classic caption {
-color: #222222;
-}
-.lightable-classic td {
-padding-left: 5px;
-padding-right: 5px;
-color: #222222;
-}
-.lightable-classic th {
-padding-left: 5px;
-padding-right: 5px;
-font-weight: normal;
-color: #222222;
-}
-.lightable-classic thead tr:last-child th {
-border-bottom: 0.10em solid #111111;
-}
-.lightable-classic.lightable-hover tbody tr:hover {
-background-color: #F9EEC1;
-}
-.lightable-classic.lightable-striped tbody tr:nth-child(even) {
-background-color: #f5f5f5;
-}
-.lightable-classic-2 {
-border-top: 3px double #111111;
-border-bottom: 3px double #111111;
-width: 100%;
-margin-bottom: 10px;
-}
-.lightable-classic-2 tfoot tr td {
-border: 0;
-}
-.lightable-classic-2 tfoot tr:first-child td {
-border-top: 3px double #111111;
-}
-.lightable-classic-2 caption {
-color: #222222;
-}
-.lightable-classic-2 td {
-padding-left: 5px;
-padding-right: 5px;
-color: #222222;
-}
-.lightable-classic-2 th {
-padding-left: 5px;
-padding-right: 5px;
-font-weight: normal;
-color: #222222;
-}
-.lightable-classic-2 tbody tr:last-child td {
-border-bottom: 3px double #111111;
-}
-.lightable-classic-2 thead tr:last-child th {
-border-bottom: 1px solid #111111;
-}
-.lightable-classic-2.lightable-hover tbody tr:hover {
-background-color: #F9EEC1;
-}
-.lightable-classic-2.lightable-striped tbody tr:nth-child(even) {
-background-color: #f5f5f5;
-}
-.lightable-material {
-min-width: 100%;
-white-space: nowrap;
-table-layout: fixed;
-font-family: Roboto, sans-serif;
-border: 1px solid #EEE;
-border-collapse: collapse;
-margin-bottom: 10px;
-}
-.lightable-material tfoot tr td {
-border: 0;
-}
-.lightable-material tfoot tr:first-child td {
-border-top: 1px solid #EEE;
-}
-.lightable-material th {
-height: 56px;
-padding-left: 16px;
-padding-right: 16px;
-}
-.lightable-material td {
-height: 52px;
-padding-left: 16px;
-padding-right: 16px;
-border-top: 1px solid #eeeeee;
-}
-.lightable-material.lightable-hover tbody tr:hover {
-background-color: #f5f5f5;
-}
-.lightable-material.lightable-striped tbody tr:nth-child(even) {
-background-color: #f5f5f5;
-}
-.lightable-material.lightable-striped tbody td {
-border: 0;
-}
-.lightable-material.lightable-striped thead tr:last-child th {
-border-bottom: 1px solid #ddd;
-}
-.lightable-material-dark {
-min-width: 100%;
-white-space: nowrap;
-table-layout: fixed;
-font-family: Roboto, sans-serif;
-border: 1px solid #FFFFFF12;
-border-collapse: collapse;
-margin-bottom: 10px;
-background-color: #363640;
-}
-.lightable-material-dark tfoot tr td {
-border: 0;
-}
-.lightable-material-dark tfoot tr:first-child td {
-border-top: 1px solid #FFFFFF12;
-}
-.lightable-material-dark th {
-height: 56px;
-padding-left: 16px;
-padding-right: 16px;
-color: #FFFFFF60;
-}
-.lightable-material-dark td {
-height: 52px;
-padding-left: 16px;
-padding-right: 16px;
-color: #FFFFFF;
-border-top: 1px solid #FFFFFF12;
-}
-.lightable-material-dark.lightable-hover tbody tr:hover {
-background-color: #FFFFFF12;
-}
-.lightable-material-dark.lightable-striped tbody tr:nth-child(even) {
-background-color: #FFFFFF12;
-}
-.lightable-material-dark.lightable-striped tbody td {
-border: 0;
-}
-.lightable-material-dark.lightable-striped thead tr:last-child th {
-border-bottom: 1px solid #FFFFFF12;
-}
-.lightable-paper {
-width: 100%;
-margin-bottom: 10px;
-color: #444;
-}
-.lightable-paper tfoot tr td {
-border: 0;
-}
-.lightable-paper tfoot tr:first-child td {
-border-top: 1px solid #00000020;
-}
-.lightable-paper thead tr:last-child th {
-color: #666;
-vertical-align: bottom;
-border-bottom: 1px solid #00000020;
-line-height: 1.15em;
-padding: 10px 5px;
-}
-.lightable-paper td {
-vertical-align: middle;
-border-bottom: 1px solid #00000010;
-line-height: 1.15em;
-padding: 7px 5px;
-}
-.lightable-paper.lightable-hover tbody tr:hover {
-background-color: #F9EEC1;
-}
-.lightable-paper.lightable-striped tbody tr:nth-child(even) {
-background-color: #00000008;
-}
-.lightable-paper.lightable-striped tbody td {
-border: 0;
-}
-</style>
 
   <script>/*
  * Polyfill service v3.111.0
@@ -5152,7 +4894,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Capstone: K-Means Clustering on Retail Data</h1>
+<h1 class="title">Data-Driven Segmentation of U.S. Colleges and Universities Using K-Means Clustering on IPEDS Data</h1>
 </div>
 
 
@@ -5162,14 +4904,14 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>Lavanya Guntupalli, Benjamin Minor, Charan Gullipalli, Arun Pandian </p>
+             <p>Benjamin Minor </p>
           </div>
   </div>
     
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 12, 2025</p>
+      <p class="date">October 16, 2025</p>
     </div>
   </div>
   
@@ -5184,11 +4926,6 @@ window.Quarto = {
 <p>Slides: <a href="slides.html" target="_blank">slides.html</a> ( Go to <code>slides.qmd</code> to edit)</p>
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>In today’s data-driven corporate environment, understanding customer behavior and effectively managing inventories are key to organizational success. With the increased availability of transactional, demographic, and behavioral data, data mining and clustering techniques—particularly K-Means clustering—have become critical decision-making tools in retail, logistics, and marketing. Recent studies emphasize that algorithm selection and data preprocessing directly affect the quality of insights derived from clustering <span class="citation" data-cites="prasetiya2025review">(<a href="#ref-prasetiya2025review" role="doc-biblioref">Prasetiya and Prayoga 2025</a>)</span>.</p>
-<p>K-Means clustering is a machine learning technique that divides data into distinct clusters based on similarities, allowing businesses to identify patterns that would not be visible using traditional analysis. Research has demonstrated that it can greatly enhance consumer segmentation, inventory forecasting, and marketing optimization across various industries. For example, a weighted K-Means model produced more meaningful and stable customer clusters compared to the standard model <span class="citation" data-cites="omol2024kenya">(<a href="#ref-omol2024kenya" role="doc-biblioref">Omol et al. 2024</a>)</span>. Similarly, comparative work on the same dataset found that while more complex models can sometimes yield higher precision, K-Means remains valuable for its interpretability and speed in operational settings <span class="citation" data-cites="prasetiya2025review">(<a href="#ref-prasetiya2025review" role="doc-biblioref">Prasetiya and Prayoga 2025</a>)</span>.</p>
-<p>In emerging markets, K-Means has also proven beneficial for small and resource-limited businesses. Clustering transactional and demographic data enables grocery stores to identify clear patterns of consumer purchasing behavior <span class="citation" data-cites="sitorus2023inventory">(<a href="#ref-sitorus2023inventory" role="doc-biblioref">Sitorus, Hidayat, and Santoso 2023</a>)</span>. Likewise, studies show that clustering supports targeted marketing, loyalty programs, and more efficient stock management <span class="citation" data-cites="bala2012inventory sitorus2023inventory ulfa2022shopee">(<a href="#ref-bala2012inventory" role="doc-biblioref">Bala 2012</a>; <a href="#ref-sitorus2023inventory" role="doc-biblioref">Sitorus, Hidayat, and Santoso 2023</a>; <a href="#ref-ulfa2022shopee" role="doc-biblioref">Ulfa, Kusuma, and Sari 2022</a>)</span>. Collectively, these works underscore that even small or localized retailers can leverage K-Means-based segmentation to align supply, demand, and promotional strategy.</p>
-<p>Beyond retail, advances in clustering algorithms—including weighted K-Means for RFM-based customer analysis <span class="citation" data-cites="serwah2023weighted">(<a href="#ref-serwah2023weighted" role="doc-biblioref">Serwah, Ofori, and Boateng 2023</a>)</span>, as well as Global and Mini-Batch K-Means <span class="citation" data-cites="likas2003global">(<a href="#ref-likas2003global" role="doc-biblioref">Likas, Vlassis, and Verbeek 2003</a>)</span>—have improved computational efficiency and accuracy, reducing issues like random initialization and scalability on large datasets. These enhancements make K-Means increasingly suitable for real-time analytics and modern business intelligence frameworks, while Omol et al. <span class="citation" data-cites="omol2024kenya">(<a href="#ref-omol2024kenya" role="doc-biblioref">Omol et al. 2024</a>)</span> demonstrate its continued effectiveness in traditional retail segmentation contexts.</p>
-<p>In summary, the literature shows that K-Means clustering is more than a statistical technique; it is a strategic enabler for data-informed decision-making. By uncovering relevant behavioral patterns in large datasets, firms can deepen customer understanding, optimize resource allocation, and forecast demand more accurately. Integrating K-Means into corporate analytics frameworks is thus a crucial step toward operational excellence and maintaining competitiveness in the digital economy.</p>
 </section>
 <section id="literature" class="level2">
 <h2 class="anchored" data-anchor-id="literature">Literature</h2>
@@ -5198,31 +4935,11 @@ window.Quarto = {
 </summary>
 <section id="benjamin-minor-literature-review" class="level3 markdown" style="margin-top:1rem;">
 <h3 class="anchored" data-anchor-id="benjamin-minor-literature-review">Benjamin Minor — Literature Review</h3>
-<p><strong>Customer Analytics for Online Retailers Using Weighted K-Means and RFM Analysis</strong><br>
-<a href="https://pdfs.semanticscholar.org/2094/679b670242e4177670b839fd7736fc454afa.pdf">PDF Link</a><br>
-The paper looks at how online shops can do a better job grouping their customers. The authors say this is important because regular K Means can give weak groups, which makes it harder for businesses to target the right people. They used a UK online retail dataset, built recency, frequency, and monetary features, and then ran both standard K Means and a weighted version to see which worked better. The weighted method came out stronger, with a silhouette score of about 0.40 compared to 0.30 for the normal version. One drawback is that using just RFM features leaves out other behaviors, so the results do not show the full picture of customer activity.</p>
-<p><strong>An Exploration of Clustering Algorithms for Customer Segmentation in the UK Retail Market</strong><br>
-<a href="https://arxiv.org/pdf/2402.04103">PDF Link</a><br>
-The paper compares different clustering methods to see which one makes the best customer groups. This matters for retail because the choice of algorithm changes how useful the clusters are for marketing and planning. The authors took the same UK online retail dataset, used RFM features, and tested K Means, Gaussian Mixture Models, DBSCAN, BIRCH, and agglomerative clustering. They compared the results with silhouette scores. Gaussian Mixture Models did the best with a score close to 0.80, while K Means and the other methods were lower. A limitation is that the dataset only had transaction data, so there were no demographics or other factors that could make the groups more detailed.</p>
-<p><strong>Application Of K-Means Clustering For Customer Segmentation In Grocery Stores In Kenya</strong><br>
-<a href="https://ijstm.inarah.co.id/index.php/ijstm/article/view/1024">Article Link</a><br>
-This article looked at how grocery stores in Kenya used K-Means clustering to group their customers. They worked with both transaction and demographic data, cleaned it up, and then tested different numbers of clusters with the elbow method. The clusters showed clear groups of shoppers with different buying habits. By knowing these groups, the stores could adjust marketing and stock decisions. The main point is that even in smaller or resource-limited businesses, clustering can help them better understand and serve customers.</p>
-<p><strong>Applying K-Means Clustering for User Profiling in Retail: A Department Store Case Study</strong><br>
-<a href="https://www.atlantis-press.com/article/125992628.pdf">PDF Link</a><br>
-This case study focused on a department store that used customer and membership data to apply K-Means clustering. They tested different cluster sizes with the elbow method and Calinski-Harabasz index, and ended up with four customer profiles. These profiles were based on things like spending level, age, and shopping frequency. From the results, the store could build more targeted marketing and loyalty programs. The takeaway is that K-Means can break down a broad customer base into smaller groups, making it easier for retailers to plan strategies.</p>
-<p><strong>Customer Segmentation Using RFM and K-Means Clustering to Support CRM in Retail Industry</strong><br>
-<a href="https://www.researchgate.net/publication/394047969_Customer_Segmentation_Using_RFM_and_K-Means_Clustering_to_Support_CRM_in_Retail_Industry">ResearchGate Link</a><br>
-This paper looks at a small local retailer with about 2,300 transactions over three years and asks how they can split customers into groups using K Means with RFM features. It matters because smaller shops usually don’t have advanced analytics tools but still need to know who their loyal or at-risk customers are. The authors cleaned and normalized the data, applied K Means, and used the elbow method to choose four clusters. They labeled them loyal, potential loyalists, at risk, and one time buyers. The results gave the shop useful customer groups, but the limits were that the dataset was small and static and didn’t include other behaviors like browsing or reviews.</p>
-<p><strong>Product Clustering Analysis on the Marketplace Using K Means Approach (Case Study: Shopee)</strong><br>
-<a href="https://www.researchgate.net/publication/365377295_PRODUCT_CLUSTERING_ANALYSIS_ON_THE_MARKETPLACE_USING_K-MEANS_APPROACH_CASE_STUDY_SHOPEE">ResearchGate Link</a><br>
-This study used Shopee marketplace data to group products instead of customers. The goal was to see which products act alike based on attributes like price, ratings, and stock. It’s important because sellers need to know which products belong together so they can adjust pricing, promotions, and inventory. The authors scraped product data, processed it, and ran K Means with different cluster sizes, checking results with the Davies-Bouldin Index. They found that three or four clusters worked best depending on the category. The results gave decent product groupings, but there were limits: scraped data can be noisy, categories can be too broad, and seasonal changes in demand were not included.</p>
 </section>
 </details>
-</section></main></div>
-
-
+</section>
 <section id="methods" class="level2">
-<h2 data-anchor-id="methods">Methods</h2>
+<h2 class="anchored" data-anchor-id="methods">Methods</h2>
 <ul>
 <li><p>Detail the models or algorithms used.</p></li>
 <li><p>Justify your choices based on the problem and data.</p></li>
@@ -5237,146 +4954,15 @@ y_i = \beta_0 + \beta_1 X_1 +\varepsilon_i
 \]</span></p>
 </section>
 <section id="analysis-and-results" class="level2">
-<h2 data-anchor-id="analysis-and-results">Analysis and Results</h2>
+<h2 class="anchored" data-anchor-id="analysis-and-results">Analysis and Results</h2>
 <section id="data-exploration-and-visualization" class="level3">
-<h3 data-anchor-id="data-exploration-and-visualization">Data Exploration and Visualization</h3>
+<h3 class="anchored" data-anchor-id="data-exploration-and-visualization">Data Exploration and Visualization</h3>
 <p>The dataset used in this project comes from the Online Retail dataset, a well-known open-source e-commerce dataset that tracks transactions from a UK-based store between 2010 and 2011 <span class="citation" data-cites="ulfa2022shopee">(<a href="#ref-ulfa2022shopee" role="doc-biblioref">Ulfa, Kusuma, and Sari 2022</a>)</span>. Each record represents a single purchase and includes details such as invoice number, product code, quantity, price, customer ID, and country. This structure closely follows what similar retail segmentation studies used to analyze purchasing behavior and frequency <span class="citation" data-cites="omol2024kenya huang2023department">(<a href="#ref-omol2024kenya" role="doc-biblioref">Omol et al. 2024</a>; <a href="#ref-huang2023department" role="doc-biblioref">Huang et al. 2023</a>)</span>.</p>
 <p>Before analysis, the data was cleaned to remove canceled or incomplete orders (identified by invoices starting with “C”) and any entries missing customer IDs. This mirrors the preprocessing approach used in other K-Means retail applications to ensure only valid transactions are analyzed <span class="citation" data-cites="syahra2025crm">(<a href="#ref-syahra2025crm" role="doc-biblioref">Syahra, Rahman, and Lubis 2025</a>)</span>.</p>
 <p>This dataset is particularly useful because it allows us to calculate RFM (Recency, Frequency, and Monetary value) metrics that can be used for clustering. These metrics have proven effective in segmenting customers based on engagement and spending behavior <span class="citation" data-cites="serwah2023weighted john2024ukretail">(<a href="#ref-serwah2023weighted" role="doc-biblioref">Serwah, Ofori, and Boateng 2023</a>; <a href="#ref-john2024ukretail" role="doc-biblioref">John, Shobayo, and Ogunleye 2024</a>)</span>. By applying K-Means clustering to these variables, we aim to uncover meaningful customer groups that reflect different shopping patterns and value to the business.</p>
-<section id="summary-statistics-and-data-overview" class="level4">
-<h4 data-anchor-id="summary-statistics-and-data-overview">Summary Statistics and Data Overview</h4>
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># loading packages </span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>retail_raw <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">&quot;Online Retail.xlsx&quot;</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Clean dataset</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>retail <span class="ot">&lt;-</span> retail_raw <span class="sc">%&gt;%</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">InvoiceNo =</span> <span class="fu">as.character</span>(InvoiceNo),</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">InvoiceDate =</span> <span class="fu">as.POSIXct</span>(InvoiceDate, <span class="at">tz =</span> <span class="st">&quot;UTC&quot;</span>),</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">TotalSales =</span> Quantity <span class="sc">*</span> UnitPrice) <span class="sc">%&gt;%</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">str_starts</span>(InvoiceNo, <span class="st">&quot;C&quot;</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(CustomerID)) <span class="sc">%&gt;%</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Quantity <span class="sc">&gt;</span> <span class="dv">0</span>, UnitPrice <span class="sc">&gt;</span> <span class="dv">0</span>)</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Preview</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(retail), <span class="at">caption =</span> <span class="st">&quot;Sample of Cleaned Online Retail Data&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output-display">
-<table class="table caption-top table-sm table-striped small" data-quarto-postprocess="true">
-<caption>Sample of Cleaned Online Retail Data</caption>
-<thead>
-<tr class="header">
-<th style="text-align: left;" data-quarto-table-cell-role="th">InvoiceNo</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">StockCode</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Description</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">Quantity</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">InvoiceDate</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">UnitPrice</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">CustomerID</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Country</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">TotalSales</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">536365</td>
-<td style="text-align: left;">85123A</td>
-<td style="text-align: left;">WHITE HANGING HEART T-LIGHT HOLDER</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: left;">2010-12-01 08:26:00</td>
-<td style="text-align: right;">2.55</td>
-<td style="text-align: right;">17850</td>
-<td style="text-align: left;">United Kingdom</td>
-<td style="text-align: right;">15.30</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">536365</td>
-<td style="text-align: left;">71053</td>
-<td style="text-align: left;">WHITE METAL LANTERN</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: left;">2010-12-01 08:26:00</td>
-<td style="text-align: right;">3.39</td>
-<td style="text-align: right;">17850</td>
-<td style="text-align: left;">United Kingdom</td>
-<td style="text-align: right;">20.34</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">536365</td>
-<td style="text-align: left;">84406B</td>
-<td style="text-align: left;">CREAM CUPID HEARTS COAT HANGER</td>
-<td style="text-align: right;">8</td>
-<td style="text-align: left;">2010-12-01 08:26:00</td>
-<td style="text-align: right;">2.75</td>
-<td style="text-align: right;">17850</td>
-<td style="text-align: left;">United Kingdom</td>
-<td style="text-align: right;">22.00</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">536365</td>
-<td style="text-align: left;">84029G</td>
-<td style="text-align: left;">KNITTED UNION FLAG HOT WATER BOTTLE</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: left;">2010-12-01 08:26:00</td>
-<td style="text-align: right;">3.39</td>
-<td style="text-align: right;">17850</td>
-<td style="text-align: left;">United Kingdom</td>
-<td style="text-align: right;">20.34</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">536365</td>
-<td style="text-align: left;">84029E</td>
-<td style="text-align: left;">RED WOOLLY HOTTIE WHITE HEART.</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: left;">2010-12-01 08:26:00</td>
-<td style="text-align: right;">3.39</td>
-<td style="text-align: right;">17850</td>
-<td style="text-align: left;">United Kingdom</td>
-<td style="text-align: right;">20.34</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">536365</td>
-<td style="text-align: left;">22752</td>
-<td style="text-align: left;">SET 7 BABUSHKA NESTING BOXES</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: left;">2010-12-01 08:26:00</td>
-<td style="text-align: right;">7.65</td>
-<td style="text-align: right;">17850</td>
-<td style="text-align: left;">United Kingdom</td>
-<td style="text-align: right;">15.30</td>
-</tr>
-</tbody>
-</table>
-
-
-</div>
-</div>
-</section>
 </section>
 <section id="modeling-and-results" class="level3">
-<h3 data-anchor-id="modeling-and-results">Modeling and Results</h3>
+<h3 class="anchored" data-anchor-id="modeling-and-results">Modeling and Results</h3>
 <ul>
 <li><p>Explain your data preprocessing and cleaning steps.</p></li>
 <li><p>Present your key findings in a clear and concise manner.</p></li>
@@ -5385,7 +4971,7 @@ y_i = \beta_0 + \beta_1 X_1 +\varepsilon_i
 </ul>
 </section>
 <section id="conclusion" class="level3">
-<h3 data-anchor-id="conclusion">Conclusion</h3>
+<h3 class="anchored" data-anchor-id="conclusion">Conclusion</h3>
 <ul>
 <li><p>Summarize your key findings.</p></li>
 <li><p>Discuss the implications of your results.</p></li>
@@ -5393,31 +4979,19 @@ y_i = \beta_0 + \beta_1 X_1 +\varepsilon_i
 </section>
 </section>
 <section id="references" class="level2">
-<h2 data-anchor-id="references">References</h2>
+<h2 class="anchored" data-anchor-id="references">References</h2>
 <div id="refs" class="hanging-indent references csl-bib-body" data-entry-spacing="0" role="list">
-<div id="ref-bala2012inventory" class="csl-entry" role="listitem">
-Bala, S. 2012. <span>“Inventory Forecasting Using Cluster Analysis and Regression Techniques.”</span> <em>International Journal of Operations and Supply Chain Management</em> 5 (4): 33–41. <a href="https://www.ioscm.org/inventory-forecasting">https://www.ioscm.org/inventory-forecasting</a>.
-</div>
 <div id="ref-huang2023department" class="csl-entry" role="listitem">
 Huang, J., P.-M. Tu, Z. Liu, W. Song, and L. Li. 2023. <span>“Applying k-Means Clustering for User Profiling in Retail: A Department Store Case Study.”</span> <em>Atlantis Press Proceedings</em>. <a href="https://www.atlantis-press.com/article/125992628.pdf">https://www.atlantis-press.com/article/125992628.pdf</a>.
 </div>
 <div id="ref-john2024ukretail" class="csl-entry" role="listitem">
 John, O., O. Shobayo, and J. Ogunleye. 2024. <span>“An Exploration of Clustering Algorithms for Customer Segmentation in the UK Retail Market.”</span> <em>arXiv Preprint</em>. <a href="https://arxiv.org/pdf/2402.04103">https://arxiv.org/pdf/2402.04103</a>.
 </div>
-<div id="ref-likas2003global" class="csl-entry" role="listitem">
-Likas, A., N. Vlassis, and J. J. Verbeek. 2003. <span>“The Global k-Means Clustering Algorithm.”</span> <em>Pattern Recognition</em> 36 (2): 451–61. <a href="https://doi.org/10.1016/S0031-3203(02)00060-2">https://doi.org/10.1016/S0031-3203(02)00060-2</a>.
-</div>
 <div id="ref-omol2024kenya" class="csl-entry" role="listitem">
 Omol, E., D. Onyangor, L. Mburu, and P. Abuonji. 2024. <span>“Application of k-Means Clustering for Customer Segmentation in Grocery Stores in Kenya.”</span> <em>International Journal of Science and Technology Management</em> 4 (2): 12–18. <a href="https://ijstm.inarah.co.id/index.php/ijstm/article/view/1024">https://ijstm.inarah.co.id/index.php/ijstm/article/view/1024</a>.
 </div>
-<div id="ref-prasetiya2025review" class="csl-entry" role="listitem">
-Prasetiya, A., and R. Prayoga. 2025. <span>“A Systematic Review of Retail Customer Segmentation Techniques.”</span> <em>Indonesian Journal of Information Systems</em> 9 (3): 77–90. <a href="https://doi.org/10.20885/ijis.vol9.iss3.art5">https://doi.org/10.20885/ijis.vol9.iss3.art5</a>.
-</div>
 <div id="ref-serwah2023weighted" class="csl-entry" role="listitem">
 Serwah, K., T. Ofori, and A. Boateng. 2023. <span>“Customer Analytics for Online Retailers Using Weighted k-Means and RFM Analysis.”</span> <em>Semantics Scholar Papers</em>. <a href="https://pdfs.semanticscholar.org/2094/679b670242e4177670b839fd7736fc454afa.pdf">https://pdfs.semanticscholar.org/2094/679b670242e4177670b839fd7736fc454afa.pdf</a>.
-</div>
-<div id="ref-sitorus2023inventory" class="csl-entry" role="listitem">
-Sitorus, F., N. A. Hidayat, and Y. Santoso. 2023. <span>“Implementation of k-Means for Inventory Projection in Retail Operations.”</span> <em>Journal of Information Systems and Technology</em> 5 (2): 112–21. <a href="https://doi.org/10.33455/jist.2023.021">https://doi.org/10.33455/jist.2023.021</a>.
 </div>
 <div id="ref-syahra2025crm" class="csl-entry" role="listitem">
 Syahra, D., A. Rahman, and S. Lubis. 2025. <span>“Customer Segmentation Using RFM and k-Means Clustering to Support CRM in Retail Industry.”</span> <em>Sinkron Journal of Information and Communication Technology</em> 9 (1): 54–61. <a href="https://www.researchgate.net/publication/394047969">https://www.researchgate.net/publication/394047969</a>.
@@ -5430,7 +5004,7 @@ Ulfa, L., M. Kusuma, and A. Sari. 2022. <span>“Product Clustering Analysis on 
 
 </section>
 
- <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -5851,7 +5425,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
- <!-- /content -->
+</div> <!-- /content -->
 
 
 

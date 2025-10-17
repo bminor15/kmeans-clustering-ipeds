@@ -1,6 +1,6 @@
 ---
-title: "Capstone: K-Means Clustering on Retail Data"
-author: "Lavanya Guntupalli, Benjamin Minor, Charan Gullipalli, Arun Pandian"
+title: "Data-Driven Segmentation of U.S. Colleges and Universities Using K-Means Clustering on IPEDS Data"
+author: "Benjamin Minor"
 date: '`r Sys.Date()`'
 format:
   html:
@@ -26,17 +26,6 @@ to edit)
 
 ## Introduction
 
-In today's data-driven corporate environment, understanding customer behavior and effectively managing inventories are key to organizational success. With the increased availability of transactional, demographic, and behavioral data, data mining and clustering techniques—particularly K-Means clustering—have become critical decision-making tools in retail, logistics, and marketing. Recent studies emphasize that algorithm selection and data preprocessing directly affect the quality of insights derived from clustering [@prasetiya2025review].
-
-K-Means clustering is a machine learning technique that divides data into distinct clusters based on similarities, allowing businesses to identify patterns that would not be visible using traditional analysis. Research has demonstrated that it can greatly enhance consumer segmentation, inventory forecasting, and marketing optimization across various industries. For example, a weighted K-Means model produced more meaningful and stable customer clusters compared to the standard model [@omol2024kenya]. Similarly, comparative work on the same dataset found that while more complex models can sometimes yield higher precision, K-Means remains valuable for its interpretability and speed in operational settings [@prasetiya2025review].
-
-In emerging markets, K-Means has also proven beneficial for small and resource-limited businesses. Clustering transactional and demographic data enables grocery stores to identify clear patterns of consumer purchasing behavior [@sitorus2023inventory]. Likewise, studies show that clustering supports targeted marketing, loyalty programs, and more efficient stock management [@bala2012inventory; @sitorus2023inventory; @ulfa2022shopee]. Collectively, these works underscore that even small or localized retailers can leverage K-Means-based segmentation to align supply, demand, and promotional strategy.
-
-Beyond retail, advances in clustering algorithms—including weighted K-Means for RFM-based customer analysis [@serwah2023weighted], as well as Global and Mini-Batch K-Means [@likas2003global]—have improved computational efficiency and accuracy, reducing issues like random initialization and scalability on large datasets. These enhancements make K-Means increasingly suitable for real-time analytics and modern business intelligence frameworks, while Omol et al. [@omol2024kenya] demonstrate its continued effectiveness in traditional retail segmentation contexts.
-
-In summary, the literature shows that K-Means clustering is more than a statistical technique; it is a strategic enabler for data-informed decision-making. By uncovering relevant behavioral patterns in large datasets, firms can deepen customer understanding, optimize resource allocation, and forecast demand more accurately. Integrating K-Means into corporate analytics frameworks is thus a crucial step toward operational excellence and maintaining competitiveness in the digital economy.
-
-
 
 ## Literature
 
@@ -47,33 +36,6 @@ In summary, the literature shows that K-Means clustering is more than a statisti
 
 ### Benjamin Minor — Literature Review
 
-**Customer Analytics for Online Retailers Using Weighted K-Means and RFM Analysis**  
-[PDF Link](https://pdfs.semanticscholar.org/2094/679b670242e4177670b839fd7736fc454afa.pdf)  
-The paper looks at how online shops can do a better job grouping their customers. The authors say this is important because regular K Means can give weak groups, which makes it harder for businesses to target the right people. They used a UK online retail dataset, built recency, frequency, and monetary features, and then ran both standard K Means and a weighted version to see which worked better. The weighted method came out stronger, with a silhouette score of about 0.40 compared to 0.30 for the normal version. One drawback is that using just RFM features leaves out other behaviors, so the results do not show the full picture of customer activity.  
-
-**An Exploration of Clustering Algorithms for Customer Segmentation in the UK Retail Market**  
-[PDF Link](https://arxiv.org/pdf/2402.04103)  
-The paper compares different clustering methods to see which one makes the best customer groups. This matters for retail because the choice of algorithm changes how useful the clusters are for marketing and planning. The authors took the same UK online retail dataset, used RFM features, and tested K Means, Gaussian Mixture Models, DBSCAN, BIRCH, and agglomerative clustering. They compared the results with silhouette scores. Gaussian Mixture Models did the best with a score close to 0.80, while K Means and the other methods were lower. A limitation is that the dataset only had transaction data, so there were no demographics or other factors that could make the groups more detailed.  
-
-**Application Of K-Means Clustering For Customer Segmentation In Grocery Stores In Kenya**  
-[Article Link](https://ijstm.inarah.co.id/index.php/ijstm/article/view/1024)  
-This article looked at how grocery stores in Kenya used K-Means clustering to group their customers. They worked with both transaction and demographic data, cleaned it up, and then tested different numbers of clusters with the elbow method. The clusters showed clear groups of shoppers with different buying habits. By knowing these groups, the stores could adjust marketing and stock decisions. The main point is that even in smaller or resource-limited businesses, clustering can help them better understand and serve customers.  
-
-**Applying K-Means Clustering for User Profiling in Retail: A Department Store Case Study**  
-[PDF Link](https://www.atlantis-press.com/article/125992628.pdf)  
-This case study focused on a department store that used customer and membership data to apply K-Means clustering. They tested different cluster sizes with the elbow method and Calinski-Harabasz index, and ended up with four customer profiles. These profiles were based on things like spending level, age, and shopping frequency. From the results, the store could build more targeted marketing and loyalty programs. The takeaway is that K-Means can break down a broad customer base into smaller groups, making it easier for retailers to plan strategies.  
-
-**Customer Segmentation Using RFM and K-Means Clustering to Support CRM in Retail Industry**  
-[ResearchGate Link](https://www.researchgate.net/publication/394047969_Customer_Segmentation_Using_RFM_and_K-Means_Clustering_to_Support_CRM_in_Retail_Industry)  
-This paper looks at a small local retailer with about 2,300 transactions over three years and asks how they can split customers into groups using K Means with RFM features. It matters because smaller shops usually don’t have advanced analytics tools but still need to know who their loyal or at-risk customers are. The authors cleaned and normalized the data, applied K Means, and used the elbow method to choose four clusters. They labeled them loyal, potential loyalists, at risk, and one time buyers. The results gave the shop useful customer groups, but the limits were that the dataset was small and static and didn’t include other behaviors like browsing or reviews.  
-
-**Product Clustering Analysis on the Marketplace Using K Means Approach (Case Study: Shopee)**  
-[ResearchGate Link](https://www.researchgate.net/publication/365377295_PRODUCT_CLUSTERING_ANALYSIS_ON_THE_MARKETPLACE_USING_K-MEANS_APPROACH_CASE_STUDY_SHOPEE)  
-This study used Shopee marketplace data to group products instead of customers. The goal was to see which products act alike based on attributes like price, ratings, and stock. It’s important because sellers need to know which products belong together so they can adjust pricing, promotions, and inventory. The authors scraped product data, processed it, and ran K Means with different cluster sizes, checking results with the Davies-Bouldin Index. They found that three or four clusters worked best depending on the category. The results gave decent product groupings, but there were limits: scraped data can be noisy, categories can be too broad, and seasonal changes in demand were not included.  
-
-</div>
-</details>
- 
 
 </div>
 </details>
@@ -115,41 +77,6 @@ Before analysis, the data was cleaned to remove canceled or incomplete orders (i
 
 This dataset is particularly useful because it allows us to calculate RFM (Recency, Frequency, and Monetary value) metrics that can be used for clustering. These metrics have proven effective in segmenting customers based on engagement and spending behavior [@serwah2023weighted; @john2024ukretail]. By applying K-Means clustering to these variables, we aim to uncover meaningful customer groups that reflect different shopping patterns and value to the business.
 
-#### Summary Statistics and Data Overview
-
-```{r, warning=FALSE, echo=T, message=FALSE}
-# loading packages 
-library(tidyverse)
-library(readxl)
-library(lubridate)
-library(scales)
-library(knitr)
-library(kableExtra)
-```
-
-```{python}
-import pandas as pd
-import numpy as np
-from pathlib import Path
-```
-
-```{r, warning=FALSE, echo=TRUE}
-# Load data
-retail_raw <- read_excel("Online Retail.xlsx")
-
-# Clean dataset
-retail <- retail_raw %>%
-  mutate(InvoiceNo = as.character(InvoiceNo),
-         InvoiceDate = as.POSIXct(InvoiceDate, tz = "UTC"),
-         TotalSales = Quantity * UnitPrice) %>%
-  filter(!str_starts(InvoiceNo, "C")) %>%
-  filter(!is.na(CustomerID)) %>%
-  filter(Quantity > 0, UnitPrice > 0)
-
-kable(head(retail), caption = "Sample/Test of Cleaned Online Retail Data") %>%
-  kable_styling(full_width = FALSE)
-
-```
 
 ### Modeling and Results
 
