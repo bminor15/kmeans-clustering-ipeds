@@ -10,6 +10,7 @@ format:
 course: Capstone Projects in Data Science
 bibliography: references.bib # file contains bibtex for references
 #always_allow_html: true # this allows to get PDF with HTML features
+nocite: "@*"
 self-contained: true
 execute: 
   warning: false
@@ -26,15 +27,57 @@ to edit)
 
 ## Introduction
 
+Clustering is a central technique in unsupervised machine learning, designed to reveal natural groupings within complex datasets where class labels are unknown. Among its methods, K-Means clustering remains widely applied for its simplicity, scalability, and interpretability [@mohdtalib2023behavioral]. The algorithm partitions data into *k* groups based on similarity, minimizing within-cluster variance while maximizing between-cluster separation. This structure is valuable when the goal is understanding rather than prediction, such as comparing institutions by quantitative indicators of performance, resources, and access.
 
-## Literature
+In higher education research, cluster analysis has long been used to explore structural and performance diversity across institutions [@huberty2005cluster]. This approach enables analyses that move beyond categorical labels and examine measurable dimensions such as outcomes, funding, and enrollment scale. A two-stage framework that combines factor analysis with clustering has also been proposed to derive empirically grounded institutional types [@elam2016classification].
+
+Standardized data and documentation have increased the reliability of these methods [@nces2023groupings]. Best practices for merging and cleaning educational datasets emphasize reproducibility and schema consistency in large-scale analysis [@kelchen2019merging]. Together, these sources point to the value of structured, data-driven methods in institutional research. The Integrated Postsecondary Education Data System (IPEDS), maintained by the National Center for Education Statistics, provides the standardized foundation for this type of large-scale institutional analysis. IPEDS collects consistent and comparable data on U.S. colleges and universities, making it a central source for empirical studies that analyze institutional differences through quantitative modeling.
+
+Hybrid models further advance peer identification by pairing quantitative clustering with expert validation, improving interpretability and practical use [@tair2022peer]. This balance between algorithmic precision and contextual review supports robust benchmarking and decision-making.
+
+The present study applies K-Means clustering to IPEDS data to identify data-driven groupings of postsecondary institutions based on financial, academic, and outcome indicators. The objective is to uncover underlying institutional profiles that describe how U.S. colleges and universities align or differ in measurable ways, offering a transparent and scalable framework for understanding institutional diversity [@huberty2005cluster; @nces2023groupings; @elam2016classification; @kelchen2019merging; @tair2022peer; @mohdtalib2023behavioral].
+
+
+## Literature Review
 
 <details>
 <summary><strong>Source Summaries (click to expand)</strong></summary>
 
 <div class="markdown" style="margin-top:1rem;">
 
-### Benjamin Minor — Literature Review
+**Cluster Analysis in Higher Education Research**  
+[PDF Link – Springer](https://link.springer.com/content/pdf/10.1007/1-4020-3279-X_8.pdf)  
+The chapter reviews how cluster analysis is used to study diversity and structure among higher education institutions. The authors explain how statistical grouping exposes institutional similarities that typical classification systems overlook. They discuss the method’s flexibility for understanding performance and policy patterns across universities and show how it can support empirical research on institutional behavior.  
+
+---
+
+**Institutional Groupings in IPEDS: Considerations for Data Use**  
+[Web Link – NCES](https://nces.ed.gov/ipeds/use-the-data/institutional-groupings-in-ipeds)  
+This NCES publication outlines the logic and procedures for creating institutional groupings using standardized IPEDS variables. It focuses on the need for consistency, variable alignment, and transparency when comparing data across schools. The document highlights how structured variable relationships can support reproducible and fair institutional comparisons across the national education system.  
+
+---
+
+**Identification of Student Behavioral Patterns in Higher Education Using K-Means Clustering and Support Vector Machine**  
+[PDF Link – MDPI Applied Sciences](https://www.mdpi.com/2076-3417/13/5/3267)  
+The study applies K-Means clustering to student behavior and performance data, validating results with a Support Vector Machine. The authors used normalized features, centroid checks, and cluster validation to identify three distinct learning behavior groups. They found that clustering helped simplify large datasets into actionable patterns, showing how unsupervised models can classify educational behavior at scale.  
+
+---
+
+**Proposal of a New Method to Classify Higher Education Institutions**  
+[PDF Link – Otterbein University Digital Commons](https://digitalcommons.otterbein.edu/cgi/viewcontent.cgi?article=1031&context=stu_dist)  
+This thesis introduces a two-step method that combines factor analysis and cluster analysis to build a new classification of universities. The author selected academic, financial, and demographic indicators to find groupings that better represent institutional diversity. The results show that data-driven group formation can outperform fixed classification systems and highlight how numerical traits can define institutional identity.  
+
+---
+
+**A Hybrid Approach to Identifying National Peer Institutions**  
+[PDF Link – Texas Association for Institutional Research (TAIR)](https://www.texas-air.org/wp-content/uploads/2022/03/E3-A-Hybrid-Approach-to-Identifying-National-Peer-Institutions.pdf)  
+This report explains how statistical clustering and expert review can be combined to identify peer institutions. Quantitative results were first generated from performance and enrollment data, then refined through institutional judgment to improve interpretability. The authors conclude that pairing data models with professional context leads to more balanced and credible peer comparisons.  
+
+---
+
+**Merging Data to Facilitate Analyses**  
+[PDF Link – Robert Kelchen](https://robertkelchen.com/wp-content/uploads/2019/11/kelchen_merging_original.pdf)  
+Kelchen describes the process of joining and cleaning educational data for large-scale analysis. The guide details how to handle schema differences, missing values, and inconsistent labels across datasets like IPEDS and federal records. It stresses the importance of reproducibility and documentation when merging data sources to maintain accuracy in quantitative research.  
 
 
 </div>
@@ -99,5 +142,4 @@ This dataset is particularly useful because it allows us to calculate RFM (Recen
 -   Discuss the implications of your results.
 
 ## References
-::: {#refs .hanging-indent}
-:::
+

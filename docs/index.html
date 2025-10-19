@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Benjamin Minor">
-<meta name="dcterms.date" content="2025-10-16">
+<meta name="dcterms.date" content="2025-10-19">
 
 <title>Data-Driven Segmentation of U.S. Colleges and Universities Using K-Means Clustering on IPEDS Data – Capstone Project: K-Means Clustering on Retail Data</title>
 <style>
@@ -4874,10 +4874,7 @@ window.Quarto = {
    
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#literature" id="toc-literature" class="nav-link" data-scroll-target="#literature">Literature</a>
-  <ul class="collapse">
-  <li><a href="#benjamin-minor-literature-review" id="toc-benjamin-minor-literature-review" class="nav-link" data-scroll-target="#benjamin-minor-literature-review">Benjamin Minor — Literature Review</a></li>
-  </ul></li>
+  <li><a href="#literature-review" id="toc-literature-review" class="nav-link" data-scroll-target="#literature-review">Literature Review</a></li>
   <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a></li>
   <li><a href="#analysis-and-results" id="toc-analysis-and-results" class="nav-link" data-scroll-target="#analysis-and-results">Analysis and Results</a>
   <ul class="collapse">
@@ -4911,7 +4908,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 16, 2025</p>
+      <p class="date">October 19, 2025</p>
     </div>
   </div>
   
@@ -4926,16 +4923,43 @@ window.Quarto = {
 <p>Slides: <a href="slides.html" target="_blank">slides.html</a> ( Go to <code>slides.qmd</code> to edit)</p>
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Clustering is a central technique in unsupervised machine learning, designed to reveal natural groupings within complex datasets where class labels are unknown. Among its methods, K-Means clustering remains widely applied for its simplicity, scalability, and interpretability <span class="citation" data-cites="mohdtalib2023behavioral">(<a href="#ref-mohdtalib2023behavioral" role="doc-biblioref">Mohd Talib, Abd Majid, and Sahran 2023</a>)</span>. The algorithm partitions data into <em>k</em> groups based on similarity, minimizing within-cluster variance while maximizing between-cluster separation. This structure is valuable when the goal is understanding rather than prediction, such as comparing institutions by quantitative indicators of performance, resources, and access.</p>
+<p>In higher education research, cluster analysis has long been used to explore structural and performance diversity across institutions <span class="citation" data-cites="huberty2005cluster">(<a href="#ref-huberty2005cluster" role="doc-biblioref">Huberty, Jordan, and Brandt 2005</a>)</span>. This approach enables analyses that move beyond categorical labels and examine measurable dimensions such as outcomes, funding, and enrollment scale. A two-stage framework that combines factor analysis with clustering has also been proposed to derive empirically grounded institutional types <span class="citation" data-cites="elam2016classification">(<a href="#ref-elam2016classification" role="doc-biblioref">Elam 2016</a>)</span>.</p>
+<p>Standardized data and documentation have increased the reliability of these methods <span class="citation" data-cites="nces2023groupings">(<a href="#ref-nces2023groupings" role="doc-biblioref">National Center for Education Statistics 2023</a>)</span>. Best practices for merging and cleaning educational datasets emphasize reproducibility and schema consistency in large-scale analysis <span class="citation" data-cites="kelchen2019merging">(<a href="#ref-kelchen2019merging" role="doc-biblioref">Kelchen 2019</a>)</span>. Together, these sources point to the value of structured, data-driven methods in institutional research. The Integrated Postsecondary Education Data System (IPEDS), maintained by the National Center for Education Statistics, provides the standardized foundation for this type of large-scale institutional analysis. IPEDS collects consistent and comparable data on U.S. colleges and universities, making it a central source for empirical studies that analyze institutional differences through quantitative modeling.</p>
+<p>Hybrid models further advance peer identification by pairing quantitative clustering with expert validation, improving interpretability and practical use <span class="citation" data-cites="tair2022peer">(<a href="#ref-tair2022peer" role="doc-biblioref">Texas Association for Institutional Research 2022</a>)</span>. This balance between algorithmic precision and contextual review supports robust benchmarking and decision-making.</p>
+<p>The present study applies K-Means clustering to IPEDS data to identify data-driven groupings of postsecondary institutions based on financial, academic, and outcome indicators. The objective is to uncover underlying institutional profiles that describe how U.S. colleges and universities align or differ in measurable ways, offering a transparent and scalable framework for understanding institutional diversity <span class="citation" data-cites="huberty2005cluster nces2023groupings elam2016classification kelchen2019merging tair2022peer mohdtalib2023behavioral">(<a href="#ref-huberty2005cluster" role="doc-biblioref">Huberty, Jordan, and Brandt 2005</a>; <a href="#ref-nces2023groupings" role="doc-biblioref">National Center for Education Statistics 2023</a>; <a href="#ref-elam2016classification" role="doc-biblioref">Elam 2016</a>; <a href="#ref-kelchen2019merging" role="doc-biblioref">Kelchen 2019</a>; <a href="#ref-tair2022peer" role="doc-biblioref">Texas Association for Institutional Research 2022</a>; <a href="#ref-mohdtalib2023behavioral" role="doc-biblioref">Mohd Talib, Abd Majid, and Sahran 2023</a>)</span>.</p>
 </section>
-<section id="literature" class="level2">
-<h2 class="anchored" data-anchor-id="literature">Literature</h2>
+<section id="literature-review" class="level2">
+<h2 class="anchored" data-anchor-id="literature-review">Literature Review</h2>
 <details>
 <summary>
 <strong>Source Summaries (click to expand)</strong>
 </summary>
-<section id="benjamin-minor-literature-review" class="level3 markdown" style="margin-top:1rem;">
-<h3 class="anchored" data-anchor-id="benjamin-minor-literature-review">Benjamin Minor — Literature Review</h3>
-</section>
+<div class="markdown" style="margin-top:1rem;">
+<p><strong>Cluster Analysis in Higher Education Research</strong><br>
+<a href="https://link.springer.com/content/pdf/10.1007/1-4020-3279-X_8.pdf">PDF Link – Springer</a><br>
+The chapter reviews how cluster analysis is used to study diversity and structure among higher education institutions. The authors explain how statistical grouping exposes institutional similarities that typical classification systems overlook. They discuss the method’s flexibility for understanding performance and policy patterns across universities and show how it can support empirical research on institutional behavior.</p>
+<hr>
+<p><strong>Institutional Groupings in IPEDS: Considerations for Data Use</strong><br>
+<a href="https://nces.ed.gov/ipeds/use-the-data/institutional-groupings-in-ipeds">Web Link – NCES</a><br>
+This NCES publication outlines the logic and procedures for creating institutional groupings using standardized IPEDS variables. It focuses on the need for consistency, variable alignment, and transparency when comparing data across schools. The document highlights how structured variable relationships can support reproducible and fair institutional comparisons across the national education system.</p>
+<hr>
+<p><strong>Identification of Student Behavioral Patterns in Higher Education Using K-Means Clustering and Support Vector Machine</strong><br>
+<a href="https://www.mdpi.com/2076-3417/13/5/3267">PDF Link – MDPI Applied Sciences</a><br>
+The study applies K-Means clustering to student behavior and performance data, validating results with a Support Vector Machine. The authors used normalized features, centroid checks, and cluster validation to identify three distinct learning behavior groups. They found that clustering helped simplify large datasets into actionable patterns, showing how unsupervised models can classify educational behavior at scale.</p>
+<hr>
+<p><strong>Proposal of a New Method to Classify Higher Education Institutions</strong><br>
+<a href="https://digitalcommons.otterbein.edu/cgi/viewcontent.cgi?article=1031&amp;context=stu_dist">PDF Link – Otterbein University Digital Commons</a><br>
+This thesis introduces a two-step method that combines factor analysis and cluster analysis to build a new classification of universities. The author selected academic, financial, and demographic indicators to find groupings that better represent institutional diversity. The results show that data-driven group formation can outperform fixed classification systems and highlight how numerical traits can define institutional identity.</p>
+<hr>
+<p><strong>A Hybrid Approach to Identifying National Peer Institutions</strong><br>
+<a href="https://www.texas-air.org/wp-content/uploads/2022/03/E3-A-Hybrid-Approach-to-Identifying-National-Peer-Institutions.pdf">PDF Link – Texas Association for Institutional Research (TAIR)</a><br>
+This report explains how statistical clustering and expert review can be combined to identify peer institutions. Quantitative results were first generated from performance and enrollment data, then refined through institutional judgment to improve interpretability. The authors conclude that pairing data models with professional context leads to more balanced and credible peer comparisons.</p>
+<hr>
+<p><strong>Merging Data to Facilitate Analyses</strong><br>
+<a href="https://robertkelchen.com/wp-content/uploads/2019/11/kelchen_merging_original.pdf">PDF Link – Robert Kelchen</a><br>
+Kelchen describes the process of joining and cleaning educational data for large-scale analysis. The guide details how to handle schema differences, missing values, and inconsistent labels across datasets like IPEDS and federal records. It stresses the importance of reproducibility and documentation when merging data sources to maintain accuracy in quantitative research.</p>
+</div>
 </details>
 </section>
 <section id="methods" class="level2">
@@ -4957,9 +4981,9 @@ y_i = \beta_0 + \beta_1 X_1 +\varepsilon_i
 <h2 class="anchored" data-anchor-id="analysis-and-results">Analysis and Results</h2>
 <section id="data-exploration-and-visualization" class="level3">
 <h3 class="anchored" data-anchor-id="data-exploration-and-visualization">Data Exploration and Visualization</h3>
-<p>The dataset used in this project comes from the Online Retail dataset, a well-known open-source e-commerce dataset that tracks transactions from a UK-based store between 2010 and 2011 <span class="citation" data-cites="ulfa2022shopee">(<a href="#ref-ulfa2022shopee" role="doc-biblioref">Ulfa, Kusuma, and Sari 2022</a>)</span>. Each record represents a single purchase and includes details such as invoice number, product code, quantity, price, customer ID, and country. This structure closely follows what similar retail segmentation studies used to analyze purchasing behavior and frequency <span class="citation" data-cites="omol2024kenya huang2023department">(<a href="#ref-omol2024kenya" role="doc-biblioref">Omol et al. 2024</a>; <a href="#ref-huang2023department" role="doc-biblioref">Huang et al. 2023</a>)</span>.</p>
-<p>Before analysis, the data was cleaned to remove canceled or incomplete orders (identified by invoices starting with “C”) and any entries missing customer IDs. This mirrors the preprocessing approach used in other K-Means retail applications to ensure only valid transactions are analyzed <span class="citation" data-cites="syahra2025crm">(<a href="#ref-syahra2025crm" role="doc-biblioref">Syahra, Rahman, and Lubis 2025</a>)</span>.</p>
-<p>This dataset is particularly useful because it allows us to calculate RFM (Recency, Frequency, and Monetary value) metrics that can be used for clustering. These metrics have proven effective in segmenting customers based on engagement and spending behavior <span class="citation" data-cites="serwah2023weighted john2024ukretail">(<a href="#ref-serwah2023weighted" role="doc-biblioref">Serwah, Ofori, and Boateng 2023</a>; <a href="#ref-john2024ukretail" role="doc-biblioref">John, Shobayo, and Ogunleye 2024</a>)</span>. By applying K-Means clustering to these variables, we aim to uncover meaningful customer groups that reflect different shopping patterns and value to the business.</p>
+<p>The dataset used in this project comes from the Online Retail dataset, a well-known open-source e-commerce dataset that tracks transactions from a UK-based store between 2010 and 2011 <span class="citation" data-cites="ulfa2022shopee">(<a href="#ref-ulfa2022shopee" role="doc-biblioref"><strong>ulfa2022shopee?</strong></a>)</span>. Each record represents a single purchase and includes details such as invoice number, product code, quantity, price, customer ID, and country. This structure closely follows what similar retail segmentation studies used to analyze purchasing behavior and frequency <span class="citation" data-cites="omol2024kenya huang2023department">(<a href="#ref-omol2024kenya" role="doc-biblioref"><strong>omol2024kenya?</strong></a>; <a href="#ref-huang2023department" role="doc-biblioref"><strong>huang2023department?</strong></a>)</span>.</p>
+<p>Before analysis, the data was cleaned to remove canceled or incomplete orders (identified by invoices starting with “C”) and any entries missing customer IDs. This mirrors the preprocessing approach used in other K-Means retail applications to ensure only valid transactions are analyzed <span class="citation" data-cites="syahra2025crm">(<a href="#ref-syahra2025crm" role="doc-biblioref"><strong>syahra2025crm?</strong></a>)</span>.</p>
+<p>This dataset is particularly useful because it allows us to calculate RFM (Recency, Frequency, and Monetary value) metrics that can be used for clustering. These metrics have proven effective in segmenting customers based on engagement and spending behavior <span class="citation" data-cites="serwah2023weighted john2024ukretail">(<a href="#ref-serwah2023weighted" role="doc-biblioref"><strong>serwah2023weighted?</strong></a>; <a href="#ref-john2024ukretail" role="doc-biblioref"><strong>john2024ukretail?</strong></a>)</span>. By applying K-Means clustering to these variables, we aim to uncover meaningful customer groups that reflect different shopping patterns and value to the business.</p>
 </section>
 <section id="modeling-and-results" class="level3">
 <h3 class="anchored" data-anchor-id="modeling-and-results">Modeling and Results</h3>
@@ -4979,32 +5003,32 @@ y_i = \beta_0 + \beta_1 X_1 +\varepsilon_i
 </section>
 </section>
 <section id="references" class="level2">
-<h2 class="anchored" data-anchor-id="references">References</h2>
-<div id="refs" class="hanging-indent references csl-bib-body" data-entry-spacing="0" role="list">
-<div id="ref-huang2023department" class="csl-entry" role="listitem">
-Huang, J., P.-M. Tu, Z. Liu, W. Song, and L. Li. 2023. <span>“Applying k-Means Clustering for User Profiling in Retail: A Department Store Case Study.”</span> <em>Atlantis Press Proceedings</em>. <a href="https://www.atlantis-press.com/article/125992628.pdf">https://www.atlantis-press.com/article/125992628.pdf</a>.
-</div>
-<div id="ref-john2024ukretail" class="csl-entry" role="listitem">
-John, O., O. Shobayo, and J. Ogunleye. 2024. <span>“An Exploration of Clustering Algorithms for Customer Segmentation in the UK Retail Market.”</span> <em>arXiv Preprint</em>. <a href="https://arxiv.org/pdf/2402.04103">https://arxiv.org/pdf/2402.04103</a>.
-</div>
-<div id="ref-omol2024kenya" class="csl-entry" role="listitem">
-Omol, E., D. Onyangor, L. Mburu, and P. Abuonji. 2024. <span>“Application of k-Means Clustering for Customer Segmentation in Grocery Stores in Kenya.”</span> <em>International Journal of Science and Technology Management</em> 4 (2): 12–18. <a href="https://ijstm.inarah.co.id/index.php/ijstm/article/view/1024">https://ijstm.inarah.co.id/index.php/ijstm/article/view/1024</a>.
-</div>
-<div id="ref-serwah2023weighted" class="csl-entry" role="listitem">
-Serwah, K., T. Ofori, and A. Boateng. 2023. <span>“Customer Analytics for Online Retailers Using Weighted k-Means and RFM Analysis.”</span> <em>Semantics Scholar Papers</em>. <a href="https://pdfs.semanticscholar.org/2094/679b670242e4177670b839fd7736fc454afa.pdf">https://pdfs.semanticscholar.org/2094/679b670242e4177670b839fd7736fc454afa.pdf</a>.
-</div>
-<div id="ref-syahra2025crm" class="csl-entry" role="listitem">
-Syahra, D., A. Rahman, and S. Lubis. 2025. <span>“Customer Segmentation Using RFM and k-Means Clustering to Support CRM in Retail Industry.”</span> <em>Sinkron Journal of Information and Communication Technology</em> 9 (1): 54–61. <a href="https://www.researchgate.net/publication/394047969">https://www.researchgate.net/publication/394047969</a>.
-</div>
-<div id="ref-ulfa2022shopee" class="csl-entry" role="listitem">
-Ulfa, L., M. Kusuma, and A. Sari. 2022. <span>“Product Clustering Analysis on the Marketplace Using k-Means Approach (Case Study: Shopee).”</span> <em>ASE Journal of Applied Research</em> 6 (4): 201–9. <a href="https://www.researchgate.net/publication/365377295">https://www.researchgate.net/publication/365377295</a>.
-</div>
-</div>
+
+
 
 
 </section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-elam2016classification" class="csl-entry" role="listitem">
+Elam, Jordan. 2016. <span>“Proposal of a New Method to Classify Higher Education Institutions.”</span> <a href="https://digitalcommons.otterbein.edu/cgi/viewcontent.cgi?article=1031&amp;context=stu_dist" class="uri">https://digitalcommons.otterbein.edu/cgi/viewcontent.cgi?article=1031&amp;context=stu_dist</a>.
+</div>
+<div id="ref-huberty2005cluster" class="csl-entry" role="listitem">
+Huberty, Carl J., Ellen M. Jordan, and W. Charles Brandt. 2005. <span>“Cluster Analysis in Higher Education Research.”</span> In <em>Higher Education: Handbook of Theory and Research</em>, 20:437–57. Dordrecht: Springer. <a href="https://link.springer.com/content/pdf/10.1007/1-4020-3279-X_8.pdf">https://link.springer.com/content/pdf/10.1007/1-4020-3279-X_8.pdf</a>.
+</div>
+<div id="ref-kelchen2019merging" class="csl-entry" role="listitem">
+Kelchen, Robert. 2019. <span>“Merging Data to Facilitate Analyses.”</span> Seton Hall University. <a href="https://robertkelchen.com/wp-content/uploads/2019/11/kelchen_merging_original.pdf">https://robertkelchen.com/wp-content/uploads/2019/11/kelchen_merging_original.pdf</a>.
+</div>
+<div id="ref-mohdtalib2023behavioral" class="csl-entry" role="listitem">
+Mohd Talib, Nurul Izzati, Noor Azilah Abd Majid, and Shamala Sahran. 2023. <span>“Identification of Student Behavioral Patterns in Higher Education Using k-Means Clustering and Support Vector Machine.”</span> <em>Applied Sciences</em> 13 (5): 3267. <a href="https://doi.org/10.3390/app13053267">https://doi.org/10.3390/app13053267</a>.
+</div>
+<div id="ref-nces2023groupings" class="csl-entry" role="listitem">
+National Center for Education Statistics. 2023. <span>“Institutional Groupings in IPEDS: Considerations for Data Use.”</span> <a href="https://nces.ed.gov/ipeds/use-the-data/institutional-groupings-in-ipeds" class="uri">https://nces.ed.gov/ipeds/use-the-data/institutional-groupings-in-ipeds</a>.
+</div>
+<div id="ref-tair2022peer" class="csl-entry" role="listitem">
+Texas Association for Institutional Research. 2022. <span>“A Hybrid Approach to Identifying National Peer Institutions.”</span> <a href="https://www.texas-air.org/wp-content/uploads/2022/03/E3-A-Hybrid-Approach-to-Identifying-National-Peer-Institutions.pdf" class="uri">https://www.texas-air.org/wp-content/uploads/2022/03/E3-A-Hybrid-Approach-to-Identifying-National-Peer-Institutions.pdf</a>.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
