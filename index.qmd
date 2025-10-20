@@ -35,7 +35,7 @@ Standardized data and documentation have increased the reliability of these meth
 
 Hybrid models further advance peer identification by pairing quantitative clustering with expert validation, improving interpretability and practical use [@tair2022peer]. This balance between algorithmic precision and contextual review supports robust benchmarking and decision-making.
 
-The present study applies K-Means clustering to IPEDS data to identify data-driven groupings of postsecondary institutions based on financial, academic, and outcome indicators. The objective is to uncover underlying institutional profiles that describe how U.S. colleges and universities align or differ in measurable ways, offering a transparent and scalable framework for understanding institutional diversity [@huberty2005cluster; @nces2023groupings; @elam2016classification; @kelchen2019merging; @tair2022peer; @mohdtalib2023behavioral].
+The present study applies K-Means clustering to IPEDS data to identify data-driven groupings of postsecondary institutions based on financial, academic, and outcome indicators. The objective is to uncover underlying institutional profiles that describe how U.S. colleges and universities align or differ in measurable ways, offering a transparent and scalable framework for understanding institutional diversity [@huberty2005cluster; @nces2023groupings; @elam2016classification].
 
 
 ## Literature Review
@@ -112,14 +112,72 @@ $$
 
 ## Analysis and Results
 
-### Data Exploration and Visualization
+## Data Description and Visualization
 
-The dataset used in this project comes from the Online Retail dataset, a well-known open-source e-commerce dataset that tracks transactions from a UK-based store between 2010 and 2011 [@ulfa2022shopee]. Each record represents a single purchase and includes details such as invoice number, product code, quantity, price, customer ID, and country. This structure closely follows what similar retail segmentation studies used to analyze purchasing behavior and frequency [@omol2024kenya; @huang2023department].
+### Dataset Overview
 
-Before analysis, the data was cleaned to remove canceled or incomplete orders (identified by invoices starting with “C”) and any entries missing customer IDs. This mirrors the preprocessing approach used in other K-Means retail applications to ensure only valid transactions are analyzed [@syahra2025crm].
+This study uses institutional-level data from the **Integrated Postsecondary Education Data System (IPEDS)** for the **2023 collection year (2023–2024 academic cycle)**, maintained by the **National Center for Education Statistics (NCES)**. IPEDS collects standardized information from all U.S. postsecondary institutions participating in federal financial aid programs. The combined dataset provides national coverage across all control types—public, private nonprofit, and private for-profit—allowing for a comprehensive clustering analysis of institutional characteristics.
 
-This dataset is particularly useful because it allows us to calculate RFM (Recency, Frequency, and Monetary value) metrics that can be used for clustering. These metrics have proven effective in segmenting customers based on engagement and spending behavior [@serwah2023weighted; @john2024ukretail]. By applying K-Means clustering to these variables, we aim to uncover meaningful customer groups that reflect different shopping patterns and value to the business.
+The following survey components were used and merged using the common key `UNITID`:
 
+- **HD2023:** Institutional Characteristics (general info, state, sector, control type, FTE enrollment)  
+- **F2223_F1A:** Finance – Public institutions (GASB format)  
+- **F2223_F2:** Finance – Private nonprofit institutions (FASB format)  
+- **F2223_F3:** Finance – Private for-profit institutions (optional inclusion for completeness)  
+- **ADM2023:** Admissions (admission rate, SAT/ACT averages, tuition and fees)  
+- **OM2023:** Outcome Measures (student completion and success rates)
+
+All data files were downloaded directly from the **NCES IPEDS Data Center**. The merge was performed by `UNITID`, and institutions without valid identifiers or enrollment data were excluded to ensure comparability across survey components.
+
+---
+
+### Variable Selection and Preparation
+
+To capture the main dimensions of institutional performance and scale, the following variables were selected:
+
+| Conceptual Domain | Example Variables (Field Names) |
+|--------------------|--------------------------------|
+| **Institutional Scale** | `ugds` (undergraduate enrollment), `fte` (full-time equivalent), `student_faculty_ratio` |
+| **Financial Resources** | `f1a02` / `f2a02` (total revenues), `f1a13` / `f2a13` (instructional expenses), derived ratios: `revenue_per_fte`, `instruction_exp_per_fte` |
+| **Access and Aid** | `admrate` (admission rate), `tuition1` (in-state tuition), `%pell` (Pell Grant recipients) |
+| **Outcomes** | `om2_pct_comp` (completion rate), `gradrate` (graduation rate), `retention_rate` |
+
+All numeric variables were standardized using z-score normalization to ensure comparability in K-Means clustering. Outliers were capped at the 1st and 99th percentiles using Winsorization to reduce distortion of centroids.
+
+---
+
+### Data Cleaning and Integration
+
+Public (`F1A`) and private (`F2`) finance datasets were vertically merged using consistent variable naming conventions. For each institution, financial data were joined to demographic and admissions information. Missing values for financial variables were replaced with `NA` rather than imputation, to maintain integrity of original reporting. The merged file included approximately **6,000 active, degree-granting institutions** after filtering.
+
+```{r}
+# ----setup, include=FALSE-----------------------------------------------
+# Smart package loader (installs once if missing)
+packages <- c("tidyverse", "janitor", "gt", "GGally", "scales", "here", "corrr", "ggplot2")
+
+missing_pkgs <- packages[!(packages %in% installed.packages()[, "Package"])]
+if (length(missing_pkgs)) install.packages(missing_pkgs, dependencies = TRUE)
+
+suppressPackageStartupMessages({
+  lapply(packages, library, character.only = TRUE)
+})
+```
+
+```{r}
+# Example R pipeline
+data_dir <- "data/"
+
+# Institutional characteristics
+hd <- read_csv(file.path(data_dir, "HD2023.csv")) |> clean_names()
+
+# Finance: detect public/private files automatically
+
+
+# Admissions and outcome measures
+adm <- read_csv(file.path(data_dir, "adm2023.csv")) |> clean_names()
+om  <- read_csv(file.path(data_dir, "om2023.csv"))  |> clean_names()
+
+```
 
 ### Modeling and Results
 
