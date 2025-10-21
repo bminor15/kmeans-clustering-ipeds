@@ -151,16 +151,15 @@ All numeric variables were standardized using z-score normalization to ensure co
 Public (`F1A`) and private (`F2`) finance datasets were vertically merged using consistent variable naming conventions. For each institution, financial data were joined to demographic and admissions information. Missing values for financial variables were replaced with `NA` rather than imputation, to maintain integrity of original reporting. The merged file included approximately **6,000 active, degree-granting institutions** after filtering.
 
 ```{r}
-# ----setup, include=FALSE-----------------------------------------------
-# Smart package loader (installs once if missing)
-packages <- c("tidyverse", "janitor", "gt", "GGally", "scales", "here", "corrr", "ggplot2")
+## ----setup, include=FALSE-----------------------------------------------
+library(tidyverse)
+library(janitor)
+library(gt)
+library(GGally)
+library(scales)
+library(here)
+library(corrr)
 
-missing_pkgs <- packages[!(packages %in% installed.packages()[, "Package"])]
-if (length(missing_pkgs)) install.packages(missing_pkgs, dependencies = TRUE)
-
-suppressPackageStartupMessages({
-  lapply(packages, library, character.only = TRUE)
-})
 ```
 
 ```{r}

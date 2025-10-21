@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Benjamin Minor">
-<meta name="dcterms.date" content="2025-10-19">
+<meta name="dcterms.date" content="2025-10-20">
 
 <title>Data-Driven Segmentation of U.S. Colleges and Universities Using K-Means Clustering on IPEDS Data – Capstone Project: K-Means Clustering on Retail Data</title>
 <style>
@@ -20,6 +20,40 @@ ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
 width: 0.8em;
 margin: 0 0.8em 0.2em -1em;  vertical-align: middle;
+}
+
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+}
+pre.numberSource { margin-left: 3em; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 
 div.csl-bib-body { }
@@ -4876,9 +4910,12 @@ window.Quarto = {
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
   <li><a href="#literature-review" id="toc-literature-review" class="nav-link" data-scroll-target="#literature-review">Literature Review</a></li>
   <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a></li>
-  <li><a href="#analysis-and-results" id="toc-analysis-and-results" class="nav-link" data-scroll-target="#analysis-and-results">Analysis and Results</a>
+  <li><a href="#analysis-and-results" id="toc-analysis-and-results" class="nav-link" data-scroll-target="#analysis-and-results">Analysis and Results</a></li>
+  <li><a href="#data-description-and-visualization" id="toc-data-description-and-visualization" class="nav-link" data-scroll-target="#data-description-and-visualization">Data Description and Visualization</a>
   <ul class="collapse">
-  <li><a href="#data-exploration-and-visualization" id="toc-data-exploration-and-visualization" class="nav-link" data-scroll-target="#data-exploration-and-visualization">Data Exploration and Visualization</a></li>
+  <li><a href="#dataset-overview" id="toc-dataset-overview" class="nav-link" data-scroll-target="#dataset-overview">Dataset Overview</a></li>
+  <li><a href="#variable-selection-and-preparation" id="toc-variable-selection-and-preparation" class="nav-link" data-scroll-target="#variable-selection-and-preparation">Variable Selection and Preparation</a></li>
+  <li><a href="#data-cleaning-and-integration" id="toc-data-cleaning-and-integration" class="nav-link" data-scroll-target="#data-cleaning-and-integration">Data Cleaning and Integration</a></li>
   <li><a href="#modeling-and-results" id="toc-modeling-and-results" class="nav-link" data-scroll-target="#modeling-and-results">Modeling and Results</a></li>
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   </ul></li>
@@ -4908,7 +4945,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 19, 2025</p>
+      <p class="date">October 20, 2025</p>
     </div>
   </div>
   
@@ -4979,11 +5016,98 @@ y_i = \beta_0 + \beta_1 X_1 +\varepsilon_i
 </section>
 <section id="analysis-and-results" class="level2">
 <h2 class="anchored" data-anchor-id="analysis-and-results">Analysis and Results</h2>
-<section id="data-exploration-and-visualization" class="level3">
-<h3 class="anchored" data-anchor-id="data-exploration-and-visualization">Data Exploration and Visualization</h3>
-<p>The dataset used in this project comes from the Online Retail dataset, a well-known open-source e-commerce dataset that tracks transactions from a UK-based store between 2010 and 2011 <span class="citation" data-cites="ulfa2022shopee">(<a href="#ref-ulfa2022shopee" role="doc-biblioref"><strong>ulfa2022shopee?</strong></a>)</span>. Each record represents a single purchase and includes details such as invoice number, product code, quantity, price, customer ID, and country. This structure closely follows what similar retail segmentation studies used to analyze purchasing behavior and frequency <span class="citation" data-cites="omol2024kenya huang2023department">(<a href="#ref-omol2024kenya" role="doc-biblioref"><strong>omol2024kenya?</strong></a>; <a href="#ref-huang2023department" role="doc-biblioref"><strong>huang2023department?</strong></a>)</span>.</p>
-<p>Before analysis, the data was cleaned to remove canceled or incomplete orders (identified by invoices starting with “C”) and any entries missing customer IDs. This mirrors the preprocessing approach used in other K-Means retail applications to ensure only valid transactions are analyzed <span class="citation" data-cites="syahra2025crm">(<a href="#ref-syahra2025crm" role="doc-biblioref"><strong>syahra2025crm?</strong></a>)</span>.</p>
-<p>This dataset is particularly useful because it allows us to calculate RFM (Recency, Frequency, and Monetary value) metrics that can be used for clustering. These metrics have proven effective in segmenting customers based on engagement and spending behavior <span class="citation" data-cites="serwah2023weighted john2024ukretail">(<a href="#ref-serwah2023weighted" role="doc-biblioref"><strong>serwah2023weighted?</strong></a>; <a href="#ref-john2024ukretail" role="doc-biblioref"><strong>john2024ukretail?</strong></a>)</span>. By applying K-Means clustering to these variables, we aim to uncover meaningful customer groups that reflect different shopping patterns and value to the business.</p>
+</section>
+<section id="data-description-and-visualization" class="level2">
+<h2 class="anchored" data-anchor-id="data-description-and-visualization">Data Description and Visualization</h2>
+<section id="dataset-overview" class="level3">
+<h3 class="anchored" data-anchor-id="dataset-overview">Dataset Overview</h3>
+<p>This study uses institutional-level data from the <strong>Integrated Postsecondary Education Data System (IPEDS)</strong> for the <strong>2023 collection year (2023–2024 academic cycle)</strong>, maintained by the <strong>National Center for Education Statistics (NCES)</strong>. IPEDS collects standardized information from all U.S. postsecondary institutions participating in federal financial aid programs. The combined dataset provides national coverage across all control types—public, private nonprofit, and private for-profit—allowing for a comprehensive clustering analysis of institutional characteristics.</p>
+<p>The following survey components were used and merged using the common key <code>UNITID</code>:</p>
+<ul>
+<li><strong>HD2023:</strong> Institutional Characteristics (general info, state, sector, control type, FTE enrollment)<br>
+</li>
+<li><strong>F2223_F1A:</strong> Finance – Public institutions (GASB format)<br>
+</li>
+<li><strong>F2223_F2:</strong> Finance – Private nonprofit institutions (FASB format)<br>
+</li>
+<li><strong>F2223_F3:</strong> Finance – Private for-profit institutions (optional inclusion for completeness)<br>
+</li>
+<li><strong>ADM2023:</strong> Admissions (admission rate, SAT/ACT averages, tuition and fees)<br>
+</li>
+<li><strong>OM2023:</strong> Outcome Measures (student completion and success rates)</li>
+</ul>
+<p>All data files were downloaded directly from the <strong>NCES IPEDS Data Center</strong>. The merge was performed by <code>UNITID</code>, and institutions without valid identifiers or enrollment data were excluded to ensure comparability across survey components.</p>
+<hr>
+</section>
+<section id="variable-selection-and-preparation" class="level3">
+<h3 class="anchored" data-anchor-id="variable-selection-and-preparation">Variable Selection and Preparation</h3>
+<p>To capture the main dimensions of institutional performance and scale, the following variables were selected:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 38%">
+<col style="width: 61%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Conceptual Domain</th>
+<th>Example Variables (Field Names)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Institutional Scale</strong></td>
+<td><code>ugds</code> (undergraduate enrollment), <code>fte</code> (full-time equivalent), <code>student_faculty_ratio</code></td>
+</tr>
+<tr class="even">
+<td><strong>Financial Resources</strong></td>
+<td><code>f1a02</code> / <code>f2a02</code> (total revenues), <code>f1a13</code> / <code>f2a13</code> (instructional expenses), derived ratios: <code>revenue_per_fte</code>, <code>instruction_exp_per_fte</code></td>
+</tr>
+<tr class="odd">
+<td><strong>Access and Aid</strong></td>
+<td><code>admrate</code> (admission rate), <code>tuition1</code> (in-state tuition), <code>%pell</code> (Pell Grant recipients)</td>
+</tr>
+<tr class="even">
+<td><strong>Outcomes</strong></td>
+<td><code>om2_pct_comp</code> (completion rate), <code>gradrate</code> (graduation rate), <code>retention_rate</code></td>
+</tr>
+</tbody>
+</table>
+<p>All numeric variables were standardized using z-score normalization to ensure comparability in K-Means clustering. Outliers were capped at the 1st and 99th percentiles using Winsorization to reduce distortion of centroids.</p>
+<hr>
+</section>
+<section id="data-cleaning-and-integration" class="level3">
+<h3 class="anchored" data-anchor-id="data-cleaning-and-integration">Data Cleaning and Integration</h3>
+<p>Public (<code>F1A</code>) and private (<code>F2</code>) finance datasets were vertically merged using consistent variable naming conventions. For each institution, financial data were joined to demographic and admissions information. Missing values for financial variables were replaced with <code>NA</code> rather than imputation, to maintain integrity of original reporting. The merged file included approximately <strong>6,000 active, degree-granting institutions</strong> after filtering.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ----setup, include=FALSE-----------------------------------------------</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example R pipeline</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>data_dir <span class="ot">&lt;-</span> <span class="st">&quot;data/&quot;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Institutional characteristics</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>hd <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(data_dir, <span class="st">&quot;HD2023.csv&quot;</span>)) <span class="sc">|&gt;</span> <span class="fu">clean_names</span>()</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Finance: detect public/private files automatically</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Admissions and outcome measures</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>adm <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(data_dir, <span class="st">&quot;adm2023.csv&quot;</span>)) <span class="sc">|&gt;</span> <span class="fu">clean_names</span>()</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>om  <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(data_dir, <span class="st">&quot;om2023.csv&quot;</span>))  <span class="sc">|&gt;</span> <span class="fu">clean_names</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 </section>
 <section id="modeling-and-results" class="level3">
 <h3 class="anchored" data-anchor-id="modeling-and-results">Modeling and Results</h3>
