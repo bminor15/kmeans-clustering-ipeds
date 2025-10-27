@@ -7,7 +7,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Benjamin Minor">
-<meta name="dcterms.date" content="2025-10-21">
 
 <title>Data-Driven Segmentation of U.S. Colleges and Universities Using K-Means Clustering on IPEDS Data – Capstone Project: K-Means Clustering on Retail Data</title>
 <style>
@@ -20,40 +19,6 @@ ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
 width: 0.8em;
 margin: 0 0.8em 0.2em -1em;  vertical-align: middle;
-}
-
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-{ counter-reset: source-line 0; }
-pre.numberSource code > span
-{ position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-{ content: counter(source-line);
-position: relative; left: -1em; text-align: right; vertical-align: baseline;
-border: none; display: inline-block;
--webkit-touch-callout: none; -webkit-user-select: none;
--khtml-user-select: none; -moz-user-select: none;
--ms-user-select: none; user-select: none;
-padding: 0 4px; width: 4em;
-}
-pre.numberSource { margin-left: 3em; padding-left: 4px; }
-div.sourceCode
-{ }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 
 div.csl-bib-body { }
@@ -4774,10 +4739,17 @@ vertical-align: -.125em;
   <li><a href="#analysis-and-results" id="toc-analysis-and-results" class="nav-link" data-scroll-target="#analysis-and-results">Analysis and Results</a>
   <ul class="collapse">
   <li><a href="#data-description-and-visualization" id="toc-data-description-and-visualization" class="nav-link" data-scroll-target="#data-description-and-visualization">Data Description and Visualization</a></li>
+  </ul></li>
+  <li><a href="#data-cleaning-integration" id="toc-data-cleaning-integration" class="nav-link" data-scroll-target="#data-cleaning-integration">—-data-cleaning-integration———————————————</a></li>
+  <li><a href="#load-and-clean-each-finance-file" id="toc-load-and-clean-each-finance-file" class="nav-link" data-scroll-target="#load-and-clean-each-finance-file">Load and clean each finance file</a></li>
+  <li><a href="#select-comparable-finance-metrics" id="toc-select-comparable-finance-metrics" class="nav-link" data-scroll-target="#select-comparable-finance-metrics">Select comparable finance metrics</a></li>
+  <li><a href="#combine-and-merge-with-other-ipeds-components" id="toc-combine-and-merge-with-other-ipeds-components" class="nav-link" data-scroll-target="#combine-and-merge-with-other-ipeds-components">Combine and merge with other IPEDS components</a></li>
+  <li><a href="#quick-check-of-institutional-composition" id="toc-quick-check-of-institutional-composition" class="nav-link" data-scroll-target="#quick-check-of-institutional-composition">Quick check of institutional composition</a>
+  <ul class="collapse">
   <li><a href="#modeling-and-results" id="toc-modeling-and-results" class="nav-link" data-scroll-target="#modeling-and-results">Modeling and Results</a></li>
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
-  </ul></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -4803,7 +4775,7 @@ vertical-align: -.125em;
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 21, 2025</p>
+      <p class="date">Invalid Date</p>
     </div>
   </div>
   
@@ -4886,13 +4858,12 @@ Kelchen describes the process of joining and cleaning educational data for large
 </section>
 <section id="variable-selection-and-preparation" class="level4">
 <h4 class="anchored" data-anchor-id="variable-selection-and-preparation">Variable Selection and Preparation</h4>
-<p>To represent institutional scale, resources, access, and outcomes, variables were drawn from multiple IPEDS components and merged on the primary key <code>UNITID</code>.<br>
-Each variable below reflects a core dimension of institutional performance relevant to segmentation and clustering.</p>
+<p>To represent institutional <strong>scale</strong>, <strong>resources</strong>, <strong>access</strong>, and <strong>outcomes</strong>, variables were pulled from multiple IPEDS components and merged on <code>UNITID</code>. Finance items are aligned to the 2023–24 data dictionary; after import with <code>janitor::clean_names()</code>, column names appear in lowercase (e.g., <code>F1D01</code> → <code>f1d01</code>).</p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 35%">
-<col style="width: 39%">
-<col style="width: 25%">
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -4905,118 +4876,117 @@ Each variable below reflects a core dimension of institutional performance relev
 <tr class="odd">
 <td><strong>Institutional Scale</strong></td>
 <td><code>UGDS</code></td>
-<td>Undergraduate degree-seeking enrollment (headcount) from HD2023.</td>
+<td>Undergraduate degree-seeking headcount (HD2023).</td>
 </tr>
 <tr class="even">
 <td></td>
 <td><code>FTE</code></td>
-<td>Full-time equivalent enrollment, derived from part-time and full-time headcounts (HD2023).</td>
+<td>Full-time-equivalent enrollment (HD2023).</td>
 </tr>
 <tr class="odd">
 <td></td>
 <td><code>STUFACR</code></td>
-<td>Student-to-faculty ratio, indicating instructional resource availability (HD2023).</td>
+<td>Student-to-faculty ratio (HD2023).</td>
 </tr>
 <tr class="even">
 <td><strong>Financial Resources</strong></td>
-<td><code>F1A02</code> / <code>F2A02</code></td>
-<td>Total core revenues for public (F1A) or private nonprofit (F2) institutions.</td>
+<td><code>F1D01</code> / <code>F2D162</code> / <code>F3D12</code></td>
+<td><strong>Total revenue</strong> (Public / Private nonprofit – <em>unrestricted</em> / For-profit).</td>
 </tr>
 <tr class="odd">
 <td></td>
-<td><code>F1A13</code> / <code>F2A13</code></td>
-<td>Total instructional expenses for public (F1A) or private nonprofit (F2) institutions.</td>
+<td><code>F1C011</code> / <code>F2E011</code> / <code>F3E011</code></td>
+<td><strong>Instructional expenses</strong> (current year totals).</td>
 </tr>
 <tr class="even">
+<td></td>
+<td><code>F1N07</code> / <code>F2B02</code> / <code>F3B02</code></td>
+<td><strong>Total expenses</strong> (all functions).</td>
+</tr>
+<tr class="odd">
 <td></td>
 <td><code>REV_PER_FTE</code></td>
-<td>Derived: total revenues divided by full-time equivalent students (<code>F1A02</code> / <code>FTE</code>).</td>
+<td>Derived: total revenue ÷ FTE.</td>
+</tr>
+<tr class="even">
+<td></td>
+<td><code>INSTR_EXP_FTE</code></td>
+<td>Derived: instructional expenses ÷ FTE.</td>
 </tr>
 <tr class="odd">
 <td></td>
-<td><code>INSTR_EXP_FTE</code></td>
-<td>Derived: instructional expenses divided by full-time equivalent students (<code>F1A13</code> / <code>FTE</code>).</td>
+<td><code>EXP_PER_FTE</code></td>
+<td>Derived: total expenses ÷ FTE.</td>
 </tr>
 <tr class="even">
-<td><strong>Access and Aid</strong></td>
+<td><strong>Access &amp; Aid</strong></td>
 <td><code>ADM_RATE</code></td>
-<td>Admission rate (number admitted ÷ number of applicants) from ADM2023.</td>
+<td>Admission rate (ADM2023).</td>
 </tr>
 <tr class="odd">
 <td></td>
 <td><code>TUITION1</code></td>
-<td>Published in-state tuition and fees for full-time undergraduates (ADM2023).</td>
+<td>In-state tuition &amp; fees for full-time undergrads (ADM2023).</td>
 </tr>
 <tr class="even">
 <td></td>
 <td><code>PCTPELL</code></td>
-<td>Percentage of undergraduates receiving Federal Pell Grants, a proxy for socioeconomic access (ADM2023).</td>
+<td>% undergraduates receiving Pell Grants (ADM2023).</td>
 </tr>
 <tr class="odd">
 <td><strong>Outcomes</strong></td>
 <td><code>OM2_PCT_COMP</code></td>
-<td>Percentage of students completing within the 8-year Outcome Measures window (OM2023).</td>
+<td>Completion within OM 8-year window (OM2023).</td>
 </tr>
 <tr class="even">
 <td></td>
 <td><code>RET_PCF</code></td>
-<td>Fall-to-fall retention rate for first-time degree-seeking undergraduates (HD2023).</td>
+<td>First-year retention (HD2023).</td>
 </tr>
 <tr class="odd">
 <td></td>
 <td><code>GRAD_RATE</code></td>
-<td>150-percent graduation rate for full-time undergraduates (OM2023 or GR2023).</td>
+<td>150% graduation rate (OM2023 or GR2023).</td>
 </tr>
 </tbody>
 </table>
-</section>
-<section id="data-preparation-approach" class="level4">
-<h4 class="anchored" data-anchor-id="data-preparation-approach">Data Preparation Approach</h4>
-<p>Before clustering, quantitative variables will be reviewed for scale differences and extreme values.<br>
-Since IPEDS variables are measured in different units (dollars, percentages, counts), they will be standardized using z-score normalization so that each contributes equally to the K-Means distance metric.<br>
-To limit the influence of unusually large or small observations, potential outliers will be evaluated, and mild Winsorization (for example, trimming values beyond the 1st and 99th percentiles) may be applied if needed.<br>
-This ensures the clustering process is driven by typical institutional patterns rather than a few extreme cases.</p>
+<p><strong>Harmonization notes.</strong> Finance fields differ by control and are unified to common metrics before analysis: - <strong>Revenue:</strong> <code>f1d01</code> (public), <code>f2d162</code> (nonprofit, unrestricted), <code>f3d12</code> (for-profit) → <code>tot_rev</code>. - <strong>Instructional expense:</strong> <code>f1c011</code> / <code>f2e011</code> / <code>f3e011</code> → <code>instr_exp</code>. - <strong>Total expense:</strong> <code>f1n07</code> / <code>f2b02</code> / <code>f3b02</code> → <code>tot_exp</code>.</p>
 <hr>
 </section>
 <section id="data-cleaning-and-integration" class="level4">
 <h4 class="anchored" data-anchor-id="data-cleaning-and-integration">Data Cleaning and Integration</h4>
-<p>Finance data from public (<code>F1A</code>), private nonprofit (<code>F2</code>), and private for-profit (<code>F3</code>) institutions were combined into a single table using consistent column names and shared identifiers.<br>
-Each record was joined to institutional characteristics (<code>HD2023</code>), admissions metrics (<code>ADM2023</code>), and outcome measures (<code>OM2023</code>) through the common <code>UNITID</code> field.<br>
-When variables existed under multiple naming conventions across finance files, equivalent fields were harmonized (for example, <code>F1A02</code> / <code>F2A02</code> unified as <code>TOT_REV</code>, and <code>F1A13</code> / <code>F2A13</code> unified as <code>INSTR_EXP</code>).<br>
-Missing numeric values were preserved as <code>NA</code> to avoid artificial imputation and maintain the integrity of original NCES reporting.<br>
-After merging and filtering to include only active, degree-granting institutions with valid enrollment data, the final analytic dataset contained roughly 6,000 institutions, spanning all three control types in the 2023 IPEDS collection.</p>
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ----setup, include=FALSE-----------------------------------------------</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example R pipeline</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>data_dir <span class="ot">&lt;-</span> <span class="st">&quot;data/&quot;</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Institutional characteristics</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>hd <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(data_dir, <span class="st">&quot;HD2023.csv&quot;</span>)) <span class="sc">|&gt;</span> <span class="fu">clean_names</span>()</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Finance: detect public/private files automatically</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Admissions and outcome measures</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>adm <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(data_dir, <span class="st">&quot;adm2023.csv&quot;</span>)) <span class="sc">|&gt;</span> <span class="fu">clean_names</span>()</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co"># om  &lt;- read_csv(file.path(data_dir, &quot;om2023.csv&quot;))  |&gt; clean_names()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
+<p>Finance data from public (<code>F1A</code>), private nonprofit (<code>F2</code>), and private for-profit (<code>F3</code>) institutions were imported separately and standardized before merging.<br>
+Each dataset was aligned by <code>UNITID</code> and reduced to a consistent structure containing total revenue, instructional expense, and total expense.<br>
+Variable naming differences across finance files were harmonized — for example, <code>F1D01</code> / <code>F2D162</code> / <code>F3D12</code> were unified as <code>TOT_REV</code>, and <code>F1C011</code> / <code>F2E011</code> / <code>F3E011</code> as <code>INSTR_EXP</code>.</p>
+<p>After harmonization, the finance tables were vertically combined and joined with institutional characteristics (<code>HD2023</code>), admissions data (<code>ADM2023</code>), and outcome measures (<code>OM2023</code>) using the shared key <code>UNITID</code>.<br>
+All joins were executed as left merges to preserve full institutional coverage.<br>
+Missing numeric values were left as <code>NA</code> to maintain reporting integrity and avoid artificial imputation.<br>
+The merged dataset was filtered to include only active, degree-granting institutions with valid FTE enrollment and unique identifiers.</p>
+<p>The resulting analytic file contained roughly <strong>6,000 institutions</strong>, spanning public, private nonprofit, and private for-profit sectors in the 2023–2024 IPEDS cycle.</p>
 </section>
 </section>
+</section>
+<section id="data-cleaning-integration" class="level1">
+<h1>—-data-cleaning-integration———————————————</h1>
+</section>
+<section id="load-and-clean-each-finance-file" class="level1">
+<h1>Load and clean each finance file</h1>
+<p>f1a &lt;- read_csv(file.path(data_dir, “F2223_F1A.csv”)) |&gt; clean_names() f2 &lt;- read_csv(file.path(data_dir, “F2223_F2.csv”)) |&gt; clean_names() f3 &lt;- read_csv(file.path(data_dir, “F2223_F3.csv”)) |&gt; clean_names()</p>
+</section>
+<section id="select-comparable-finance-metrics" class="level1">
+<h1>Select comparable finance metrics</h1>
+<p>f1a_fin &lt;- f1a |&gt; transmute( unitid, tot_rev = f1d01, # Total revenues and other additions instr_exp = f1c011, # Instruction – current year total tot_exp = f1n07, # Total expenses control = “Public” )</p>
+<p>f2_fin &lt;- f2 |&gt; transmute( unitid, tot_rev = f2d162, # Total revenues – unrestricted instr_exp = f2e011, # Instruction – total amount tot_exp = f2b02, # Total expenses control = “Private Nonprofit” )</p>
+<p>f3_fin &lt;- f3 |&gt; transmute( unitid, tot_rev = f3d12, # Total revenues instr_exp = f3e011, # Instruction – total amount tot_exp = f3b02, # Total expenses control = “Private For-Profit” )</p>
+</section>
+<section id="combine-and-merge-with-other-ipeds-components" class="level1">
+<h1>Combine and merge with other IPEDS components</h1>
+<p>fin &lt;- bind_rows(f1a_fin, f2_fin, f3_fin)</p>
+<p>ipeds &lt;- hd |&gt; left_join(fin, by = “unitid”) |&gt; left_join(adm, by = “unitid”) |&gt; left_join(om, by = “unitid”) |&gt; filter(!is.na(unitid), !is.na(fte), fte &gt; 0) |&gt; distinct(unitid, .keep_all = TRUE)</p>
+</section>
+<section id="quick-check-of-institutional-composition" class="level1">
+<h1>Quick check of institutional composition</h1>
+<p>ipeds |&gt; summarise( total_institutions = n(), public_share = mean(control == “Public”, na.rm = TRUE), nonprofit_share = mean(control == “Private Nonprofit”, na.rm = TRUE), forprofit_share = mean(control == “Private For-Profit”, na.rm = TRUE) ) |&gt; gt() |&gt; fmt_percent(columns = 2:4, decimals = 1)</p>
 <section id="modeling-and-results" class="level3">
 <h3 class="anchored" data-anchor-id="modeling-and-results">Modeling and Results</h3>
 <ul>
@@ -5033,12 +5003,12 @@ After merging and filtering to include only active, degree-granting institutions
 <li><p>Discuss the implications of your results.</p></li>
 </ul>
 </section>
-</section>
 <section id="references" class="level2">
 
 
 
 
+</section>
 </section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">

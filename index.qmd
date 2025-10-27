@@ -108,68 +108,118 @@ All data files were downloaded directly from the **NCES IPEDS Data Center**. The
 
 #### Variable Selection and Preparation
 
-To represent institutional scale, resources, access, and outcomes, variables were drawn from multiple IPEDS components and merged on the primary key `UNITID`.  
-Each variable below reflects a core dimension of institutional performance relevant to segmentation and clustering.
+To represent institutional **scale**, **resources**, **access**, and **outcomes**, variables were pulled from multiple IPEDS components and merged on `UNITID`. Finance items are aligned to the 2023–24 data dictionary; after import with `janitor::clean_names()`, column names appear in lowercase (e.g., `F1D01` → `f1d01`).
 
 | Feature Group | Variable (Field Name) | Description |
-|--------------------|----------------------|--------------|
-| **Institutional Scale** | `UGDS` | Undergraduate degree-seeking enrollment (headcount) from HD2023. |
-|  | `FTE` | Full-time equivalent enrollment, derived from part-time and full-time headcounts (HD2023). |
-|  | `STUFACR` | Student-to-faculty ratio, indicating instructional resource availability (HD2023). |
-| **Financial Resources** | `F1A02` / `F2A02` | Total core revenues for public (F1A) or private nonprofit (F2) institutions. |
-|  | `F1A13` / `F2A13` | Total instructional expenses for public (F1A) or private nonprofit (F2) institutions. |
-|  | `REV_PER_FTE` | Derived: total revenues divided by full-time equivalent students (`F1A02` / `FTE`). |
-|  | `INSTR_EXP_FTE` | Derived: instructional expenses divided by full-time equivalent students (`F1A13` / `FTE`). |
-| **Access and Aid** | `ADM_RATE` | Admission rate (number admitted ÷ number of applicants) from ADM2023. |
-|  | `TUITION1` | Published in-state tuition and fees for full-time undergraduates (ADM2023). |
-|  | `PCTPELL` | Percentage of undergraduates receiving Federal Pell Grants, a proxy for socioeconomic access (ADM2023). |
-| **Outcomes** | `OM2_PCT_COMP` | Percentage of students completing within the 8-year Outcome Measures window (OM2023). |
-|  | `RET_PCF` | Fall-to-fall retention rate for first-time degree-seeking undergraduates (HD2023). |
-|  | `GRAD_RATE` | 150-percent graduation rate for full-time undergraduates (OM2023 or GR2023). |
+|---|---|---|
+| **Institutional Scale** | `UGDS` | Undergraduate degree-seeking headcount (HD2023). |
+|  | `FTE` | Full-time-equivalent enrollment (HD2023). |
+|  | `STUFACR` | Student-to-faculty ratio (HD2023). |
+| **Financial Resources** | `F1D01` / `F2D162` / `F3D12` | **Total revenue** (Public / Private nonprofit – *unrestricted* / For-profit). |
+|  | `F1C011` / `F2E011` / `F3E011` | **Instructional expenses** (current year totals). |
+|  | `F1N07` / `F2B02` / `F3B02` | **Total expenses** (all functions). |
+|  | `REV_PER_FTE` | Derived: total revenue ÷ FTE. |
+|  | `INSTR_EXP_FTE` | Derived: instructional expenses ÷ FTE. |
+|  | `EXP_PER_FTE` | Derived: total expenses ÷ FTE. |
+| **Access & Aid** | `ADM_RATE` | Admission rate (ADM2023). |
+|  | `TUITION1` | In-state tuition & fees for full-time undergrads (ADM2023). |
+|  | `PCTPELL` | % undergraduates receiving Pell Grants (ADM2023). |
+| **Outcomes** | `OM2_PCT_COMP` | Completion within OM 8-year window (OM2023). |
+|  | `RET_PCF` | First-year retention (HD2023). |
+|  | `GRAD_RATE` | 150% graduation rate (OM2023 or GR2023). |
 
-#### Data Preparation Approach
-
-Before clustering, quantitative variables will be reviewed for scale differences and extreme values.  
-Since IPEDS variables are measured in different units (dollars, percentages, counts), they will be standardized using z-score normalization so that each contributes equally to the K-Means distance metric.  
-To limit the influence of unusually large or small observations, potential outliers will be evaluated, and mild Winsorization (for example, trimming values beyond the 1st and 99th percentiles) may be applied if needed.  
-This ensures the clustering process is driven by typical institutional patterns rather than a few extreme cases.
+**Harmonization notes.** Finance fields differ by control and are unified to common metrics before analysis:
+- **Revenue:** `f1d01` (public), `f2d162` (nonprofit, unrestricted), `f3d12` (for-profit) → `tot_rev`.
+- **Instructional expense:** `f1c011` / `f2e011` / `f3e011` → `instr_exp`.
+- **Total expense:** `f1n07` / `f2b02` / `f3b02` → `tot_exp`.
 
 ---
 
 #### Data Cleaning and Integration
 
-Finance data from public (`F1A`), private nonprofit (`F2`), and private for-profit (`F3`) institutions were combined into a single table using consistent column names and shared identifiers.  
-Each record was joined to institutional characteristics (`HD2023`), admissions metrics (`ADM2023`), and outcome measures (`OM2023`) through the common `UNITID` field.  
-When variables existed under multiple naming conventions across finance files, equivalent fields were harmonized (for example, `F1A02` / `F2A02` unified as `TOT_REV`, and `F1A13` / `F2A13` unified as `INSTR_EXP`).  
-Missing numeric values were preserved as `NA` to avoid artificial imputation and maintain the integrity of original NCES reporting.  
- After merging and filtering to include only active, degree-granting institutions with valid enrollment data, the final analytic dataset contained roughly 6,000 institutions, spanning all three control types in the 2023 IPEDS collection.
+Finance data from public (`F1A`), private nonprofit (`F2`), and private for-profit (`F3`) institutions were imported separately and standardized before merging.  
+Each dataset was aligned by `UNITID` and reduced to a consistent structure containing total revenue, instructional expense, and total expense.  
+Variable naming differences across finance files were harmonized — for example, `F1D01` / `F2D162` / `F3D12` were unified as `TOT_REV`, and `F1C011` / `F2E011` / `F3E011` as `INSTR_EXP`.
 
+After harmonization, the finance tables were vertically combined and joined with institutional characteristics (`HD2023`), admissions data (`ADM2023`), and outcome measures (`OM2023`) using the shared key `UNITID`.  
+All joins were executed as left merges to preserve full institutional coverage.  
+Missing numeric values were left as `NA` to maintain reporting integrity and avoid artificial imputation.  
+The merged dataset was filtered to include only active, degree-granting institutions with valid FTE enrollment and unique identifiers.
 
-```{r}
-## ----setup, include=FALSE-----------------------------------------------
-library(tidyverse)
-library(janitor)
-library(gt)
-library(GGally)
-library(scales)
-library(here)
-library(corrr)
-
-```
+The resulting analytic file contained roughly **6,000 institutions**, spanning public, private nonprofit, and private for-profit sectors in the 2023–2024 IPEDS cycle.
 
 ```{r}
-# Example R pipeline
-data_dir <- "data/"
 
-# Institutional characteristics
-hd <- read_csv(file.path(data_dir, "HD2023.csv")) |> clean_names()
+# ----libraries-------------------------------------------------------------
+library(tidyverse)   # data wrangling and ggplot2
+library(janitor)     # clean column names
+library(gt)          # formatted summary tables
+library(scales)      # numeric formatting
+library(GGally)      # scatter & correlation plots
+library(corrr)       # correlation summaries
+library(here)        # safe relative file paths
 
-# Finance: detect public/private files automatically
+# ----directory and base imports-------------------------------------------
+data_dir <- here("data")  # adjust path if needed
 
+# Load non-finance IPEDS tables ------------------------------------------
+hd  <- read_csv(file.path(data_dir, "HD2023.csv"))  |> clean_names()
+adm <- read_csv(file.path(data_dir, "ADM2023.csv")) |> clean_names()
+om  <- read_csv(file.path(data_dir, "OM2023.csv"))  |> clean_names()
 
-# Admissions and outcome measures
-adm <- read_csv(file.path(data_dir, "adm2023.csv")) |> clean_names()
-# om  <- read_csv(file.path(data_dir, "om2023.csv"))  |> clean_names()
+# Load finance tables -----------------------------------------------------
+f1a <- read_csv(file.path(data_dir, "F2223_F1A.csv")) |> clean_names()
+f2  <- read_csv(file.path(data_dir, "F2223_F2.csv"))  |> clean_names()
+f3  <- read_csv(file.path(data_dir, "F2223_F3.csv"))  |> clean_names()
+
+# Select comparable finance metrics across control types -----------------
+f1a_fin <- f1a |>
+  transmute(
+    unitid,
+    tot_rev   = f1d01,    # Total revenues and other additions
+    instr_exp = f1c011,   # Instruction – current year total
+    tot_exp   = f1n07,    # Total expenses
+    control   = "Public"
+  )
+
+f2_fin <- f2 |>
+  transmute(
+    unitid,
+    tot_rev   = f2d162,   # Total revenues – unrestricted
+    instr_exp = f2e011,   # Instruction – total amount
+    tot_exp   = f2b02,    # Total expenses
+    control   = "Private Nonprofit"
+  )
+
+f3_fin <- f3 |>
+  transmute(
+    unitid,
+    tot_rev   = f3d12,    # Total revenues
+    instr_exp = f3e011,   # Instruction – total amount
+    tot_exp   = f3b02,    # Total expenses
+    control   = "Private For-Profit"
+  )
+
+# Combine and merge with other IPEDS components --------------------------
+fin <- bind_rows(f1a_fin, f2_fin, f3_fin)
+
+ipeds <- hd |>
+  left_join(fin, by = "unitid") |>
+  left_join(adm, by = "unitid") |>
+  left_join(om,  by = "unitid") |>
+  filter(!is.na(unitid), !is.na(fte), fte > 0) |>
+  distinct(unitid, .keep_all = TRUE)
+
+# Quick composition summary ----------------------------------------------
+ipeds |>
+  summarise(
+    total_institutions = n(),
+    public_share = mean(control == "Public", na.rm = TRUE),
+    nonprofit_share = mean(control == "Private Nonprofit", na.rm = TRUE),
+    forprofit_share = mean(control == "Private For-Profit", na.rm = TRUE)
+  ) |>
+  gt() |>
+  fmt_percent(columns = 2:4, decimals = 1)
 
 ```
 
@@ -183,9 +233,6 @@ adm <- read_csv(file.path(data_dir, "adm2023.csv")) |> clean_names()
 
 -   **Tell a story about what the data reveals.**
 
-```{r}
-
-```
 
 ### Conclusion
 
