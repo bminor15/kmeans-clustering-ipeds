@@ -92,7 +92,7 @@ Kelchen describes the process of joining and cleaning educational data for large
 #### Dataset Overview
 
 This study uses institutional-level data from the **Integrated Postsecondary
-Education Data System (IPEDS)** for the **2023 collection year** (2023–2024
+Education Data System (IPEDS)** for the 2023 collection year (2023–2024
 cycle). IPEDS collects standardized information from all U.S. postsecondary
 institutions participating in federal financial aid programs, covering public,
 private nonprofit, and private for-profit sectors.
@@ -113,8 +113,8 @@ All files were downloaded from the NCES IPEDS Data Center.
 
 #### Variable Selection and Preparation
 
-To represent institutional **scale**, **financial capacity**, **access**, and
-**outcomes**, variables were drawn from multiple components and aligned by
+To represent institutional scale, financial capacity, access, and
+outcomes, variables were drawn from multiple components and aligned by
 `UNITID`. Below are the primary fields used in this phase:
 
 | Feature Group          | Variable (Field)                                  | Description |
@@ -135,15 +135,15 @@ To represent institutional **scale**, **financial capacity**, **access**, and
 #### Data Cleaning and Integration
 
 Finance data from public (`F1A`), private nonprofit (`F2`), and private
-for-profit (`F3`) files were imported and standardized to **total revenue**,
-**instructional expense**, and **total expense**. Twelve-month instructional
-activity (`EFIA2023`) provided undergraduate, graduate, and total **FTE**
+for-profit (`F3`) files were imported and standardized to total revenue,
+instructional expense, and total expense. Twelve-month instructional
+activity (`EFIA2023`) provided undergraduate, graduate, and total FTE
 values; reported FTE were preferred, with estimated values as fallback.
 
-Tables were merged using **left joins** on `UNITID` to preserve coverage. Numeric
+Tables were merged using left joins on `UNITID` to preserve coverage. Numeric
 missing values were left as `NA` to maintain fidelity with NCES reporting.
 After filtering to active, degree-granting institutions with valid FTE, the
-analytic file contains ~**6,000 institutions** across all three control types.
+analytic file contains ~6,000 institutions across all three control types.
 
 ```{r}
 # ----libraries-------------------------------------------------------------
@@ -170,6 +170,12 @@ f3  <- read_csv(file.path(data_dir, "F2223_F3.csv"))  |> clean_names()
 
 # 12-month instructional activity (FTE source)
 efia <- read_csv(file.path(data_dir, "EFIA2023.csv")) |> clean_names()
+
+# Student charges (tuition and fees)
+ic_ay <- read_csv(file.path(data_dir, "IC2023.csv")) |> clean_names()
+
+# Student financial aid (Pell Grant recipients)
+sfa <- read_csv(file.path(data_dir, "SFA2223.csv")) |> clean_names()
 
 # ----build FTE from EFIA2023----------------------------------------------
 efia_fte <- efia |>
@@ -215,22 +221,95 @@ f3_fin <- f3 |>
 
 fin <- bind_rows(f1a_fin, f2_fin, f3_fin)
 
+# ----select tuition and Pell variables------------------------------------
+
+ic_sel <- ic_ay |>
+  transmute(
+    unitid,
+    tuition1 = readr::parse_number(as.character(tuition1))
+  )
+
+sfa_sel <- sfa |>
+transmute(
+unitid,
+pct_pell = pgrnt_p # % of undergraduates receiving Pell Grants
+)
+
 # ----merge all components--------------------------------------------------
+
 ipeds <- hd |>
   left_join(efia_fte, by = "unitid") |>
-  left_join(fin,      by = "unitid") |>
-  left_join(adm,      by = "unitid") |>
-  left_join(om,       by = "unitid") |>
+  left_join(fin, by = "unitid") |>
+  left_join(ic_sel, by = "unitid") |>
+  left_join(sfa_sel, by = "unitid") |>
+  left_join(adm, by = "unitid") |>
+  left_join(om, by = "unitid") |>
   filter(!is.na(unitid), !is.na(fte_total), fte_total > 0) |>
   distinct(unitid, .keep_all = TRUE) |>
   mutate(
-    rev_per_fte    = tot_rev   / fte_total,
-    instr_exp_fte  = instr_exp / fte_total,
-    exp_per_fte    = tot_exp   / fte_total
+    rev_per_fte = tot_rev / fte_total,
+    instr_exp_fte = instr_exp / fte_total,
+    exp_per_fte = tot_exp / fte_total
   )
+
+# ----summary table (now 'control' exists)---------------------------------
+ipeds |>
+  summarise(
+    total_institutions = n(),
+    public_share       = mean(control.y == "Public", na.rm = TRUE),
+    nonprofit_share    = mean(control.y == "Private Nonprofit", na.rm = TRUE),
+    forprofit_share    = mean(control.y == "Private For-Profit", na.rm = TRUE)
+  ) |>
+  gt() |>
+  fmt_percent(columns = 2:4, decimals = 1)
 
 ```
 
+```{r}
+## ----inst-type-bar, fig.cap="Distribution of Institutions by Control Type"----
+ipeds %>%
+  count(control.y) %>%
+  ggplot(aes(x = reorder(control.y, n), y = n, fill = control.y)) +
+  geom_col(show.legend = FALSE) +
+  coord_flip() +
+  labs(
+    title = "Distribution of Institutions by Control Type",
+    x = "Control Type",
+    y = "Number of Institutions"
+  ) +
+  scale_y_continuous(labels = scales::comma) +
+  theme_minimal(base_size = 13)
+
+## ----tuition-grad-scatter, fig.cap="Tuition vs Graduation Rate by Control Type"----
+ipeds %>%
+  ggplot(aes(x = tuition1, y = ombach8, color = control.y)) +
+  geom_point(alpha = 0.6, size = 2) +
+  geom_smooth(method = "lm", se = FALSE, linetype = "dashed") +
+  scale_x_continuous(labels = scales::dollar_format()) +
+  scale_y_continuous(labels = scales::percent_format(scale = 1)) +
+  labs(
+    title = "Tuition vs Graduation Rate by Institution Type",
+    x = "In-State Tuition (USD)",
+    y = "Graduation Rate (%)",
+    color = "Control"
+  ) +
+  theme_minimal(base_size = 13)
+
+## ----geo-dist, fig.cap="Geographic Distribution of Institutions by Control Type"----
+ipeds %>%
+  ggplot(aes(x = longitud, y = latitude, color = control.y)) +
+  geom_point(alpha = 0.5, size = 1.5) +
+  coord_map() +
+  labs(
+    title = "Geographic Distribution of U.S. Institutions",
+    x = "Longitude",
+    y = "Latitude",
+    color = "Control"
+  ) +
+  theme_minimal(base_size = 13)
+
+
+```
 ### Modeling and Results
 
 -   Explain your data preprocessing and cleaning steps.
