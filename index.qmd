@@ -154,6 +154,7 @@ library(scales)      # Formatting
 library(GGally)      # Quick pair plots
 library(corrr)       # Correlation summaries
 library(here)        # Reproducible relative paths
+library(patchwork)   # Grid layouts for multiple plots
 
 # ----directory and base imports-------------------------------------------
 data_dir <- here("data")  # adjust if needed
@@ -263,52 +264,88 @@ ipeds |>
   gt() |>
   fmt_percent(columns = 2:4, decimals = 1)
 
+# ----prep-data-------------------------------------------------------------
+# Derive 8-year completion rate if missing
+if (!"om8_pct_comp" %in% names(ipeds)) {
+  need <- c("omawdp8","omnoawd","omenrap","omenryp")
+  if (all(need %in% names(ipeds))) {
+    ipeds <- ipeds |>
+      mutate(
+        om_total     = omawdp8 + omnoawd + omenrap + omenryp,
+        om8_pct_comp = if_else(om_total > 0, 100 * omawdp8 / om_total, NA_real_)
+      )
+  }
+}
+
+# Parse tuition if text
+if ("tuition1" %in% names(ipeds) && !is.numeric(ipeds$tuition1)) {
+  ipeds <- ipeds |> mutate(tuition1 = readr::parse_number(as.character(tuition1)))
+}
+
+# Prepare data for visuals
+vis_df <- ipeds |>
+  filter(!is.na(control.y),
+         !is.na(tuition1),
+         !is.na(om8_pct_comp),
+         !is.na(rev_per_fte),
+         !is.na(instr_exp_fte)) |>
+  mutate(
+    tuition_k = tuition1 / 1000,
+    rev_fte_k = rev_per_fte / 1000,
+    exp_fte_k = instr_exp_fte / 1000
+  )
+
 ```
 
 ```{r}
-## ----inst-type-bar, fig.cap="Distribution of Institutions by Control Type"----
-ipeds %>%
-  count(control.y) %>%
-  ggplot(aes(x = reorder(control.y, n), y = n, fill = control.y)) +
-  geom_col(show.legend = FALSE) +
-  coord_flip() +
-  labs(
-    title = "Distribution of Institutions by Control Type",
-    x = "Control Type",
-    y = "Number of Institutions"
-  ) +
-  scale_y_continuous(labels = scales::comma) +
-  theme_minimal(base_size = 13)
+# ----figure-1--------------------------------------------------------------
+vis_df |>
+  select(tuition_k, rev_fte_k, exp_fte_k, om8_pct_comp) |>
+  pivot_longer(everything(), names_to = "metric", values_to = "value") |>
+  ggplot(aes(value)) +
+  geom_histogram(bins = 40, fill = "#4682B4", color = "white", alpha = 0.85) +
+  facet_wrap(~ metric, scales = "free", ncol = 2) +
+  labs(title = "Distributions of Key Variables",
+       subtitle = "Range and skew for tuition, finance per-FTE, and 8-year completion",
+       x = NULL, y = "Count")
 
-## ----tuition-grad-scatter, fig.cap="Tuition vs Graduation Rate by Control Type"----
-ipeds %>%
-  ggplot(aes(x = tuition1, y = ombach8, color = control.y)) +
+#----figure-2--------------------------------------------------------------
+ggplot(vis_df, aes(tuition1, om8_pct_comp, color = control.y)) +
+  geom_point(alpha = 0.5, size = 2) +
+  geom_smooth(method = "lm", se = FALSE, linetype = "dashed", color = "gray40") +
+  scale_x_continuous(labels = dollar_format()) +
+  scale_y_continuous(labels = label_percent(scale = 1)) +
+  labs(title = "Tuition vs 8-Year Completion by Sector",
+       subtitle = "Dashed line shows global linear fit",
+       x = "In-state tuition and fees (USD, academic year)",
+       y = "Completion rate (8-year, %)",
+       color = "Sector")
+
+#----figure-3--------------------------------------------------------------
+ggplot(vis_df, aes(rev_fte_k, exp_fte_k, color = control.y)) +
   geom_point(alpha = 0.6, size = 2) +
-  geom_smooth(method = "lm", se = FALSE, linetype = "dashed") +
-  scale_x_continuous(labels = scales::dollar_format()) +
-  scale_y_continuous(labels = scales::percent_format(scale = 1)) +
-  labs(
-    title = "Tuition vs Graduation Rate by Institution Type",
-    x = "In-State Tuition (USD)",
-    y = "Graduation Rate (%)",
-    color = "Control"
-  ) +
-  theme_minimal(base_size = 13)
+  scale_x_continuous(labels = label_number(scale_cut = cut_short_scale())) +
+  scale_y_continuous(labels = label_number(scale_cut = cut_short_scale())) +
+  labs(title = "Financial Profile per FTE",
+       subtitle = "Revenue vs instructional expense per FTE by sector",
+       x = "Revenue per FTE (thousands USD)",
+       y = "Instructional expense per FTE (thousands USD)",
+       color = "Sector")
 
-## ----geo-dist, fig.cap="Geographic Distribution of Institutions by Control Type"----
-ipeds %>%
-  ggplot(aes(x = longitud, y = latitude, color = control.y)) +
-  geom_point(alpha = 0.5, size = 1.5) +
-  coord_map() +
-  labs(
-    title = "Geographic Distribution of U.S. Institutions",
-    x = "Longitude",
-    y = "Latitude",
-    color = "Control"
-  ) +
-  theme_minimal(base_size = 13)
-
-
+#----figure-4--------------------------------------------------------------
+vis_df |>
+  select(tuition1, rev_per_fte, instr_exp_fte, om8_pct_comp) |>
+  correlate(method = "pearson") |>
+  stretch(na.rm = TRUE) |>
+  ggplot(aes(x, y, fill = r)) +
+  geom_tile() +
+  geom_text(aes(label = sprintf("%.2f", r)), size = 3) +
+  scale_fill_gradient2(low = "#2166AC", mid = "white", high = "#B2182B",
+  limits = c(-1, 1), name = "r") +
+  labs(title = "Correlation Heatmap",
+       subtitle = "Relationships among tuition, finances, and outcomes",
+       x = NULL, y = NULL) +
+  theme(axis.text.x = element_text(angle = 40, hjust = 1))
 ```
 ### Modeling and Results
 
