@@ -451,15 +451,16 @@ Compact view of spread/skew for tuition, finance per-FTE, and 8-year completion;
 
 ```{r}
 # ----figure-1--------------------------------------------------------------
+#| label: fig-dist
+#| fig-cap: "Distributions of Key Variables"
 vis_df |>
   select(tuition_k, rev_fte_k, exp_fte_k, om8_pct_comp) |>
   pivot_longer(everything(), names_to = "metric", values_to = "value") |>
   ggplot(aes(value)) +
   geom_histogram(bins = 40, fill = "#4682B4", color = "white", alpha = 0.85) +
   facet_wrap(~ metric, scales = "free", ncol = 2) +
-  labs(title = "Distributions of Key Variables",
-       subtitle = "Range and skew for tuition, finance per-FTE, and 8-year completion",
-       x = NULL, y = "Count")
+  labs(x = NULL, y = "Count")
+
 ```
 
 #### Figure 2. Tuition vs Completion by Sector
@@ -467,16 +468,14 @@ Sector-stratified scatter; dashed global fit shows overall positive slope while 
 
 ```{r}
 #----figure-2--------------------------------------------------------------
+#| label: fig-tuition-completion
+#| fig-cap: "Tuition vs 8-Year Completion by Sector"
 ggplot(vis_df, aes(tuition1, om8_pct_comp, color = control.y)) +
   geom_point(alpha = 0.5, size = 2) +
   geom_smooth(method = "lm", se = FALSE, linetype = "dashed", color = "gray40") +
   scale_x_continuous(labels = dollar_format()) +
   scale_y_continuous(labels = label_percent(scale = 1)) +
-  labs(title = "Tuition vs 8-Year Completion by Sector",
-       subtitle = "Dashed line shows global linear fit",
-       x = "In-state tuition and fees (USD, academic year)",
-       y = "Completion rate (8-year, %)",
-       color = "Sector")
+  labs(x = "In-state tuition and fees (USD)", y = "Completion rate (8-year, %)", color = "Sector")
 ```
 
 #### Figure 3. Revenue vs Instructional Expense per FTE
@@ -484,15 +483,14 @@ Bivariate financial profile by sector; public clusters tighter, nonprofits span 
 
 ```{r}
 #----figure-3--------------------------------------------------------------
+#| label: fig-rev-exp-fte
+#| fig-cap: "Financial Profile per FTE"
 ggplot(vis_df, aes(rev_fte_k, exp_fte_k, color = control.y)) +
   geom_point(alpha = 0.6, size = 2) +
   scale_x_continuous(labels = label_number(scale_cut = cut_short_scale())) +
   scale_y_continuous(labels = label_number(scale_cut = cut_short_scale())) +
-  labs(title = "Financial Profile per FTE",
-       subtitle = "Revenue vs instructional expense per FTE by sector",
-       x = "Revenue per FTE (thousands USD)",
-       y = "Instructional expense per FTE (thousands USD)",
-       color = "Sector")
+  labs(x = "Revenue per FTE (thousands USD)", y = "Instructional expense per FTE (thousands USD)", color = "Sector")
+
 ```
 
 #### Figure 4. Correlation of Key Variables
@@ -500,19 +498,20 @@ Heatmap of tuition, finance per-FTE, and completion; confirms finance measures m
 
 ```{r}
 #----figure-4--------------------------------------------------------------
+#| label: fig-corr
+#| fig-cap: "Correlation Heatmap of Tuition, Finances, and Outcomes"
 vis_df |>
   select(tuition1, rev_per_fte, instr_exp_fte, om8_pct_comp) |>
-  correlate(method = "pearson", use = "pairwise.complete.obs") |>
-  stretch(na.rm = TRUE) |>
-  ggplot(aes(x, y, fill = r)) +
-  geom_tile() +
-  geom_text(aes(label = sprintf("%.2f", r)), size = 3) +
-  scale_fill_gradient2(low = "#2166AC", mid = "white", high = "#B2182B",
-  limits = c(-1, 1), name = "r") +
-  labs(title = "Correlation Heatmap",
-       subtitle = "Relationships among tuition, finances, and outcomes",
-       x = NULL, y = NULL) +
-  theme(axis.text.x = element_text(angle = 40, hjust = 1))
+    correlate(method = "pearson", use = "pairwise.complete.obs") |>
+      stretch(na.rm = TRUE) |>
+        ggplot(aes(x, y, fill = r)) +
+        geom_tile() +
+        geom_text(aes(label = sprintf("%.2f", r)), size = 3) +
+        scale_fill_gradient2(low = "#2166AC", mid = "white", high = "#B2182B",
+        limits = c(-1, 1), name = "r") +
+        labs(x = NULL, y = NULL) +
+        theme(axis.text.x = element_text(angle = 40, hjust = 1))
+
 ```
 
 
