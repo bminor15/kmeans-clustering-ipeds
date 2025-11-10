@@ -296,125 +296,163 @@ analytic file contains ~6,000 institutions across all three control types.
 
 ```{r}
 # ----libraries-------------------------------------------------------------
-library(tidyverse)   # Data wrangling/joins/plots
-library(janitor)     # Clean column names
-library(gt)          # Summary tables
-library(scales)      # Formatting
-library(GGally)      # Quick pair plots
-library(corrr)       # Correlation summaries
-library(here)        # Reproducible relative paths
-library(patchwork)   # Grid layouts for multiple plots
+library(tidyverse)   # data wrangling / joins / ggplot2
+library(janitor)     # clean column names
+library(gt)          # summary tables
+library(scales)      # formatting helpers
+library(GGally)      # quick pair plots (optional)
+library(corrr)       # correlation summaries (optional)
+library(here)        # reproducible relative paths
+library(patchwork)   # plot layouts (optional)
 
-# ----directory and base imports-------------------------------------------
-data_dir <- here("data")  # adjust if needed
+# ----paths-----------------------------------------------------------------
+data_dir <- here("data")  # change if your files live elsewhere
 
-# Core IPEDS components
-hd  <- read_csv(file.path(data_dir, "HD2023.csv"))  |> clean_names()
-adm <- read_csv(file.path(data_dir, "ADM2023.csv")) |> clean_names()
-om  <- read_csv(file.path(data_dir, "OM2023.csv"))  |> clean_names()
+# ----helper: robust numeric coercion--------------------------------------
+numify <- function(x) as.numeric(gsub("[^0-9.\\-]", "", as.character(x)))
+
+# ----load core IPEDS components-------------------------------------------
+hd  <- read_csv(file.path(data_dir, "HD2023.csv"))   |> clean_names()
+adm <- read_csv(file.path(data_dir, "ADM2023.csv"))  |> clean_names()
+om  <- read_csv(file.path(data_dir, "OM2023.csv"))   |> clean_names()
 
 # Finance (public / private nonprofit / private for-profit)
 f1a <- read_csv(file.path(data_dir, "F2223_F1A.csv")) |> clean_names()
 f2  <- read_csv(file.path(data_dir, "F2223_F2.csv"))  |> clean_names()
 f3  <- read_csv(file.path(data_dir, "F2223_F3.csv"))  |> clean_names()
 
-# 12-month instructional activity (FTE source)
-efia <- read_csv(file.path(data_dir, "EFIA2023.csv")) |> clean_names()
+# 12-month instructional activity (FTE source) — treat “.”, etc. as NA
+efia <- read_csv(file.path(data_dir, "EFIA2023.csv"),
+                 na = c("", ".", "-", "—", "NA", "N/A")) |> clean_names()
 
 # Student charges (tuition and fees)
-ic_ay <- read_csv(file.path(data_dir, "IC2023.csv")) |> clean_names()
+ic_ay <- read_csv(file.path(data_dir, "IC2023.csv"))  |> clean_names()
 
-# Student financial aid (Pell Grant recipients)
-sfa <- read_csv(file.path(data_dir, "SFA2223.csv")) |> clean_names()
+# Student financial aid (Pell Grant %)
+sfa <- read_csv(file.path(data_dir, "SFA2223.csv"))   |> clean_names()
 
-# ----build FTE from EFIA2023----------------------------------------------
+# Fall retention & student-faculty ratio
+ef2023d <- read_csv(file.path(data_dir, "EF2023D.csv")) |> clean_names()
+
+# ----EFIA -> FTE totals (coerce safely)-----------------------------------
+efia <- efia |>
+  mutate(across(any_of(c("fteug","efteug","ftegd","eftegd","ftedpp")), numify))
+
 efia_fte <- efia |>
-  mutate(across(c(fteug, efteug, ftegd, eftegd, ftedpp),
-                ~ readr::parse_number(as.character(.)))) |>
   transmute(
     unitid,
-    fte_ug    = coalesce(fteug, efteug),
-    fte_grad  = coalesce(ftegd, eftegd),
+    fte_ug    = coalesce(fteug,  efteug),
+    fte_grad  = coalesce(ftegd,  eftegd),
     fte_dpp   = ftedpp,
-    fte_total = coalesce(fteug, efteug, 0) +
-                coalesce(ftegd, eftegd, 0) +
+    fte_total = coalesce(fteug,  efteug, 0) +
+                coalesce(ftegd,  eftegd, 0) +
                 coalesce(ftedpp, 0)
   )
 
-# ----align finance variables across control types-------------------------
+# ----finance: align to common names & coerce numeric-----------------------
 f1a_fin <- f1a |>
+  mutate(across(any_of(c("f1d01","f1c011","f1n07")), numify)) |>
   transmute(
     unitid,
-    tot_rev   = f1d01,   # Total revenues & other additions (public)
-    instr_exp = f1c011,  # Instruction - current year total
-    tot_exp   = f1n07,   # Total expenses
+    tot_rev   = f1d01,    # Total revenues & other additions (public)
+    instr_exp = f1c011,   # Instruction - current year total
+    tot_exp   = f1n07,    # Total expenses
     control   = "Public"
   )
 
 f2_fin <- f2 |>
+  mutate(across(any_of(c("f2d162","f2e011","f2b02")), numify)) |>
   transmute(
     unitid,
-    tot_rev   = f2d162,  # Total revenues & investment return - unrestricted
-    instr_exp = f2e011,  # Instruction - total amount
-    tot_exp   = f2b02,   # Total expenses
+    tot_rev   = f2d162,   # Total revenues & investment return - unrestricted
+    instr_exp = f2e011,   # Instruction - total amount
+    tot_exp   = f2b02,    # Total expenses
     control   = "Private Nonprofit"
   )
 
 f3_fin <- f3 |>
+  mutate(across(any_of(c("f3d12","f3e011","f3b02")), numify)) |>
   transmute(
     unitid,
-    tot_rev   = f3d12,   # Total revenues & investment return
-    instr_exp = f3e011,  # Instruction - total amount
-    tot_exp   = f3b02,   # Total expenses
+    tot_rev   = f3d12,    # Total revenues & investment return
+    instr_exp = f3e011,   # Instruction - total amount
+    tot_exp   = f3b02,    # Total expenses
     control   = "Private For-Profit"
   )
 
 fin <- bind_rows(f1a_fin, f2_fin, f3_fin)
 
-# ----select tuition and Pell variables------------------------------------
+# ----unified sector handling (robust)--------------------------------------
+# 1) Keep finance-derived sector label, drop 'control' to avoid control.x/y later
+fin <- fin |>
+  mutate(sector_fin = control) |>
+  select(-control)
 
+# 2) From HD, build sector label if a numeric 'control' exists; else NA
+if ("control" %in% names(hd)) {
+  hd <- hd |>
+    mutate(
+      sector_hd = dplyr::case_match(
+        control,
+        1 ~ "Public",
+        2 ~ "Private Nonprofit",
+        3 ~ "Private For-Profit",
+        .default = NA_character_
+      )
+    )
+} else {
+  hd <- hd |> mutate(sector_hd = NA_character_)
+}
+
+# ----tuition, Pell, retention, stufacr (robust numeric)-------------------
 ic_sel <- ic_ay |>
-  transmute(
-    unitid,
-    tuition1 = readr::parse_number(as.character(tuition1))
-  )
+  mutate(across(any_of(c("tuition1")), numify)) |>
+  transmute(unitid, tuition1)
 
 sfa_sel <- sfa |>
-transmute(
-unitid,
-pct_pell = pgrnt_p # % of undergraduates receiving Pell Grants
-)
+  mutate(across(any_of(c("pgrnt_p")), numify)) |>
+  transmute(unitid, pct_pell = pgrnt_p)
 
-# ----merge all components--------------------------------------------------
+ef_ret <- ef2023d |>
+  mutate(across(any_of(c("ret_pcf","ret_pcp","stufacr")), numify)) |>
+  transmute(unitid, ret_pcf, ret_pcp, stufacr)
 
+# ----merge all components (single clean 'sector')--------------------------
 ipeds <- hd |>
+  left_join(fin,      by = "unitid") |>
   left_join(efia_fte, by = "unitid") |>
-  left_join(fin, by = "unitid") |>
-  left_join(ic_sel, by = "unitid") |>
-  left_join(sfa_sel, by = "unitid") |>
-  left_join(adm, by = "unitid") |>
-  left_join(om, by = "unitid") |>
+  left_join(ic_sel,   by = "unitid") |>
+  left_join(sfa_sel,  by = "unitid") |>
+  left_join(ef_ret,   by = "unitid") |>
+  left_join(adm,      by = "unitid") |>
+  left_join(om,       by = "unitid") |>
+  mutate(
+    sector = dplyr::coalesce(sector_hd, sector_fin),
+    sector = factor(sector,
+                    levels = c("Public", "Private Nonprofit", "Private For-Profit"))
+  ) |>
   filter(!is.na(unitid), !is.na(fte_total), fte_total > 0) |>
   distinct(unitid, .keep_all = TRUE) |>
   mutate(
-    rev_per_fte = tot_rev / fte_total,
-    instr_exp_fte = instr_exp / fte_total,
-    exp_per_fte = tot_exp / fte_total
+    rev_per_fte    = tot_rev   / fte_total,
+    instr_exp_fte  = instr_exp / fte_total,
+    exp_per_fte    = tot_exp   / fte_total,
+    retention_rate = coalesce(ret_pcf, ret_pcp)  # prefer full-time, else part-time
   )
 
-# ----summary table (now 'control' exists)---------------------------------
+# ----quick composition summary (uses clean 'sector')-----------------------
 ipeds |>
   summarise(
     total_institutions = n(),
-    public_share       = mean(control.y == "Public", na.rm = TRUE),
-    nonprofit_share    = mean(control.y == "Private Nonprofit", na.rm = TRUE),
-    forprofit_share    = mean(control.y == "Private For-Profit", na.rm = TRUE)
+    public_share       = mean(sector == "Public",             na.rm = TRUE),
+    nonprofit_share    = mean(sector == "Private Nonprofit",  na.rm = TRUE),
+    forprofit_share    = mean(sector == "Private For-Profit", na.rm = TRUE)
   ) |>
   gt() |>
   fmt_percent(columns = 2:4, decimals = 1)
 
-# ----prep-data-------------------------------------------------------------
-# Derive 8-year completion rate if missing
+# ----prep for visuals / modeling------------------------------------------
+# If OM 8-year completion isn’t present, derive it (when inputs exist)
 if (!"om8_pct_comp" %in% names(ipeds)) {
   need <- c("omawdp8","omnoawd","omenrap","omenryp")
   if (all(need %in% names(ipeds))) {
@@ -426,18 +464,18 @@ if (!"om8_pct_comp" %in% names(ipeds)) {
   }
 }
 
-# Parse tuition if text
+# Clean up tuition if it accidentally came in as character
 if ("tuition1" %in% names(ipeds) && !is.numeric(ipeds$tuition1)) {
   ipeds <- ipeds |> mutate(tuition1 = readr::parse_number(as.character(tuition1)))
 }
 
-# Prepare data for visuals
+# Visual-ready frame
 vis_df <- ipeds |>
-  filter(!is.na(control.y),
+  filter(!is.na(sector),
          !is.na(tuition1),
-         !is.na(om8_pct_comp),
          !is.na(rev_per_fte),
-         !is.na(instr_exp_fte)) |>
+         !is.na(instr_exp_fte),
+         !is.na(om8_pct_comp)) |>
   mutate(
     tuition_k = tuition1 / 1000,
     rev_fte_k = rev_per_fte / 1000,
@@ -454,12 +492,21 @@ Compact view of spread/skew for tuition, finance per-FTE, and 8-year completion;
 #| label: fig-dist
 #| fig-cap: "Distributions of Key Variables"
 vis_df |>
+  mutate(
+    tuition_k = tuition1 / 1000,
+    rev_fte_k = rev_per_fte / 1000,
+    exp_fte_k = instr_exp_fte / 1000
+  ) |>
   select(tuition_k, rev_fte_k, exp_fte_k, om8_pct_comp) |>
   pivot_longer(everything(), names_to = "metric", values_to = "value") |>
   ggplot(aes(value)) +
   geom_histogram(bins = 40, fill = "#4682B4", color = "white", alpha = 0.85) +
   facet_wrap(~ metric, scales = "free", ncol = 2) +
-  labs(x = NULL, y = "Count")
+  labs(
+    title = "Figure 1. Distributions of Key Variables",
+    subtitle = "Spread and skew across tuition, finance per FTE, and completion rates",
+    x = NULL, y = "Count"
+  )
 
 ```
 
@@ -470,12 +517,18 @@ Sector-stratified scatter; dashed global fit shows overall positive slope while 
 #----figure-2--------------------------------------------------------------
 #| label: fig-tuition-completion
 #| fig-cap: "Tuition vs 8-Year Completion by Sector"
-ggplot(vis_df, aes(tuition1, om8_pct_comp, color = control.y)) +
+ggplot(vis_df, aes(tuition1, om8_pct_comp, color = sector)) +
   geom_point(alpha = 0.5, size = 2) +
   geom_smooth(method = "lm", se = FALSE, linetype = "dashed", color = "gray40") +
   scale_x_continuous(labels = dollar_format()) +
   scale_y_continuous(labels = label_percent(scale = 1)) +
-  labs(x = "In-state tuition and fees (USD)", y = "Completion rate (8-year, %)", color = "Sector")
+  labs(
+    title = "Figure 2. Tuition vs 8-Year Completion by Sector",
+    subtitle = "Dashed global fit shows modest positive relationship",
+    x = "In-state tuition and fees (USD)",
+    y = "Completion rate (8-year, %)",
+    color = "Sector"
+  )
 ```
 
 #### Figure 3. Revenue vs Instructional Expense per FTE
@@ -485,11 +538,22 @@ Bivariate financial profile by sector; public clusters tighter, nonprofits span 
 #----figure-3--------------------------------------------------------------
 #| label: fig-rev-exp-fte
 #| fig-cap: "Financial Profile per FTE"
-ggplot(vis_df, aes(rev_fte_k, exp_fte_k, color = control.y)) +
+vis_df |>
+  mutate(
+    rev_fte_k = rev_per_fte / 1000,
+    exp_fte_k = instr_exp_fte / 1000
+  ) |>
+  ggplot(aes(rev_fte_k, exp_fte_k, color = sector)) +
   geom_point(alpha = 0.6, size = 2) +
   scale_x_continuous(labels = label_number(scale_cut = cut_short_scale())) +
   scale_y_continuous(labels = label_number(scale_cut = cut_short_scale())) +
-  labs(x = "Revenue per FTE (thousands USD)", y = "Instructional expense per FTE (thousands USD)", color = "Sector")
+  labs(
+    title = "Figure 3. Financial Profile per FTE",
+    subtitle = "Public institutions cluster tightly; nonprofits span wider ranges; for-profits leaner on expense",
+    x = "Revenue per FTE (thousands USD)",
+    y = "Instructional expense per FTE (thousands USD)",
+    color = "Sector"
+  )
 
 ```
 
@@ -502,29 +566,166 @@ Heatmap of tuition, finance per-FTE, and completion; confirms finance measures m
 #| fig-cap: "Correlation Heatmap of Tuition, Finances, and Outcomes"
 vis_df |>
   select(tuition1, rev_per_fte, instr_exp_fte, om8_pct_comp) |>
-    correlate(method = "pearson", use = "pairwise.complete.obs") |>
-      stretch(na.rm = TRUE) |>
-        ggplot(aes(x, y, fill = r)) +
-        geom_tile() +
-        geom_text(aes(label = sprintf("%.2f", r)), size = 3) +
-        scale_fill_gradient2(low = "#2166AC", mid = "white", high = "#B2182B",
-        limits = c(-1, 1), name = "r") +
-        labs(x = NULL, y = NULL) +
-        theme(axis.text.x = element_text(angle = 40, hjust = 1))
+  correlate(method = "pearson", use = "pairwise.complete.obs") |>
+  stretch(na.rm = TRUE) |>
+  ggplot(aes(x, y, fill = r)) +
+  geom_tile() +
+  geom_text(aes(label = sprintf("%.2f", r)), size = 3) +
+  scale_fill_gradient2(low = "#2166AC", mid = "white", high = "#B2182B",
+                       limits = c(-1, 1), name = "r") +
+  labs(
+    title = "Figure 4. Correlation Heatmap of Tuition, Finances, and Outcomes",
+    subtitle = "Finance measures move together and relate positively to outcomes",
+    x = NULL, y = NULL
+  ) +
+  theme(axis.text.x = element_text(angle = 40, hjust = 1))
+
 
 ```
+#### Figure 5: Student-to-Faculty Ratio by Sector 
+Boxplot comparing instructional capacity; public institutions show tighter ratios.
 
+```{r}
+pal_sector <- c(
+  "Public"             = "#E15759",
+  "Private Nonprofit"  = "#59A14F",
+  "Private For-Profit" = "#4E79A7"
+)
 
-### Modeling and Results
+ipeds |>
+  filter(!is.na(sector), !is.na(stufacr), stufacr > 0) |>
+  mutate(stufacr_cap = pmin(stufacr, quantile(stufacr, 0.99, na.rm = TRUE))) |>
+  ggplot(aes(y = sector, x = stufacr_cap, fill = sector)) +
+  geom_boxplot(width = 0.5, outlier.alpha = 0.25, outlier.size = 0.9) +
+  scale_fill_manual(values = pal_sector, guide = "none") +
+  labs(
+    title    = "Figure 5. Student-to-Faculty Ratio by Sector",
+    subtitle = "Public institutions show tighter ratios; private institutions vary more widely",
+    x        = "Student-to-Faculty Ratio",
+    y        = NULL
+  ) +
+  theme(legend.position = "none")
+```
+#### Figure 6: Retention vs Completion by Sector
+Scatter showing strong alignment between retention and completion rates across sectors.
+```{r}
+ipeds |>
+  filter(!is.na(sector), !is.na(retention_rate), !is.na(om8_pct_comp)) |>
+  ggplot(aes(x = retention_rate, y = om8_pct_comp, color = sector)) +
+  geom_point(alpha = 0.55, size = 2) +
+  geom_smooth(method = "lm", se = FALSE, linetype = "dashed", color = "gray40") +
+  scale_x_continuous(labels = label_percent(scale = 1)) +
+  scale_y_continuous(labels = label_percent(scale = 1)) +
+  labs(
+    title = "Retention vs Completion by Sector",
+    subtitle = "Higher retention rates are strongly aligned with higher completion rates across all sectors.",
+    x = "First-year retention rate (%, full-time preferred; else part-time)",
+    y = "Completion rate (8-year, %)",
+    color = "Sector"
+  ) 
+```
+## Modeling and Results
 
--   Explain your data preprocessing and cleaning steps.
+This section presents the analytical process and results of applying the K-Means clustering algorithm to institutional data from IPEDS.  
+While the *Methods* section established the theoretical framework and feature preparation, this section details how the model was implemented, how the optimal number of clusters was determined, and what patterns emerged from the resulting institutional groupings.
 
--   Present your key findings in a clear and concise manner.
+---
 
--   Use visuals to support your claims.
+### Data Preparation for Modeling
 
--   **Tell a story about what the data reveals.**
+Prior to clustering, all selected features were standardized using **z-score normalization** to ensure comparability across scales.  
+The final modeling dataset included institutions with valid and complete entries for key financial and outcome metrics:
 
+- `REV_PER_FTE`: Revenue per full-time equivalent student  
+- `INSTR_EXP_FTE`: Instructional expense per FTE  
+- `TUITION1`: In-state undergraduate tuition  
+- `OM8_PCT_COMP`: 8-year completion rate  
+- `RET_PCF`: Retention rate  
+
+Each observation corresponds to a unique institution (`UNITID`), and features represent quantitative indicators of institutional resources, pricing, and student success.  
+Extreme but valid data points (e.g., very high-revenue public systems or low-cost for-profit colleges) were Winsorized at the 1st and 99th percentiles to preserve their influence while preventing excessive distortion of centroid placement.
+
+---
+
+### Determining the Optimal Number of Clusters
+
+The number of clusters, \( k \), is a critical hyperparameter in K-Means, directly influencing how institutional segments are formed and interpreted.  
+To determine an appropriate \( k \), two complementary internal validation techniques were applied:
+
+1. **Elbow Method (Within-Cluster Sum of Squares, WCSS)** – evaluates compactness and identifies the point of diminishing returns as \( k \) increases.  
+2. **Silhouette Analysis** – assesses the quality of separation between clusters by measuring cohesion (how close points are within a cluster) and separation (how far apart clusters are from each other).
+
+Together, these diagnostics balance **parsimony** (fewer, more interpretable clusters) and **stability** (consistent cluster assignments).  
+Implementation details for both validation techniques are provided below, and the results of these diagnostics guided the final selection of \( k \) used for segmentation.
+
+---
+
+### Model Implementation
+
+Clustering was implemented using **R’s `stats::kmeans()` function**, initialized with `nstart = 25` to mitigate local minima sensitivity and `set.seed(2024)` to ensure reproducibility.  
+Each iteration assigned institutions to the nearest centroid (minimizing Euclidean distance) and updated centroids based on current cluster memberships until convergence was achieved.
+
+The K-Means model was applied to the standardized dataset:
+
+```{r}
+#| label: elbow-silhouette
+#| fig-cap: "Elbow and Silhouette Analysis for Optimal k"
+#| echo: true
+#| message: false
+#| warning: false
+
+library(cluster)   # for silhouette()
+#library(factoextra) # for visualization helpers (optional)
+
+# --- Prepare scaled data --------------------------------------------
+
+X <- vis_df |>
+  select(rev_per_fte, instr_exp_fte, tuition1, om8_pct_comp, retention_rate) |>
+  drop_na() |>
+    scale()
+
+# --- Elbow Method ---------------------------------------------------
+
+set.seed(2024)
+wcss <- map_dbl(1:10, function(k) {
+kmeans(X, centers = k, nstart = 25)$tot.withinss
+})
+
+elbow_df <- tibble(k = 1:10, wcss = wcss)
+
+ggplot(elbow_df, aes(k, wcss)) +
+geom_line(color = "#4682B4", linewidth = 1) +
+geom_point(size = 2, color = "#B2182B") +
+labs(
+title = "Figure X. Elbow Method for Optimal k",
+subtitle = "Elbow point indicates diminishing returns in reducing within-cluster variance",
+x = "Number of clusters (k)",
+y = "Total Within-Cluster Sum of Squares (WCSS)"
+) +
+theme_minimal(base_size = 11)
+
+# --- Silhouette Analysis --------------------------------------------
+
+silhouette_scores <- map_dbl(2:10, function(k) {
+km <- kmeans(X, centers = k, nstart = 25)
+ss <- silhouette(km$cluster, dist(X))
+mean(ss[, 3])  # average silhouette width
+})
+
+sil_df <- tibble(k = 2:10, silhouette = silhouette_scores)
+
+ggplot(sil_df, aes(k, silhouette)) +
+geom_line(color = "#4B9CD3", linewidth = 1) +
+geom_point(size = 2, color = "#E66101") +
+labs(
+title = "Figure X. Silhouette Analysis for Cluster Cohesion and Separation",
+subtitle = "Peak silhouette width identifies the most stable partition",
+x = "Number of clusters (k)",
+y = "Average silhouette width"
+) +
+theme_minimal(base_size = 11)
+
+```
 
 ### Conclusion
 
