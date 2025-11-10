@@ -626,46 +626,38 @@ ipeds |>
 ```
 ## Modeling and Results
 
-This section presents the analytical process and results of applying the K-Means clustering algorithm to institutional data from IPEDS.  
-While the *Methods* section established the theoretical framework and feature preparation, this section details how the model was implemented, how the optimal number of clusters was determined, and what patterns emerged from the resulting institutional groupings.
+This section presents the analytical process and results of applying the **K-Means clustering algorithm** to institutional data from IPEDS.  
+While the *Methods* section established the theoretical foundations and variable design, this section focuses on how the model was implemented, how the optimal number of clusters was determined, and what structural patterns emerged across institutional segments.
 
 ---
 
 ### Data Preparation for Modeling
 
-Prior to clustering, all selected features were standardized using **z-score normalization** to ensure comparability across scales.  
-The final modeling dataset included institutions with valid and complete entries for key financial and outcome metrics:
+Prior to clustering, all selected quantitative features were standardized using **z-score normalization** to ensure comparability across scales.  
+The final modeling dataset included institutions with valid and complete entries for key financial, access, and outcome metrics:
 
 - `REV_PER_FTE`: Revenue per full-time equivalent student  
 - `INSTR_EXP_FTE`: Instructional expense per FTE  
-- `TUITION1`: In-state undergraduate tuition  
-- `OM8_PCT_COMP`: 8-year completion rate  
-- `RET_PCF`: Retention rate  
+- `TUITION1`: In-state undergraduate tuition and fees  
+- `OM8_PCT_COMP`: 8-year student completion rate  
+- `RETENTION_RATE`: First-year retention (full-time preferred; part-time if missing)  
 
-Each observation corresponds to a unique institution (`UNITID`), and features represent quantitative indicators of institutional resources, pricing, and student success.  
-Extreme but valid data points (e.g., very high-revenue public systems or low-cost for-profit colleges) were Winsorized at the 1st and 99th percentiles to preserve their influence while preventing excessive distortion of centroid placement.
+Each row of the modeling dataset corresponds to a unique institution (`UNITID`), and each column represents a standardized feature describing resources, affordability, or student outcomes.  
+To reduce the influence of extreme but valid outliers—such as very large public university systems or small proprietary colleges—variables were **Winsorized at the 1st and 99th percentiles**, preserving their presence while mitigating skew in centroid placement.
 
 ---
 
 ### Determining the Optimal Number of Clusters
 
-The number of clusters, \( k \), is a critical hyperparameter in K-Means, directly influencing how institutional segments are formed and interpreted.  
-To determine an appropriate \( k \), two complementary internal validation techniques were applied:
+The number of clusters, denoted \( k \), is a critical hyperparameter in K-Means.  
+It determines the granularity of segmentation and directly influences interpretability and model stability.  
+Two complementary internal validation techniques were used to identify a suitable \( k \):
 
-1. **Elbow Method (Within-Cluster Sum of Squares, WCSS)** – evaluates compactness and identifies the point of diminishing returns as \( k \) increases.  
-2. **Silhouette Analysis** – assesses the quality of separation between clusters by measuring cohesion (how close points are within a cluster) and separation (how far apart clusters are from each other).
+1. **Elbow Method (Within-Cluster Sum of Squares, WCSS)** — evaluates the tradeoff between model simplicity and cluster compactness, identifying the “elbow” point where added clusters yield diminishing variance reduction.  
+2. **Silhouette Analysis** — measures the degree of cohesion and separation among clusters, indicating how well each observation fits within its assigned group relative to others.
 
-Together, these diagnostics balance **parsimony** (fewer, more interpretable clusters) and **stability** (consistent cluster assignments).  
-Implementation details for both validation techniques are provided below, and the results of these diagnostics guided the final selection of \( k \) used for segmentation.
-
----
-
-### Model Implementation
-
-Clustering was implemented using **R’s `stats::kmeans()` function**, initialized with `nstart = 25` to mitigate local minima sensitivity and `set.seed(2024)` to ensure reproducibility.  
-Each iteration assigned institutions to the nearest centroid (minimizing Euclidean distance) and updated centroids based on current cluster memberships until convergence was achieved.
-
-The K-Means model was applied to the standardized dataset:
+Together, these diagnostics balance **parsimony** (fewer, more interpretable clusters) and **stability** (coherent, well-separated clusters).  
+Their results guided the final \( k \) selection for institutional segmentation.
 
 ```{r}
 #| label: elbow-silhouette
@@ -674,59 +666,55 @@ The K-Means model was applied to the standardized dataset:
 #| message: false
 #| warning: false
 
-library(cluster)   # for silhouette()
-#library(factoextra) # for visualization helpers (optional)
+library(cluster)
 
-# --- Prepare scaled data --------------------------------------------
-
+# --- Prepare scaled data --------------------------------------------------
 X <- vis_df |>
   select(rev_per_fte, instr_exp_fte, tuition1, om8_pct_comp, retention_rate) |>
   drop_na() |>
-    scale()
+  scale()
 
-# --- Elbow Method ---------------------------------------------------
-
+# --- Elbow Method --------------------------------------------------------
 set.seed(2024)
-wcss <- map_dbl(1:10, function(k) {
-kmeans(X, centers = k, nstart = 25)$tot.withinss
-})
-
+wcss <- map_dbl(1:10, ~ kmeans(X, centers = .x, nstart = 25)$tot.withinss)
 elbow_df <- tibble(k = 1:10, wcss = wcss)
 
 ggplot(elbow_df, aes(k, wcss)) +
-geom_line(color = "#4682B4", linewidth = 1) +
-geom_point(size = 2, color = "#B2182B") +
-labs(
-title = "Figure X. Elbow Method for Optimal k",
-subtitle = "Elbow point indicates diminishing returns in reducing within-cluster variance",
-x = "Number of clusters (k)",
-y = "Total Within-Cluster Sum of Squares (WCSS)"
-) +
-theme_minimal(base_size = 11)
+  geom_line(color = "#4682B4", linewidth = 1) +
+  geom_point(size = 2, color = "#B2182B") +
+  geom_vline(xintercept = 4, linetype = "dashed", color = "gray50") +
+  annotate("text", x = 4.2, y = max(wcss)*0.8, label = "Elbow ≈ 4", hjust = 0, size = 3.3) +
+  labs(
+    title = "Figure 7. Elbow Method for Optimal k",
+    subtitle = "Elbow point indicates diminishing returns in within-cluster variance reduction",
+    x = "Number of clusters (k)",
+    y = "Total Within-Cluster Sum of Squares (WCSS)"
+  ) +
+  theme_minimal(base_size = 11)
 
-# --- Silhouette Analysis --------------------------------------------
-
+# --- Silhouette Analysis -------------------------------------------------
 silhouette_scores <- map_dbl(2:10, function(k) {
-km <- kmeans(X, centers = k, nstart = 25)
-ss <- silhouette(km$cluster, dist(X))
-mean(ss[, 3])  # average silhouette width
+  km <- kmeans(X, centers = k, nstart = 25)
+  ss <- silhouette(km$cluster, dist(X))
+  mean(ss[, 3])
 })
 
 sil_df <- tibble(k = 2:10, silhouette = silhouette_scores)
 
 ggplot(sil_df, aes(k, silhouette)) +
-geom_line(color = "#4B9CD3", linewidth = 1) +
-geom_point(size = 2, color = "#E66101") +
-labs(
-title = "Figure X. Silhouette Analysis for Cluster Cohesion and Separation",
-subtitle = "Peak silhouette width identifies the most stable partition",
-x = "Number of clusters (k)",
-y = "Average silhouette width"
-) +
-theme_minimal(base_size = 11)
+  geom_line(color = "#4B9CD3", linewidth = 1) +
+  geom_point(size = 2, color = "#E66101") +
+  geom_vline(xintercept = 4, linetype = "dashed", color = "gray50") +
+  annotate("text", x = 4.3, y = max(silhouette_scores)*0.97, label = "Peak ≈ 4", hjust = 0, size = 3.3) +
+  labs(
+    title = "Figure 8. Silhouette Analysis for Cluster Cohesion and Separation",
+    subtitle = "Peak silhouette width identifies the most stable partition",
+    x = "Number of clusters (k)",
+    y = "Average silhouette width"
+  ) +
+  theme_minimal(base_size = 11)
 
 ```
-
 ### Conclusion
 
 -   Summarize your key findings.
