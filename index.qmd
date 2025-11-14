@@ -234,7 +234,7 @@ The actual determination of \\(k\\) and cluster interpretation will be presented
 
 ## Analysis and Results
 
-### Data Description and Visualization
+### Data Exploration and Visualization
 
 #### Dataset Overview
 
@@ -624,14 +624,14 @@ ipeds |>
     color = "Sector"
   ) 
 ```
-## Modeling and Results
+### Modeling and Results
 
 This section presents the analytical process and results of applying the **K-Means clustering algorithm** to institutional data from IPEDS.  
 While the *Methods* section established the theoretical foundations and variable design, this section focuses on how the model was implemented, how the optimal number of clusters was determined, and what structural patterns emerged across institutional segments.
 
 ---
 
-### Data Preparation for Modeling
+#### Data Preparation for Modeling
 
 Prior to clustering, all selected quantitative features were standardized using **z-score normalization** to ensure comparability across scales.  
 The final modeling dataset included institutions with valid and complete entries for key financial, access, and outcome metrics:
@@ -649,15 +649,14 @@ To reduce the influence of extreme but valid outliers—such as very large publi
 
 ### Determining the Optimal Number of Clusters
 
-The number of clusters, denoted \( k \), is a critical hyperparameter in K-Means.  
-It determines the granularity of segmentation and directly influences interpretability and model stability.  
-Two complementary internal validation techniques were used to identify a suitable \( k \):
+Selecting an appropriate number of clusters, \( k \), is a key decision in K-Means because it determines the level of segmentation and affects both interpretability and model stability.  
+To guide this choice, two internal validation techniques were applied:
 
-1. **Elbow Method (Within-Cluster Sum of Squares, WCSS)** — evaluates the tradeoff between model simplicity and cluster compactness, identifying the “elbow” point where added clusters yield diminishing variance reduction.  
-2. **Silhouette Analysis** — measures the degree of cohesion and separation among clusters, indicating how well each observation fits within its assigned group relative to others.
+1. **Elbow Method (Within-Cluster Sum of Squares, WCSS)** — identifies the point at which adding more clusters produces diminishing improvements in compactness.  
+2. **Silhouette Analysis** — evaluates how well each institution fits within its assigned cluster compared to neighboring clusters.
 
-Together, these diagnostics balance **parsimony** (fewer, more interpretable clusters) and **stability** (coherent, well-separated clusters).  
-Their results guided the final \( k \) selection for institutional segmentation.
+Together, these diagnostics balance **parsimony** (use fewer, more interpretable clusters) and **stability** (ensure clusters are coherent and well separated).  
+Both methods pointed toward **\( k \approx 4 \)** as a stable and interpretable solution.
 
 ```{r}
 #| label: elbow-silhouette
@@ -668,13 +667,13 @@ Their results guided the final \( k \) selection for institutional segmentation.
 
 library(cluster)
 
-# --- Prepare scaled data --------------------------------------------------
+# Prepare modeling matrix
 X <- vis_df |>
   select(rev_per_fte, instr_exp_fte, tuition1, om8_pct_comp, retention_rate) |>
   drop_na() |>
   scale()
 
-# --- Elbow Method --------------------------------------------------------
+# --- Elbow ---------------------------------------------------------
 set.seed(2024)
 wcss <- map_dbl(1:10, ~ kmeans(X, centers = .x, nstart = 25)$tot.withinss)
 elbow_df <- tibble(k = 1:10, wcss = wcss)
@@ -683,16 +682,16 @@ ggplot(elbow_df, aes(k, wcss)) +
   geom_line(color = "#4682B4", linewidth = 1) +
   geom_point(size = 2, color = "#B2182B") +
   geom_vline(xintercept = 4, linetype = "dashed", color = "gray50") +
-  annotate("text", x = 4.2, y = max(wcss)*0.8, label = "Elbow ≈ 4", hjust = 0, size = 3.3) +
+  annotate("text", x = 4.25, y = max(wcss)*0.8, label = "Elbow ≈ 4", size = 3.2, hjust = 0) +
   labs(
     title = "Figure 7. Elbow Method for Optimal k",
-    subtitle = "Elbow point indicates diminishing returns in within-cluster variance reduction",
+    subtitle = "Elbow point suggests diminishing returns beyond k = 4",
     x = "Number of clusters (k)",
     y = "Total Within-Cluster Sum of Squares (WCSS)"
   ) +
   theme_minimal(base_size = 11)
 
-# --- Silhouette Analysis -------------------------------------------------
+# --- Silhouette -----------------------------------------------------
 silhouette_scores <- map_dbl(2:10, function(k) {
   km <- kmeans(X, centers = k, nstart = 25)
   ss <- silhouette(km$cluster, dist(X))
@@ -705,16 +704,138 @@ ggplot(sil_df, aes(k, silhouette)) +
   geom_line(color = "#4B9CD3", linewidth = 1) +
   geom_point(size = 2, color = "#E66101") +
   geom_vline(xintercept = 4, linetype = "dashed", color = "gray50") +
-  annotate("text", x = 4.3, y = max(silhouette_scores)*0.97, label = "Peak ≈ 4", hjust = 0, size = 3.3) +
+  annotate("text", x = 4.3, y = max(silhouette_scores)*0.97, label = "Peak ≈ 4", size = 3.2, hjust = 0) +
   labs(
     title = "Figure 8. Silhouette Analysis for Cluster Cohesion and Separation",
-    subtitle = "Peak silhouette width identifies the most stable partition",
+    subtitle = "Peak silhouette width supports k = 4",
     x = "Number of clusters (k)",
     y = "Average silhouette width"
   ) +
   theme_minimal(base_size = 11)
 
 ```
+```{r}
+#| label: final-kmeans
+#| fig-cap: "K-Means Segmentation Results (k = 4)"
+#| echo: true
+#| message: false
+#| warning: false
+
+set.seed(2024)
+final_k <- 4
+
+# Build modeling data consistently
+
+model_df <- vis_df |>
+  select(rev_per_fte, instr_exp_fte, tuition1, om8_pct_comp, retention_rate) |>
+    drop_na()
+
+# Fit model
+
+X <- scale(model_df)
+k_model <- kmeans(X, centers = final_k, nstart = 25)
+
+ipeds_clustered <- model_df |>
+  mutate(cluster = factor(k_model$cluster))
+
+# Summary table
+
+cluster_summary <- ipeds_clustered |>
+  group_by(cluster) |>
+    summarise(
+    avg_tuition     = mean(tuition1, na.rm = TRUE),
+    avg_rev_fte     = mean(rev_per_fte, na.rm = TRUE),
+    avg_exp_fte     = mean(instr_exp_fte, na.rm = TRUE),
+    avg_completion  = mean(om8_pct_comp, na.rm = TRUE),
+    avg_retention   = mean(retention_rate, na.rm = TRUE),
+    n               = n()
+)
+
+cluster_summary |>
+  gt() |>
+    fmt_currency(columns = c(avg_tuition, avg_rev_fte, avg_exp_fte), decimals = 0) |>
+    fmt_percent(columns = c(avg_completion, avg_retention), scale_values = FALSE, decimals = 1) |>
+    tab_header(
+    title = "Table 1. Cluster-Level Summary Statistics",
+    subtitle = "Average tuition, resources, and outcomes across institutional clusters"
+)
+```
+```{r}
+#| label: fig-cluster-counts
+#| fig-cap: "Distribution of Institutions Across Clusters (k = 4)"
+#| echo: true
+
+ipeds_clustered |>
+  ggplot(aes(x = cluster, fill = cluster)) +
+  geom_bar(alpha = 0.9) +
+  scale_fill_brewer(palette = "Set2") +
+  labs(
+    x = "Cluster",
+    y = "Count of Institutions",
+    title = "Figure 9. Distribution of Institutions Across Clusters",
+    subtitle = "Shows overall size of each institutional group under k = 4"
+  ) +
+  theme_minimal(base_size = 11) +
+  theme(legend.position = "none")
+```
+### Cluster Segmentation Narratives
+
+#### Cluster 1 — Broad-Access, Lower-Resource Institutions
+
+This segment tends to include institutions with lower tuition, limited instructional spending, and below-average completion rates.  
+They represent colleges—often regional, commuter-serving, or open-access—where affordability is high but where resource constraints may shape academic support, staff capacity, or programmatic breadth.  
+Retention is modest, suggesting challenges in sustaining enrollment persistence.
+
+#### Cluster 2 — Moderately Resourced Institutions with Balanced Outcomes
+
+Cluster 2 exhibits mid-range tuition, moderate spending, and solid student outcomes.  
+These institutions appear to represent a “middle tier” of higher education, offering a balanced profile of cost and performance.  
+They may include a mix of regional publics and private nonprofits that maintain stable student success metrics without the highest resource levels.
+
+#### Cluster 3 — High-Tuition, High-Resource Institutions
+
+Institutions in this segment show substantially higher tuition, significant instructional investment, and correspondingly high retention and completion rates.  
+This cluster aligns with more selective universities and well-resourced private institutions that leverage expenditure intensity to support stronger student outcomes.  
+It reflects a “high input, high output” model common among established four-year universities.
+
+#### Cluster 4 — Low-Tuition but Strong-Outcome Institutions
+
+This unique segment includes institutions that maintain lower-than-average tuition but still sustain strong completion and retention rates.  
+These schools appear to be highly efficient institutions—often public universities or community colleges with well-supported completion pathways—demonstrating that strong outcomes do not uniformly require high expenditure levels.  
+Their position in the feature space suggests an alternative efficiency-driven model of student success.
+
+### Visualizing Cluster Structure in Feature Space
+
+To provide an additional view of how clusters separate in high-dimensional space, the standardized feature matrix was projected into two components using Principal Component Analysis (PCA).  
+While PCA is not used for modeling, it offers a compact visual summary of group separation and highlights whether the four clusters form identifiable, coherent regions.
+
+```{r}
+#| label: fig-pca-clusters
+#| fig-cap: "PCA Projection of Institutions Colored by Cluster Membership"
+#| echo: true
+#| message: false
+#| warning: false
+
+# library(factoextra)
+
+pca_res <- prcomp(X, scale. = FALSE)
+
+pca_df <- as_tibble(pca_res$x[, 1:2]) |>
+mutate(cluster = ipeds_clustered$cluster)
+
+ggplot(pca_df, aes(PC1, PC2, color = cluster)) +
+geom_point(alpha = 0.7, size = 2) +
+scale_color_brewer(palette = "Set2") +
+labs(
+x = "Principal Component 1",
+y = "Principal Component 2",
+title = "Figure 10. PCA Visualization of K-Means Clusters",
+subtitle = "Shows how clusters separate across the first two principal components"
+) +
+theme_minimal(base_size = 11)
+```
+
+
 ### Conclusion
 
 -   Summarize your key findings.
