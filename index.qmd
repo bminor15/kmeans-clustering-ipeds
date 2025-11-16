@@ -5,11 +5,10 @@ date: '`r Sys.Date()`'
 format:
   html:
     code-fold: true
-    link-citations: true       # <-- move here
-    link-bibliography: true    # <-- and here
+    link-citations: true
+    link-bibliography: true
 course: Capstone Projects in Data Science
-bibliography: references.bib # file contains bibtex for references
-#always_allow_html: true # this allows to get PDF with HTML features
+bibliography: references.bib
 nocite: "@*"
 self-contained: true
 execute: 
@@ -20,23 +19,53 @@ editor:
     wrap: 72
 ---
 
-Slides: [slides.html](slides.html){target="_blank"} ( Go to `slides.qmd`
-to edit)
-
-
+Slides: [slides.html](slides.html){target="_blank"} (Go to `slides.qmd`
+to edit.)
 
 ## Introduction
 
-Clustering is a central technique in unsupervised machine learning, designed to reveal natural groupings within complex datasets where class labels are unknown. Among its methods, K-Means clustering remains widely applied for its simplicity, scalability, and interpretability [@mohdtalib2023behavioral]. The algorithm partitions data into *k* groups based on similarity, minimizing within-cluster variance while maximizing between-cluster separation. This structure is valuable when the goal is understanding rather than prediction, such as comparing institutions by quantitative indicators of performance, resources, and access.
+Clustering is a central technique in unsupervised machine learning, used to
+reveal natural groupings within complex datasets where class labels are
+unknown. Among its methods, K-Means clustering remains widely applied for its
+simplicity, scalability, and interpretability [@mohdtalib2023behavioral]. The
+algorithm partitions data into \(k\) groups based on similarity, minimizing
+within-cluster variance while increasing separation between clusters. This
+structure is valuable when the goal is understanding rather than prediction,
+such as comparing institutions by quantitative indicators of performance,
+resources, and access.
 
-In higher education research, cluster analysis has long been used to explore structural and performance diversity across institutions [@huberty2005cluster]. This approach enables analyses that move beyond categorical labels and examine measurable dimensions such as outcomes, funding, and enrollment scale. A two-stage framework that combines factor analysis with clustering has also been proposed to derive empirically grounded institutional types [@elam2016classification].
+In higher education research, cluster analysis has long been used to explore
+structural and performance diversity across institutions [@huberty2005cluster].
+This approach makes it possible to move beyond broad categorical labels and
+examine measurable dimensions such as outcomes, funding, and enrollment scale.
+A two-stage framework that combines factor analysis with clustering has also
+been proposed to derive empirically grounded institutional types
+[@elam2016classification].
 
-Standardized data and documentation have increased the reliability of these methods [@nces2023groupings]. Best practices for merging and cleaning educational datasets emphasize reproducibility and schema consistency in large-scale analysis [@kelchen2019merging]. Together, these sources point to the value of structured, data-driven methods in institutional research. The Integrated Postsecondary Education Data System (IPEDS), maintained by the National Center for Education Statistics, provides the standardized foundation for this type of large-scale institutional analysis. IPEDS collects consistent and comparable data on U.S. colleges and universities, making it a central source for empirical studies that analyze institutional differences through quantitative modeling.
+Standardized data and documentation have increased the reliability of these
+methods [@nces2023groupings]. Best practices for merging and cleaning
+educational datasets emphasize reproducibility and schema consistency in
+large-scale analysis [@kelchen2019merging]. Together, these sources point to
+the value of structured, data-driven methods in institutional research. The
+Integrated Postsecondary Education Data System (IPEDS), maintained by the
+National Center for Education Statistics, provides the standardized foundation
+for this type of large-scale institutional analysis. IPEDS collects consistent
+and comparable data on U.S. colleges and universities, making it a central
+source for empirical studies that analyze institutional differences through
+quantitative modeling.
 
-Hybrid models further advance peer identification by pairing quantitative clustering with expert validation, improving interpretability and practical use [@tair2022peer]. This balance between algorithmic precision and contextual review supports robust benchmarking and decision-making.
+Hybrid models further advance peer identification by pairing quantitative
+clustering with expert validation, improving interpretability and practical use
+[@tair2022peer]. This balance between algorithmic structure and contextual
+review supports robust benchmarking and decision-making.
 
-The present study applies K-Means clustering to IPEDS data to identify data-driven groupings of postsecondary institutions based on financial, academic, and outcome indicators. The objective is to uncover underlying institutional profiles that describe how U.S. colleges and universities align or differ in measurable ways, offering a transparent and scalable framework for understanding institutional diversity [@huberty2005cluster; @nces2023groupings; @elam2016classification].
-
+The present study applies K-Means clustering to IPEDS data to identify
+data-driven groupings of postsecondary institutions based on financial,
+academic, and outcome indicators. The objective is to uncover underlying
+institutional profiles that describe how U.S. colleges and universities align
+or differ in measurable ways, offering a transparent and scalable framework for
+understanding institutional diversity [@huberty2005cluster;
+@nces2023groupings; @elam2016classification].
 
 ## Literature Review
 
@@ -45,121 +74,207 @@ The present study applies K-Means clustering to IPEDS data to identify data-driv
 
 <div class="markdown" style="margin-top:1rem;">
 
-**Cluster Analysis in Higher Education Research**  
-[PDF Link – Springer](https://link.springer.com/content/pdf/10.1007/1-4020-3279-X_8.pdf)  
-The chapter reviews how cluster analysis is used to study diversity and structure among higher education institutions. The authors explain how statistical grouping exposes institutional similarities that typical classification systems overlook. They discuss the method’s flexibility for understanding performance and policy patterns across universities and show how it can support empirical research on institutional behavior.  
-
----
-
-**Institutional Groupings in IPEDS: Considerations for Data Use**  
-[Web Link – NCES](https://nces.ed.gov/ipeds/use-the-data/institutional-groupings-in-ipeds)  
-This NCES publication outlines the logic and procedures for creating institutional groupings using standardized IPEDS variables. It focuses on the need for consistency, variable alignment, and transparency when comparing data across schools. The document highlights how structured variable relationships can support reproducible and fair institutional comparisons across the national education system.  
-
----
-
-**Identification of Student Behavioral Patterns in Higher Education Using K-Means Clustering and Support Vector Machine**  
-[PDF Link – MDPI Applied Sciences](https://www.mdpi.com/2076-3417/13/5/3267)  
-The study applies K-Means clustering to student behavior and performance data, validating results with a Support Vector Machine. The authors used normalized features, centroid checks, and cluster validation to identify three distinct learning behavior groups. They found that clustering helped simplify large datasets into actionable patterns, showing how unsupervised models can classify educational behavior at scale.  
-
----
-
 **Proposal of a New Method to Classify Higher Education Institutions**  
 [PDF Link – Otterbein University Digital Commons](https://digitalcommons.otterbein.edu/cgi/viewcontent.cgi?article=1031&context=stu_dist)  
-This thesis introduces a two-step method that combines factor analysis and cluster analysis to build a new classification of universities. The author selected academic, financial, and demographic indicators to find groupings that better represent institutional diversity. The results show that data-driven group formation can outperform fixed classification systems and highlight how numerical traits can define institutional identity.  
+Elam (2016) develops a two-step method that combines factor analysis and
+cluster analysis to generate a new, data-driven classification of higher
+education institutions. The study selects academic, financial, and demographic
+variables, then uses clustering to uncover institutional types that better
+reflect observed diversity than traditional labels. The results show how
+quantitative segmentation can support more nuanced comparisons among colleges
+and universities.
 
 ---
 
-**A Hybrid Approach to Identifying National Peer Institutions**  
-[PDF Link – Texas Association for Institutional Research (TAIR)](https://www.texas-air.org/wp-content/uploads/2022/03/E3-A-Hybrid-Approach-to-Identifying-National-Peer-Institutions.pdf)  
-This report explains how statistical clustering and expert review can be combined to identify peer institutions. Quantitative results were first generated from performance and enrollment data, then refined through institutional judgment to improve interpretability. The authors conclude that pairing data models with professional context leads to more balanced and credible peer comparisons.  
+**Cluster Analysis of Multivariate Data: Efficiency Versus Interpretability of Classifications**  
+[PDF Link – Biometrics (JSTOR/Publisher site)](https://doi.org/10.2307/2528559)  
+Forgy (1965) is one of the early papers that lays out practical procedures for
+cluster analysis in multivariate settings, including what became known as the
+“Forgy initialization” for K-Means. The work discusses trade-offs between
+statistical efficiency and interpretability when constructing groups from
+continuous variables. It provides foundational guidance on how to select and
+evaluate clustering structures, which informs later algorithmic choices in this
+project.
+
+---
+
+**Cluster Analysis in Higher Education Research**  
+[PDF Link – Springer](https://link.springer.com/content/pdf/10.1007/1-4020-3279-X_8.pdf)  
+Huberty, Jordan, and Brandt (2005) review how cluster analysis has been used to
+study structural diversity and performance patterns across higher education
+institutions. They show that statistical grouping can reveal institutional
+similarities that conventional categories obscure, especially when using
+multiple financial and outcome measures. The chapter also emphasizes
+methodological issues such as variable selection, scaling, and validation, all
+of which directly shape the design of this capstone.
+
+---
+
+**Data Clustering: 50 Years Beyond K-Means**  
+[PDF Link – Pattern Recognition Letters](https://doi.org/10.1016/j.patrec.2009.09.011)  
+Jain (2010) surveys five decades of clustering research, using K-Means as a
+starting point and comparing it to alternative algorithms and distance
+measures. The paper highlights strengths of K-Means—speed, simplicity, and
+interpretability—while also noting limitations around non-spherical clusters
+and sensitivity to initialization. This broad context supports the decision to
+use K-Means here while being clear about what kinds of structure it can and
+cannot capture in institutional data.
 
 ---
 
 **Merging Data to Facilitate Analyses**  
 [PDF Link – Robert Kelchen](https://robertkelchen.com/wp-content/uploads/2019/11/kelchen_merging_original.pdf)  
-Kelchen describes the process of joining and cleaning educational data for large-scale analysis. The guide details how to handle schema differences, missing values, and inconsistent labels across datasets like IPEDS and federal records. It stresses the importance of reproducibility and documentation when merging data sources to maintain accuracy in quantitative research.  
+Kelchen (2019) provides a practical guide to joining and cleaning education
+datasets such as IPEDS and federal aid files. The report walks through common
+problems—schema differences, missing values, duplicated identifiers, and
+inconsistent labels—and recommends documentation practices for reproducible
+research. This study follows those recommendations in how IPEDS components are
+merged on `UNITID`, how derived variables (for example, revenue per FTE) are
+constructed, and how missingness is handled.
 
+---
+
+**Least Squares Quantization in PCM**  
+[PDF Link – IEEE Transactions on Information Theory](https://doi.org/10.1109/TIT.1982.1056489)  
+Lloyd (1982) formalizes what is now widely known as the Lloyd algorithm for
+K-Means clustering, framing it as a least-squares quantization problem. The
+paper provides the iterative assignment-and-update procedure and shows that it
+monotonically decreases the objective function, even though it may converge to
+local minima. This work provides the mathematical basis for the K-Means
+implementation used in the capstone and justifies the use of multiple random
+starts.
+
+---
+
+**Identification of Student Behavioral Patterns in Higher Education Using K-Means Clustering and Support Vector Machine**  
+[PDF Link – MDPI Applied Sciences](https://www.mdpi.com/2076-3417/13/5/3267)  
+Mohd Talib et al. (2023) apply K-Means clustering to student behavior and
+performance data, then use a Support Vector Machine to validate the resulting
+groups. They show how normalized features and careful cluster validation can
+reveal distinct learning behavior patterns that are actionable for instructors.
+The study illustrates how unsupervised clustering can simplify complex
+education datasets into interpretable segments, reinforcing the modeling
+choices in this project.
+
+---
+
+**Institutional Groupings in IPEDS: Considerations for Data Use**  
+[Web Link – NCES](https://nces.ed.gov/ipeds/use-the-data/institutional-groupings-in-ipeds)  
+The NCES guidance on institutional groupings explains how IPEDS constructs and
+documents sector, control, and other grouping variables. It stresses the need
+for consistency and transparency when comparing institutions across official
+groupings and derived peer sets. These recommendations motivate the use of
+clear sector labels, harmonized finance fields, and reproducible code when
+constructing the analytic file.
+
+---
+
+**A Hybrid Approach to Identifying National Peer Institutions**  
+[PDF Link – Texas Association for Institutional Research (TAIR)](https://www.texas-air.org/wp-content/uploads/2022/03/E3-A-Hybrid-Approach-to-Identifying-National-Peer-Institutions.pdf)  
+The TAIR report describes a hybrid approach that combines statistical clustering
+with expert judgment to identify peer institutions. Initial peer groups are
+generated from performance and enrollment data, then refined through local
+review to improve face validity and usefulness. This work underscores that
+cluster results gain value when paired with institutional context, a point that
+frames this capstone’s clusters as a starting point for peer benchmarking
+rather than a final classification.
 
 </div>
 </details>
 
+
 ## Methods
 
-This study applies the **K-Means clustering algorithm** to group U.S. higher education institutions into data-driven segments based on scale, resources, access, and outcomes.  
-The process follows the standard **Lloyd–Forgy heuristic** for iterative centroid-based optimization, as described in the literature on higher education clustering and institutional classification [@lloyd1982least].
+This study applies the **K-Means clustering algorithm** to group U.S. higher
+education institutions into data-driven segments based on scale, resources,
+access, and outcomes. The process follows the standard Lloyd–Forgy heuristic
+for iterative centroid-based optimization, as described in the literature on
+higher education clustering and institutional classification [@lloyd1982least].
 
 ---
 
 ### Objective and Notation
 
-Let $X \in \mathbb{R}^{n \times d}$ be the standardized feature matrix, where each row represents an institution and each column a numeric feature (e.g., revenue per FTE, tuition, completion rate).  
-The goal of K-Means is to partition $n$ observations into $k$ clusters $C = \{C_1, C_2, \ldots, C_k\}$ and determine centroids $\{\mu_1, \mu_2, \ldots, \mu_k\}$ that **minimize the within-cluster sum of squares (WCSS)**:
+Let \(X \in \mathbb{R}^{n \times d}\) be the standardized feature matrix, where
+each row represents an institution and each column a numeric feature (for
+example, revenue per FTE, tuition, or completion rate). The goal of K-Means is
+to partition \(n\) observations into \(k\) clusters
+\(C = \{C_1, C_2, \ldots, C_k\}\) and determine centroids
+\(\{\mu_1, \mu_2, \ldots, \mu_k\}\) that minimize the within-cluster sum of
+squares (WCSS):
 
 $$
 \min_{C} \sum_{i=1}^{k} \sum_{x_j \in C_i} \|x_j - \mu_i\|^2
 $$
 
-For a fixed cluster assignment, the optimal centroid $\mu_i$ is the arithmetic mean of all observations in $C_i$:
+For a fixed cluster assignment, the optimal centroid \(\mu_i\) is the
+arithmetic mean of all observations in \(C_i\):
 
 $$
 \mu_i = \frac{1}{|C_i|} \sum_{x_j \in C_i} x_j
 $$
 
-This optimization problem is **NP-hard** in general; hence, the standard **Lloyd–Forgy iterative heuristic** [@lloyd1982least] is used to approximate convergence through alternating assignment and update steps.
-
+This optimization problem is NP-hard in general, so the standard Lloyd–Forgy
+iterative heuristic [@lloyd1982least] is used to approximate convergence
+through alternating assignment and update steps.
 
 ---
 
-### Lloyd’s Algorithm (Assignment–Update Steps)
+### Lloyd’s Algorithm (Assignment and Update)
 
-The algorithm alternates between two main phases until convergence:
+The algorithm alternates between two phases until it converges:
 
-1. **Assignment Step:**
-   Each observation is assigned to the nearest cluster centroid based on Euclidean distance:
+1. **Assignment step**  
+   Each observation is assigned to the nearest cluster centroid based on
+   Euclidean distance:
    $$
-   C_i^{(t)} = \{x_j : \|x_j - \mu_i^{(t)}\|^2 \leq \|x_j - \mu_r^{(t)}\|^2, \ \forall r \in \{1, \ldots, k\}\}
+   C_i^{(t)} = \{x_j : \|x_j - \mu_i^{(t)}\|^2 \leq \|x_j - \mu_r^{(t)}\|^2,\ \forall r \in \{1, \ldots, k\}\}
    $$
 
-2. **Update Step:**
-   After assignments, centroids are updated to reflect the mean of their current members:
+2. **Update step**  
+   After assignments, centroids are updated to reflect the mean of their
+   current members:
    $$
    \mu_i^{(t+1)} = \frac{1}{|C_i^{(t)}|} \sum_{x_j \in C_i^{(t)}} x_j
    $$
 
-The process repeats until convergence, typically defined as minimal change in cluster assignments or centroid positions between iterations [@lloyd1982least].
+The process repeats until there is minimal change in cluster assignments or
+centroid locations between iterations [@lloyd1982least].
 
 ---
 
 ### Feature Scaling and Preprocessing
 
-Because IPEDS variables differ in magnitude and measurement units  
-(e.g., tuition in USD, completion rate as percentages, and revenue per FTE in dollars),  
-all continuous numeric variables were standardized using **z-score normalization** prior to clustering [@lloyd1982least; @huberty2005cluster]:
+Because IPEDS variables differ in magnitude and measurement units (for example,
+tuition in USD, completion rates as percentages, and revenue per FTE in
+dollars), all continuous numeric variables were standardized using **z-score
+normalization** prior to clustering [@lloyd1982least; @huberty2005cluster]:
 
 $$
 z = \frac{x - \bar{x}}{s}
 $$
 
-where \( \bar{x} \) is the sample mean and \( s \) is the sample standard deviation.  
-This ensures that each variable contributes equally to the **Euclidean distance** computation  
-used in centroid assignment during K-Means clustering [@lloyd1982least].
+where \(\bar{x}\) is the sample mean and \(s\) is the sample standard deviation.
+This ensures that each variable contributes on a comparable scale to the
+Euclidean distances used in K-Means clustering [@lloyd1982least].
 
-Categorical fields, such as institutional control type, were excluded from normalization  
-but used later as grouping labels for post-cluster interpretation and comparison.
+Categorical fields, such as institutional control type, were not standardized.
+Instead, they were reserved for post-cluster interpretation and comparison.
 
-To mitigate distortion from extreme yet valid institutional profiles (e.g., very large public systems  
-or small for-profit colleges), **Winsorization** was applied to cap values beyond the 1st and 99th percentiles.  
-This preserves the influence of true outliers while reducing their leverage on centroid placement,  
-preventing skew in the cluster boundaries without arbitrarily discarding institutions [@huberty2005cluster].
-
-
+To lessen the impact of extreme but valid institutional profiles (for example,
+very large public systems or small for-profit colleges), **Winsorization** was
+applied to cap values beyond the 1st and 99th percentiles. This preserves the
+presence of these institutions while limiting their leverage on centroid
+placement and cluster boundaries [@huberty2005cluster].
 
 ---
 
 ### Implementation Procedure
 
-K-Means was implemented using **R’s base `stats::kmeans()` function** with multiple random initializations (`nstart = 25`) to mitigate sensitivity to initial centroid placement.  
-To ensure reproducibility, all random seeds were fixed (`set.seed(2024)`).
+K-Means was implemented using R’s base `stats::kmeans()` function with multiple
+random initializations (`nstart = 25`) to reduce sensitivity to initial
+centroid placement. To ensure reproducibility, all random seeds were fixed
+using `set.seed(2024)`.
 
 Cluster inputs included:
 
@@ -167,72 +282,89 @@ Cluster inputs included:
 - `INSTR_EXP_FTE` (instructional expenses per FTE)
 - `TUITION1` (in-state undergraduate tuition)
 - `OM8_PCT_COMP` (8-year completion rate)
-- `RET_PCF` (retention rate)
+- `RET_PCF` (retention rate, full-time; part-time as fallback)
 
-The optimal number of clusters $k$ was not pre-specified in this section; it will be **empirically evaluated in the Modeling and Results section** using the **Elbow method** and **Silhouette analysis**, following the recommendations of @huberty2005cluster and @tair2022peer.
+The optimal number of clusters \(k\) was not pre-specified in this section. It
+is evaluated empirically in the **Modeling and Results** section using the
+Elbow method and Silhouette analysis, following
+[@huberty2005cluster; @tair2022peer].
 
 ---
 
 ### Justification of Method
 
-K-Means was selected for its interpretability and computational efficiency on medium-dimensional data.  
-Prior studies in higher education analytics have demonstrated that unsupervised clustering effectively reveals institutional typologies that traditional categorical systems overlook [@huberty2005cluster; @nces2023groupings; @mohdtalib2023behavioral; @elam2016classification].  
-This approach facilitates **empirical grouping** based on shared performance and resource characteristics, offering actionable insights for benchmarking and peer comparison [@kelchen2019merging].
+K-Means was selected for its interpretability and computational efficiency on
+medium-dimensional data. Prior studies in higher education analytics have shown
+that unsupervised clustering can reveal institutional typologies that
+traditional classifications overlook [@huberty2005cluster;
+@nces2023groupings; @mohdtalib2023behavioral; @elam2016classification]. This
+approach supports empirical grouping based on shared performance and resource
+characteristics, providing a basis for benchmarking and peer comparison
+[@kelchen2019merging].
 
 ---
 
 ### Cluster Validation and Model Evaluation
 
-To ensure that institutional groupings derived from the K-Means algorithm were both stable and interpretable, multiple internal validation techniques were applied.  
-Because K-Means requires the number of clusters \\(k\\) to be specified a priori, identifying an optimal \\(k\\) is a critical methodological step that ensures both interpretability and stability of results [@huberty2005cluster; @tair2022peer].
-
----
+To ensure that groupings derived from K-Means were both stable and
+interpretable, multiple internal validation techniques were applied. Because
+K-Means requires the number of clusters \(k\) to be specified in advance,
+choosing an appropriate \(k\) is a key step that affects both interpretability
+and robustness [@huberty2005cluster; @tair2022peer].
 
 #### Elbow Method (Within-Cluster Sum of Squares)
 
-The **Elbow method** evaluates the total within-cluster sum of squares (WCSS) across a range of \\(k\\) values:
+The Elbow method evaluates the total within-cluster sum of squares (WCSS) across
+a range of \(k\) values:
 
 $$
-WCSS(k) = \min_C \sum_{i=1}^{k} \sum_{x_j \in C_i} || x_j - \mu_i ||^2
+WCSS(k) = \min_C \sum_{i=1}^{k} \sum_{x_j \in C_i} \|x_j - \mu_i\|^2
 $$
 
-As \\(k\\) increases, WCSS decreases due to smaller cluster radii. The optimal \\(k\\) is typically chosen at the “elbow”: the inflection point beyond which additional clusters yield diminishing reductions in WCSS.  
-This heuristic balances compactness (low within-cluster variance) and parsimony (avoiding overfitting through excessive clusters).
-
----
+As \(k\) increases, WCSS decreases because cluster radii shrink. The optimal
+\(k\) is typically chosen at the “elbow” point: the inflection where additional
+clusters yield diminishing reductions in WCSS. This heuristic balances compact
+clusters with a parsimonious number of groups.
 
 #### Silhouette Analysis
 
-To complement the Elbow approach, **Silhouette analysis** was used to assess how well each institution fits within its assigned cluster compared to others [@mohdtalib2023behavioral].  
-The Silhouette coefficient for each observation \\(i\\) is computed as:
+Silhouette analysis was used to complement the Elbow approach and assess how
+well each institution fits within its assigned cluster compared to neighboring
+clusters [@mohdtalib2023behavioral]. The Silhouette coefficient for observation
+\(i\) is
 
 $$
-s(i) = \frac{b(i) - a(i)}{\max[a(i),  b(i)]}
+s(i) = \frac{b(i) - a(i)}{\max[a(i), b(i)]}
 $$
 
 where  
-- \\(a(i)\\) = average distance between \\(i\\) and all other points in its cluster (cohesion),  
-- \\(b(i)\\) = minimum average distance between \\(i\\) and points in the nearest neighboring cluster (separation).  
 
-Silhouette values range from \\(-1\\) to \\(1\\), with higher scores indicating well-separated, coherent clusters.  
-The average Silhouette width across all observations was calculated for each candidate \\(k\\), and the \\(k\\) yielding the highest mean silhouette was treated as the most stable partition.
+- \(a(i)\) is the average distance between \(i\) and all other points in its
+  cluster (cohesion),  
+- \(b(i)\) is the minimum average distance between \(i\) and points in the
+  nearest neighboring cluster (separation).
 
----
+Values range from \(-1\) to \(1\), with higher scores indicating better
+separation and cohesion. The average Silhouette width was computed across all
+institutions for each candidate \(k\), and the value of \(k\) with the highest
+mean silhouette was treated as the most stable partition.
 
 #### Model Stability and Reproducibility
 
-To mitigate the randomness inherent in centroid initialization, the clustering routine was executed with multiple random starts (`nstart = 25`) and a fixed seed (`set.seed(2024)`), following best practices for reproducible analysis in R.  
-This procedure ensures that the resulting segmentation structure is robust against initialization variance and not an artifact of a single random state [@kelchen2019merging].
-
----
+To reduce randomness from centroid initialization, the clustering routine was
+run with multiple random starts (`nstart = 25`) and a fixed seed
+(`set.seed(2024)`), following best practices for reproducible analysis
+[@kelchen2019merging]. This helps ensure that the resulting segmentation is
+not an artifact of a single random state.
 
 #### Summary
 
-This validation framework integrates both geometric compactness (Elbow method) and structural separation (Silhouette coefficient) to justify the final number of clusters empirically.  
-The actual determination of \\(k\\) and cluster interpretation will be presented in the subsequent **Modeling and Results** section.
+This validation framework combines geometric compactness (Elbow method) and
+structural separation (Silhouette coefficient) to justify the final number of
+clusters. The choice of \(k\) and the interpretation of the resulting segments
+are presented in the following sections.
 
-
-## Analysis and Results
+## Exploratory Data Analysis
 
 ### Data Exploration and Visualization
 
@@ -241,18 +373,18 @@ The actual determination of \\(k\\) and cluster interpretation will be presented
 This study uses institutional-level data from the **Integrated Postsecondary
 Education Data System (IPEDS)** for the 2023 collection year (2023–2024
 cycle). IPEDS collects standardized information from all U.S. postsecondary
-institutions participating in federal financial aid programs, covering public,
-private nonprofit, and private for-profit sectors.
+institutions that participate in federal financial aid programs, covering the
+public, private nonprofit, and private for-profit sectors.
 
-The following survey components were used and merged on the key **`UNITID`**:
+The following survey components were used and merged on the key `UNITID`:
 
 - **HD2023** — Institutional characteristics (name, control, sector, etc.)
 - **F2223_F1A** — Finance (public, GASB)
 - **F2223_F2** — Finance (private nonprofit, FASB)
 - **F2223_F3** — Finance (private for-profit)
-- **EFIA2023** — 12-month instructional activity (**source of FTE**)
-- **ADM2023** — Admissions (admission rate, tuition; optional in analysis)
-- **OM2023** — Outcome measures (completion/attainment; optional in analysis)
+- **EFIA2023** — 12-month instructional activity (source of FTE)
+- **ADM2023** — Admissions (admission rate, tuition; used selectively)
+- **OM2023** — Outcome measures (completion/attainment; used selectively)
 
 All files were downloaded from the NCES IPEDS Data Center.
 
@@ -260,39 +392,39 @@ All files were downloaded from the NCES IPEDS Data Center.
 
 #### Variable Selection and Preparation
 
-To represent institutional scale, financial capacity, access, and
-outcomes, variables were drawn from multiple components and aligned by
-`UNITID`. Below are the primary fields used in this phase:
+To represent institutional scale, financial capacity, access, and outcomes,
+variables were drawn from multiple components and aligned by `UNITID`. The
+main fields used are summarized below:
 
-| Feature Group          | Variable (Field)                                  | Description |
-|---|---|---|
-| **Institutional Scale** | `FTE_TOTAL` (built from EFIA2023)                 | Total full-time-equivalent enrollment (UG + Grad + DPP if present). |
-| **Financial Resources** | `TOT_REV` (F1D01 / F2D162 / F3D12)                 | Total revenues (public), total revenues & investment return (nonprofit/for-profit). |
-|                          | `INSTR_EXP` (F1C011 / F2E011 / F3E011)            | Instructional expenses (aligned across control types). |
-|                          | `TOT_EXP` (F1N07 / F2B02 / F3B02)                 | Total operating expenses. |
-| **Access & Price**       | e.g., `ADM_RATE`, `TUITION1` (ADM2023)            | Admission rate; in-state tuition/fees (if used). |
-| **Outcomes**             | e.g., `OM8_PCT_COMP` (OM2023)                     | 8-year outcome/completion measure (if used). |
+| Feature Group            | Variable (Field)                                  | Description |
+|--------------------------|---------------------------------------------------|-------------|
+| **Institutional Scale**  | `FTE_TOTAL` (built from EFIA2023)                | Total full-time-equivalent enrollment (UG + Grad + DPP if present). |
+| **Financial Resources**  | `TOT_REV` (F1D01 / F2D162 / F3D12)               | Total revenues (public), total revenues and investment return (nonprofit/for-profit). |
+|                          | `INSTR_EXP` (F1C011 / F2E011 / F3E011)           | Instructional expenses (aligned across control types). |
+|                          | `TOT_EXP` (F1N07 / F2B02 / F3B02)                | Total operating expenses. |
+| **Access and Price**     | `ADM_RATE`, `TUITION1` (ADM2023 / IC2023)        | Admission rate; in-state tuition and fees. |
+| **Outcomes**             | `OM8_PCT_COMP` (OM2023 or derived)               | 8-year outcome/completion measure. |
 
-> Note: Where variables differ by control type, fields were harmonized to a
-> shared name (e.g., `TOT_REV`, `INSTR_EXP`, `TOT_EXP`). Ratios per FTE are
-> derived after FTE merge.
+Where variables differed by control type, fields were harmonized to shared
+names (for example, `TOT_REV`, `INSTR_EXP`, `TOT_EXP`). Ratios per FTE were
+computed after merging FTE data.
 
 ---
 
 #### Data Cleaning and Integration
 
 Finance data from public (`F1A`), private nonprofit (`F2`), and private
-for-profit (`F3`) files were imported and standardized to total revenue,
-instructional expense, and total expense. Twelve-month instructional
-activity (`EFIA2023`) provided undergraduate, graduate, and total FTE
-values; reported FTE were preferred, with estimated values as fallback.
-All monetary values are reported in nominal USD for 2023–24 and not 
-inflation-adjusted.
+for-profit (`F3`) files were imported and mapped to total revenue,
+instructional expense, and total expense. Twelve-month instructional activity
+(`EFIA2023`) provided undergraduate, graduate, and total FTE values; reported
+FTE were preferred, with estimated values as fallback. Monetary values are
+reported in nominal USD for 2023–24 and are not inflation-adjusted.
 
-Tables were merged using left joins on `UNITID` to preserve coverage. Numeric
-missing values were left as `NA` to maintain fidelity with NCES reporting.
-After filtering to active, degree-granting institutions with valid FTE, the
-analytic file contains ~6,000 institutions across all three control types.
+Tables were merged with left joins on `UNITID` to preserve coverage. Numeric
+missing values were left as `NA` in order to stay consistent with NCES
+reporting. After filtering to active, degree-granting institutions with valid
+FTE, the analytic file contains roughly 6,000 institutions across all three
+control types.
 
 ```{r}
 # ----libraries-------------------------------------------------------------
@@ -321,9 +453,11 @@ f1a <- read_csv(file.path(data_dir, "F2223_F1A.csv")) |> clean_names()
 f2  <- read_csv(file.path(data_dir, "F2223_F2.csv"))  |> clean_names()
 f3  <- read_csv(file.path(data_dir, "F2223_F3.csv"))  |> clean_names()
 
-# 12-month instructional activity (FTE source) — treat “.”, etc. as NA
-efia <- read_csv(file.path(data_dir, "EFIA2023.csv"),
-                 na = c("", ".", "-", "—", "NA", "N/A")) |> clean_names()
+# 12-month instructional activity (FTE source)
+efia <- read_csv(
+  file.path(data_dir, "EFIA2023.csv"),
+  na = c("", ".", "-", "—", "NA", "N/A")
+) |> clean_names()
 
 # Student charges (tuition and fees)
 ic_ay <- read_csv(file.path(data_dir, "IC2023.csv"))  |> clean_names()
@@ -354,9 +488,9 @@ f1a_fin <- f1a |>
   mutate(across(any_of(c("f1d01","f1c011","f1n07")), numify)) |>
   transmute(
     unitid,
-    tot_rev   = f1d01,    # Total revenues & other additions (public)
-    instr_exp = f1c011,   # Instruction - current year total
-    tot_exp   = f1n07,    # Total expenses
+    tot_rev   = f1d01,
+    instr_exp = f1c011,
+    tot_exp   = f1n07,
     control   = "Public"
   )
 
@@ -364,9 +498,9 @@ f2_fin <- f2 |>
   mutate(across(any_of(c("f2d162","f2e011","f2b02")), numify)) |>
   transmute(
     unitid,
-    tot_rev   = f2d162,   # Total revenues & investment return - unrestricted
-    instr_exp = f2e011,   # Instruction - total amount
-    tot_exp   = f2b02,    # Total expenses
+    tot_rev   = f2d162,
+    instr_exp = f2e011,
+    tot_exp   = f2b02,
     control   = "Private Nonprofit"
   )
 
@@ -374,21 +508,19 @@ f3_fin <- f3 |>
   mutate(across(any_of(c("f3d12","f3e011","f3b02")), numify)) |>
   transmute(
     unitid,
-    tot_rev   = f3d12,    # Total revenues & investment return
-    instr_exp = f3e011,   # Instruction - total amount
-    tot_exp   = f3b02,    # Total expenses
+    tot_rev   = f3d12,
+    instr_exp = f3e011,
+    tot_exp   = f3b02,
     control   = "Private For-Profit"
   )
 
 fin <- bind_rows(f1a_fin, f2_fin, f3_fin)
 
-# ----unified sector handling (robust)--------------------------------------
-# 1) Keep finance-derived sector label, drop 'control' to avoid control.x/y later
+# ----unified sector handling-----------------------------------------------
 fin <- fin |>
   mutate(sector_fin = control) |>
   select(-control)
 
-# 2) From HD, build sector label if a numeric 'control' exists; else NA
 if ("control" %in% names(hd)) {
   hd <- hd |>
     mutate(
@@ -428,8 +560,10 @@ ipeds <- hd |>
   left_join(om,       by = "unitid") |>
   mutate(
     sector = dplyr::coalesce(sector_hd, sector_fin),
-    sector = factor(sector,
-                    levels = c("Public", "Private Nonprofit", "Private For-Profit"))
+    sector = factor(
+      sector,
+      levels = c("Public", "Private Nonprofit", "Private For-Profit")
+    )
   ) |>
   filter(!is.na(unitid), !is.na(fte_total), fte_total > 0) |>
   distinct(unitid, .keep_all = TRUE) |>
@@ -437,10 +571,10 @@ ipeds <- hd |>
     rev_per_fte    = tot_rev   / fte_total,
     instr_exp_fte  = instr_exp / fte_total,
     exp_per_fte    = tot_exp   / fte_total,
-    retention_rate = coalesce(ret_pcf, ret_pcp)  # prefer full-time, else part-time
+    retention_rate = coalesce(ret_pcf, ret_pcp)
   )
 
-# ----quick composition summary (uses clean 'sector')-----------------------
+# ----quick composition summary---------------------------------------------
 ipeds |>
   summarise(
     total_institutions = n(),
@@ -452,7 +586,6 @@ ipeds |>
   fmt_percent(columns = 2:4, decimals = 1)
 
 # ----prep for visuals / modeling------------------------------------------
-# If OM 8-year completion isn’t present, derive it (when inputs exist)
 if (!"om8_pct_comp" %in% names(ipeds)) {
   need <- c("omawdp8","omnoawd","omenrap","omenryp")
   if (all(need %in% names(ipeds))) {
@@ -464,12 +597,11 @@ if (!"om8_pct_comp" %in% names(ipeds)) {
   }
 }
 
-# Clean up tuition if it accidentally came in as character
 if ("tuition1" %in% names(ipeds) && !is.numeric(ipeds$tuition1)) {
-  ipeds <- ipeds |> mutate(tuition1 = readr::parse_number(as.character(tuition1)))
+  ipeds <- ipeds |>
+    mutate(tuition1 = readr::parse_number(as.character(tuition1)))
 }
 
-# Visual-ready frame
 vis_df <- ipeds |>
   filter(!is.na(sector),
          !is.na(tuition1),
@@ -481,11 +613,9 @@ vis_df <- ipeds |>
     rev_fte_k = rev_per_fte / 1000,
     exp_fte_k = instr_exp_fte / 1000
   )
-
 ```
 
 #### Figure 1. Distributions of Core Metrics
-Compact view of spread/skew for tuition, finance per-FTE, and 8-year completion; motivates standardization before clustering.
 
 ```{r}
 # ----figure-1--------------------------------------------------------------
@@ -507,11 +637,9 @@ vis_df |>
     subtitle = "Spread and skew across tuition, finance per FTE, and completion rates",
     x = NULL, y = "Count"
   )
-
 ```
 
 #### Figure 2. Tuition vs Completion by Sector
-Sector-stratified scatter; dashed global fit shows overall positive slope while sectors vary in level and spread.
 
 ```{r}
 #----figure-2--------------------------------------------------------------
@@ -524,7 +652,7 @@ ggplot(vis_df, aes(tuition1, om8_pct_comp, color = sector)) +
   scale_y_continuous(labels = label_percent(scale = 1)) +
   labs(
     title = "Figure 2. Tuition vs 8-Year Completion by Sector",
-    subtitle = "Dashed global fit shows modest positive relationship",
+    subtitle = "Dashed global fit shows a modest positive relationship",
     x = "In-state tuition and fees (USD)",
     y = "Completion rate (8-year, %)",
     color = "Sector"
@@ -532,7 +660,6 @@ ggplot(vis_df, aes(tuition1, om8_pct_comp, color = sector)) +
 ```
 
 #### Figure 3. Revenue vs Instructional Expense per FTE
-Bivariate financial profile by sector; public clusters tighter, nonprofits span wider ranges, for-profits trend leaner on expense.
 
 ```{r}
 #----figure-3--------------------------------------------------------------
@@ -554,11 +681,9 @@ vis_df |>
     y = "Instructional expense per FTE (thousands USD)",
     color = "Sector"
   )
-
 ```
 
 #### Figure 4. Correlation of Key Variables
-Heatmap of tuition, finance per-FTE, and completion; confirms finance measures move together and relate to outcomes.
 
 ```{r}
 #----figure-4--------------------------------------------------------------
@@ -571,21 +696,22 @@ vis_df |>
   ggplot(aes(x, y, fill = r)) +
   geom_tile() +
   geom_text(aes(label = sprintf("%.2f", r)), size = 3) +
-  scale_fill_gradient2(low = "#2166AC", mid = "white", high = "#B2182B",
-                       limits = c(-1, 1), name = "r") +
+  scale_fill_gradient2(
+    low = "#2166AC", mid = "white", high = "#B2182B",
+    limits = c(-1, 1), name = "r"
+  ) +
   labs(
     title = "Figure 4. Correlation Heatmap of Tuition, Finances, and Outcomes",
     subtitle = "Finance measures move together and relate positively to outcomes",
     x = NULL, y = NULL
   ) +
   theme(axis.text.x = element_text(angle = 40, hjust = 1))
-
-
 ```
-#### Figure 5: Student-to-Faculty Ratio by Sector 
-Boxplot comparing instructional capacity; public institutions show tighter ratios.
+
+#### Figure 5. Student-to-Faculty Ratio by Sector
 
 ```{r}
+#----figure-5--------------------------------------------------------------
 pal_sector <- c(
   "Public"             = "#E15759",
   "Private Nonprofit"  = "#59A14F",
@@ -601,14 +727,16 @@ ipeds |>
   labs(
     title    = "Figure 5. Student-to-Faculty Ratio by Sector",
     subtitle = "Public institutions show tighter ratios; private institutions vary more widely",
-    x        = "Student-to-Faculty Ratio",
+    x        = "Student-to-faculty ratio",
     y        = NULL
   ) +
   theme(legend.position = "none")
 ```
-#### Figure 6: Retention vs Completion by Sector
-Scatter showing strong alignment between retention and completion rates across sectors.
+
+#### Figure 6. Retention vs Completion by Sector
+
 ```{r}
+#----figure-6--------------------------------------------------------------
 ipeds |>
   filter(!is.na(sector), !is.na(retention_rate), !is.na(om8_pct_comp)) |>
   ggplot(aes(x = retention_rate, y = om8_pct_comp, color = sector)) +
@@ -617,46 +745,64 @@ ipeds |>
   scale_x_continuous(labels = label_percent(scale = 1)) +
   scale_y_continuous(labels = label_percent(scale = 1)) +
   labs(
-    title = "Retention vs Completion by Sector",
-    subtitle = "Higher retention rates are strongly aligned with higher completion rates across all sectors.",
+    title = "Figure 6. Retention vs Completion by Sector",
+    subtitle = "Higher retention rates align strongly with higher completion rates across all sectors",
     x = "First-year retention rate (%, full-time preferred; else part-time)",
     y = "Completion rate (8-year, %)",
     color = "Sector"
-  ) 
+  )
 ```
-### Modeling and Results
 
-This section presents the analytical process and results of applying the **K-Means clustering algorithm** to institutional data from IPEDS.  
-While the *Methods* section established the theoretical foundations and variable design, this section focuses on how the model was implemented, how the optimal number of clusters was determined, and what structural patterns emerged across institutional segments.
+## Modeling and Results
+
+This section presents the analytical process and results of applying the
+K-Means clustering algorithm to institutional data from IPEDS. While the
+*Methods* section laid out the modeling framework and variable design, this
+section focuses on how the model was implemented, how the optimal number of
+clusters was chosen, and what structural patterns emerged across institutional
+segments.
 
 ---
 
-#### Data Preparation for Modeling
+### Data Preparation for Modeling
 
-Prior to clustering, all selected quantitative features were standardized using **z-score normalization** to ensure comparability across scales.  
-The final modeling dataset included institutions with valid and complete entries for key financial, access, and outcome metrics:
+Prior to clustering, all selected quantitative features were standardized using
+z-score normalization to ensure comparability across scales. The final modeling
+dataset included institutions with valid and complete entries for key
+financial, access, and outcome metrics:
 
-- `REV_PER_FTE`: Revenue per full-time equivalent student  
-- `INSTR_EXP_FTE`: Instructional expense per FTE  
-- `TUITION1`: In-state undergraduate tuition and fees  
+- `REV_PER_FTE`: revenue per full-time equivalent student  
+- `INSTR_EXP_FTE`: instructional expense per FTE  
+- `TUITION1`: in-state undergraduate tuition and fees  
 - `OM8_PCT_COMP`: 8-year student completion rate  
-- `RETENTION_RATE`: First-year retention (full-time preferred; part-time if missing)  
+- `RETENTION_RATE`: first-year retention (full-time preferred; part-time if missing)
 
-Each row of the modeling dataset corresponds to a unique institution (`UNITID`), and each column represents a standardized feature describing resources, affordability, or student outcomes.  
-To reduce the influence of extreme but valid outliers—such as very large public university systems or small proprietary colleges—variables were **Winsorized at the 1st and 99th percentiles**, preserving their presence while mitigating skew in centroid placement.
+Each row of the modeling dataset corresponds to a unique institution (`UNITID`),
+and each column represents a standardized feature describing resources,
+affordability, or student outcomes. To reduce the influence of extreme but
+valid outliers (for example, very large public systems or small proprietary
+colleges), variables were Winsorized at the 1st and 99th percentiles. This
+preserves these institutions in the data while limiting their impact on
+centroid placement.
 
 ---
 
 ### Determining the Optimal Number of Clusters
 
-Selecting an appropriate number of clusters, \( k \), is a key decision in K-Means because it determines the level of segmentation and affects both interpretability and model stability.  
-To guide this choice, two internal validation techniques were applied:
+Selecting an appropriate number of clusters, \(k\), is a key decision in
+K-Means because it determines the level of segmentation and affects both
+interpretability and stability. To guide this choice, two internal validation
+techniques were applied:
 
-1. **Elbow Method (Within-Cluster Sum of Squares, WCSS)** — identifies the point at which adding more clusters produces diminishing improvements in compactness.  
-2. **Silhouette Analysis** — evaluates how well each institution fits within its assigned cluster compared to neighboring clusters.
+1. **Elbow method (within-cluster sum of squares, WCSS)** — used to identify
+   the point where adding more clusters yields diminishing improvements in
+   compactness.  
+2. **Silhouette analysis** — used to evaluate how well each institution fits
+   within its assigned cluster relative to neighboring clusters.
 
-Together, these diagnostics balance **parsimony** (use fewer, more interpretable clusters) and **stability** (ensure clusters are coherent and well separated).  
-Both methods pointed toward **\( k \approx 4 \)** as a stable and interpretable solution.
+Together, these diagnostics balance parsimony (fewer, more interpretable
+clusters) and stability (coherent and well-separated clusters). Both methods
+pointed toward \(k \approx 4\) as a stable and interpretable solution.
 
 ```{r}
 #| label: elbow-silhouette
@@ -687,7 +833,7 @@ ggplot(elbow_df, aes(k, wcss)) +
     title = "Figure 7. Elbow Method for Optimal k",
     subtitle = "Elbow point suggests diminishing returns beyond k = 4",
     x = "Number of clusters (k)",
-    y = "Total Within-Cluster Sum of Squares (WCSS)"
+    y = "Total within-cluster sum of squares (WCSS)"
   ) +
   theme_minimal(base_size = 11)
 
@@ -712,8 +858,10 @@ ggplot(sil_df, aes(k, silhouette)) +
     y = "Average silhouette width"
   ) +
   theme_minimal(base_size = 11)
-
 ```
+
+### Final Clustering Model (k = 4)
+
 ```{r}
 #| label: final-kmeans
 #| fig-cap: "K-Means Segmentation Results (k = 4)"
@@ -724,13 +872,9 @@ ggplot(sil_df, aes(k, silhouette)) +
 set.seed(2024)
 final_k <- 4
 
-# Build modeling data consistently
-
 model_df <- vis_df |>
   select(rev_per_fte, instr_exp_fte, tuition1, om8_pct_comp, retention_rate) |>
-    drop_na()
-
-# Fit model
+  drop_na()
 
 X <- scale(model_df)
 k_model <- kmeans(X, centers = final_k, nstart = 25)
@@ -738,28 +882,34 @@ k_model <- kmeans(X, centers = final_k, nstart = 25)
 ipeds_clustered <- model_df |>
   mutate(cluster = factor(k_model$cluster))
 
-# Summary table
-
 cluster_summary <- ipeds_clustered |>
   group_by(cluster) |>
-    summarise(
-    avg_tuition     = mean(tuition1, na.rm = TRUE),
-    avg_rev_fte     = mean(rev_per_fte, na.rm = TRUE),
-    avg_exp_fte     = mean(instr_exp_fte, na.rm = TRUE),
-    avg_completion  = mean(om8_pct_comp, na.rm = TRUE),
-    avg_retention   = mean(retention_rate, na.rm = TRUE),
-    n               = n()
-)
+  summarise(
+    avg_tuition    = mean(tuition1,       na.rm = TRUE),
+    avg_rev_fte    = mean(rev_per_fte,    na.rm = TRUE),
+    avg_exp_fte    = mean(instr_exp_fte,  na.rm = TRUE),
+    avg_completion = mean(om8_pct_comp,   na.rm = TRUE),
+    avg_retention  = mean(retention_rate, na.rm = TRUE),
+    n              = n()
+  )
 
 cluster_summary |>
   gt() |>
-    fmt_currency(columns = c(avg_tuition, avg_rev_fte, avg_exp_fte), decimals = 0) |>
-    fmt_percent(columns = c(avg_completion, avg_retention), scale_values = FALSE, decimals = 1) |>
-    tab_header(
+  fmt_currency(
+    columns = c(avg_tuition, avg_rev_fte, avg_exp_fte),
+    decimals = 0
+  ) |>
+  fmt_percent(
+    columns = c(avg_completion, avg_retention),
+    scale_values = FALSE,
+    decimals = 1
+  ) |>
+  tab_header(
     title = "Table 1. Cluster-Level Summary Statistics",
     subtitle = "Average tuition, resources, and outcomes across institutional clusters"
-)
+  )
 ```
+
 ```{r}
 #| label: fig-cluster-counts
 #| fig-cap: "Distribution of Institutions Across Clusters (k = 4)"
@@ -771,76 +921,132 @@ ipeds_clustered |>
   scale_fill_brewer(palette = "Set2") +
   labs(
     x = "Cluster",
-    y = "Count of Institutions",
+    y = "Count of institutions",
     title = "Figure 9. Distribution of Institutions Across Clusters",
-    subtitle = "Shows overall size of each institutional group under k = 4"
+    subtitle = "Overall size of each institutional group under k = 4"
   ) +
   theme_minimal(base_size = 11) +
   theme(legend.position = "none")
 ```
+
+#### Diagnostic Check: Variable Distributions by Cluster
+
+```{r}
+#| label: boxplots-cluster-vars
+#| fig-cap: "Distribution of Standardized Variables Across Clusters"
+#| echo: false
+
+ipeds_clustered |>
+  pivot_longer(
+    cols = c(rev_per_fte, instr_exp_fte, tuition1, om8_pct_comp, retention_rate),
+    names_to = "variable",
+    values_to = "value"
+  ) |>
+  ggplot(aes(x = cluster, y = value, fill = cluster)) +
+  geom_boxplot(alpha = 0.85, outlier.alpha = 0.3) +
+  facet_wrap(~ variable, scales = "free_y") +
+  scale_fill_brewer(palette = "Set2") +
+  labs(
+    title = "Figure 10. Distribution of Variables Across Clusters",
+    x = "Cluster",
+    y = "Value (standardized)"
+  ) +
+  theme_minimal(base_size = 11) +
+  theme(legend.position = "none")
+```
+
 ### Cluster Segmentation Narratives
 
 #### Cluster 1 — Broad-Access, Lower-Resource Institutions
 
-This segment tends to include institutions with lower tuition, limited instructional spending, and below-average completion rates.  
-They represent colleges—often regional, commuter-serving, or open-access—where affordability is high but where resource constraints may shape academic support, staff capacity, or programmatic breadth.  
-Retention is modest, suggesting challenges in sustaining enrollment persistence.
+This segment tends to include institutions with lower tuition, limited
+instructional spending, and below-average completion rates. They are often
+regional, commuter-serving, or open-access colleges where affordability is
+high, but resource constraints can affect instructional capacity and student
+support. Retention is modest, indicating challenges in sustaining student
+persistence.
 
 #### Cluster 2 — Moderately Resourced Institutions with Balanced Outcomes
 
-Cluster 2 exhibits mid-range tuition, moderate spending, and solid student outcomes.  
-These institutions appear to represent a “middle tier” of higher education, offering a balanced profile of cost and performance.  
-They may include a mix of regional publics and private nonprofits that maintain stable student success metrics without the highest resource levels.
+Cluster 2 exhibits mid-range tuition, moderate spending, and solid student
+outcomes. These institutions represent a balanced “middle tier” of higher
+education, often including regional publics and private nonprofits with stable
+performance metrics despite lower resource levels than elite institutions.
 
 #### Cluster 3 — High-Tuition, High-Resource Institutions
 
-Institutions in this segment show substantially higher tuition, significant instructional investment, and correspondingly high retention and completion rates.  
-This cluster aligns with more selective universities and well-resourced private institutions that leverage expenditure intensity to support stronger student outcomes.  
-It reflects a “high input, high output” model common among established four-year universities.
+Institutions in this segment show substantially higher tuition, significant
+instructional investment, and correspondingly high completion and retention
+rates. This profile aligns with selective universities and well-resourced
+private institutions that operate on a “high input, high output” model.
 
 #### Cluster 4 — Low-Tuition but Strong-Outcome Institutions
 
-This unique segment includes institutions that maintain lower-than-average tuition but still sustain strong completion and retention rates.  
-These schools appear to be highly efficient institutions—often public universities or community colleges with well-supported completion pathways—demonstrating that strong outcomes do not uniformly require high expenditure levels.  
-Their position in the feature space suggests an alternative efficiency-driven model of student success.
+This segment includes institutions that maintain lower-than-average tuition yet
+achieve strong completion and retention rates. Often efficient public
+institutions or community colleges, these schools show that strong student
+outcomes do not always require high expenditure levels.
 
 ### Visualizing Cluster Structure in Feature Space
 
-To provide an additional view of how clusters separate in high-dimensional space, the standardized feature matrix was projected into two components using Principal Component Analysis (PCA).  
-While PCA is not used for modeling, it offers a compact visual summary of group separation and highlights whether the four clusters form identifiable, coherent regions.
+To visualize how institutions separate in high-dimensional space, the
+standardized modeling matrix was projected into two components using Principal
+Component Analysis (PCA). PCA was not used for model fitting; instead, it
+provides a compact visualization that shows whether clusters form coherent
+regions. PC1 is primarily associated with overall resource intensity, and PC2
+captures variation related to affordability and outcomes.
 
 ```{r}
 #| label: fig-pca-clusters
-#| fig-cap: "PCA Projection of Institutions Colored by Cluster Membership"
+#| fig-cap: "PCA Visualization of K-Means Clusters"
 #| echo: true
-#| message: false
-#| warning: false
-
-# library(factoextra)
 
 pca_res <- prcomp(X, scale. = FALSE)
 
 pca_df <- as_tibble(pca_res$x[, 1:2]) |>
-mutate(cluster = ipeds_clustered$cluster)
+  mutate(cluster = ipeds_clustered$cluster)
 
 ggplot(pca_df, aes(PC1, PC2, color = cluster)) +
-geom_point(alpha = 0.7, size = 2) +
-scale_color_brewer(palette = "Set2") +
-labs(
-x = "Principal Component 1",
-y = "Principal Component 2",
-title = "Figure 10. PCA Visualization of K-Means Clusters",
-subtitle = "Shows how clusters separate across the first two principal components"
-) +
-theme_minimal(base_size = 11)
+  geom_point(alpha = 0.7, size = 2) +
+  scale_color_brewer(palette = "Set2") +
+  labs(
+    title = "Figure 11. PCA Visualization of K-Means Clusters",
+    subtitle = "Clusters separate clearly across the first two principal components",
+    x = "Principal Component 1",
+    y = "Principal Component 2"
+  ) +
+  theme_minimal(base_size = 11)
 ```
 
+## Conclusion
 
-### Conclusion
+This project used K-Means clustering on IPEDS data to break institutions into
+groups based on resources, affordability, and student success. The variables
+were standardized and Winsorized to keep outliers from pulling the model
+around. Both the Elbow method and the Silhouette scores pointed toward four
+clusters, and that setup ended up giving the clearest and most stable
+structure.
 
--   Summarize your key findings.
+The final groups showed four different types of institutions. One group
+captured broad access schools that operate with fewer resources and see lower
+retention and completion. Another group sat in the middle, with moderate
+spending, moderate tuition, and steady outcomes. A third group represented
+well-funded schools with high tuition and strong performance. The last group
+stood out because they kept tuition low while still producing solid retention
+and completion. That pattern shows that resources matter, but they are not the
+whole story when it comes to student outcomes.
 
--   Discuss the implications of your results.
+The diagnostic checks backed this up. The boxplots showed clear separation
+across each variable, and the PCA plot showed four distinct groups when the
+data was compressed into two components. PCA was only used to visualize
+structure, but it made the spacing between clusters easier to see.
+
+Overall, the results show that a small, focused set of metrics is enough to
+reveal real structure in the higher education landscape. These segments can
+help with peer grouping, benchmarking, and conversations about funding and
+equity. Future work could bring in more variables, test other clustering
+approaches, or look at how student demographics and program mix change the
+picture. Even with the limited scope here, the model gives a clear and useful
+view of how institutions differ across the system.
 
 ## References
-
