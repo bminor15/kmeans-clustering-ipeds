@@ -76,111 +76,59 @@ understanding institutional diversity [@huberty2005cluster;
 
 **Proposal of a New Method to Classify Higher Education Institutions**  
 [PDF Link – Otterbein University Digital Commons](https://digitalcommons.otterbein.edu/cgi/viewcontent.cgi?article=1031&context=stu_dist)  
-Elam (2016) develops a two-step method that combines factor analysis and
-cluster analysis to generate a new, data-driven classification of higher
-education institutions. The study selects academic, financial, and demographic
-variables, then uses clustering to uncover institutional types that better
-reflect observed diversity than traditional labels. The results show how
-quantitative segmentation can support more nuanced comparisons among colleges
-and universities.
+Elam (2016) lays out a two step setup that mixes factor analysis with cluster analysis to build a cleaner, data driven way to sort colleges. The study pulls academic, financial, and demographic variables and lets the clusters form from what the numbers actually show. The results give a more grounded picture of institutional differences than the usual labels ever do.
 
 ---
 
 **Cluster Analysis of Multivariate Data: Efficiency Versus Interpretability of Classifications**  
-[PDF Link – Biometrics (JSTOR/Publisher site)](https://doi.org/10.2307/2528559)  
-Forgy (1965) is one of the early papers that lays out practical procedures for
-cluster analysis in multivariate settings, including what became known as the
-“Forgy initialization” for K-Means. The work discusses trade-offs between
-statistical efficiency and interpretability when constructing groups from
-continuous variables. It provides foundational guidance on how to select and
-evaluate clustering structures, which informs later algorithmic choices in this
-project.
+[PDF Link – Biometrics](https://doi.org/10.2307/2528559)  
+Forgy (1965) is one of the earliest pieces that explains how to run clustering in multivariate settings, including what later got called the Forgy initialization for K Means. The paper talks through the balance between squeezing out statistical efficiency and keeping the results readable. A lot of the choices in this project about how clusters are initialized and evaluated trace back to this foundation.
 
 ---
 
 **Cluster Analysis in Higher Education Research**  
 [PDF Link – Springer](https://link.springer.com/content/pdf/10.1007/1-4020-3279-X_8.pdf)  
-Huberty, Jordan, and Brandt (2005) review how cluster analysis has been used to
-study structural diversity and performance patterns across higher education
-institutions. They show that statistical grouping can reveal institutional
-similarities that conventional categories obscure, especially when using
-multiple financial and outcome measures. The chapter also emphasizes
-methodological issues such as variable selection, scaling, and validation, all
-of which directly shape the design of this capstone.
+Huberty, Jordan, and Brandt (2005) show how cluster analysis has been used to study diversity and performance patterns across colleges. They point out that clustering can reveal similarities and gaps that the standard categories hide, especially when you stack financial and outcome data together. They also go over variable choice, scaling, and validation, which feeds directly into the structure of this capstone.
 
 ---
 
-**Data Clustering: 50 Years Beyond K-Means**  
+**Data Clustering: 50 Years Beyond K Means**  
 [PDF Link – Pattern Recognition Letters](https://doi.org/10.1016/j.patrec.2009.09.011)  
-Jain (2010) surveys five decades of clustering research, using K-Means as a
-starting point and comparing it to alternative algorithms and distance
-measures. The paper highlights strengths of K-Means—speed, simplicity, and
-interpretability—while also noting limitations around non-spherical clusters
-and sensitivity to initialization. This broad context supports the decision to
-use K-Means here while being clear about what kinds of structure it can and
-cannot capture in institutional data.
+Jain (2010) looks back over five decades of clustering research. K Means is the anchor point, but the paper compares it to other algorithms and distance choices. It highlights what works about K Means, like its speed and clarity, and also where it struggles, like odd shaped clusters and sensitivity to initialization. This context supports using K Means here while being honest about its limits with institutional data.
 
 ---
 
 **Merging Data to Facilitate Analyses**  
 [PDF Link – Robert Kelchen](https://robertkelchen.com/wp-content/uploads/2019/11/kelchen_merging_original.pdf)  
-Kelchen (2019) provides a practical guide to joining and cleaning education
-datasets such as IPEDS and federal aid files. The report walks through common
-problems—schema differences, missing values, duplicated identifiers, and
-inconsistent labels—and recommends documentation practices for reproducible
-research. This study follows those recommendations in how IPEDS components are
-merged on `UNITID`, how derived variables (for example, revenue per FTE) are
-constructed, and how missingness is handled.
+Kelchen (2019) gives a straightforward walkthrough on how to merge and clean education datasets like IPEDS and federal aid files. It shows the usual pain points like mismatched schemas, missing data, duplicate identifiers, and messy labels, and lays out practices for making the work reproducible. This capstone follows that framework in how IPEDS files are merged on UNITID, how measures like revenue per FTE are built, and how missing data is handled.
 
 ---
 
 **Least Squares Quantization in PCM**  
 [PDF Link – IEEE Transactions on Information Theory](https://doi.org/10.1109/TIT.1982.1056489)  
-Lloyd (1982) formalizes what is now widely known as the Lloyd algorithm for
-K-Means clustering, framing it as a least-squares quantization problem. The
-paper provides the iterative assignment-and-update procedure and shows that it
-monotonically decreases the objective function, even though it may converge to
-local minima. This work provides the mathematical basis for the K-Means
-implementation used in the capstone and justifies the use of multiple random
-starts.
+Lloyd (1982) formalizes what became the Lloyd algorithm for K Means, framing it as a least squares quantization problem. It explains the iterative assignment and update steps and shows that the objective will always drop even though the algorithm can land in local minima. This gives the mathematical backbone for the K Means run in this project and backs the choice to use multiple random starts.
 
 ---
 
-**Identification of Student Behavioral Patterns in Higher Education Using K-Means Clustering and Support Vector Machine**  
+**Identification of Student Behavioral Patterns in Higher Education Using K Means Clustering and Support Vector Machine**  
 [PDF Link – MDPI Applied Sciences](https://www.mdpi.com/2076-3417/13/5/3267)  
-Mohd Talib et al. (2023) apply K-Means clustering to student behavior and
-performance data, then use a Support Vector Machine to validate the resulting
-groups. They show how normalized features and careful cluster validation can
-reveal distinct learning behavior patterns that are actionable for instructors.
-The study illustrates how unsupervised clustering can simplify complex
-education datasets into interpretable segments, reinforcing the modeling
-choices in this project.
+Mohd Talib et al. (2023) use K Means to group student behavior and performance patterns, then bring in a Support Vector Machine to check how stable the clusters are. They show that normalized features and careful validation can uncover meaningful student behavior groups that instructors can actually use. It backs the idea that unsupervised clustering can simplify complex education data into readable segments.
 
 ---
 
 **Institutional Groupings in IPEDS: Considerations for Data Use**  
 [Web Link – NCES](https://nces.ed.gov/ipeds/use-the-data/institutional-groupings-in-ipeds)  
-The NCES guidance on institutional groupings explains how IPEDS constructs and
-documents sector, control, and other grouping variables. It stresses the need
-for consistency and transparency when comparing institutions across official
-groupings and derived peer sets. These recommendations motivate the use of
-clear sector labels, harmonized finance fields, and reproducible code when
-constructing the analytic file.
+NCES explains how IPEDS builds and documents sector, control, and other grouping variables. The guidance pushes for consistent definitions when comparing institutions across official groupings and custom peer sets. These points shape how this capstone uses sector labels, aligned finance fields, and clear documentation when building the analytic file.
 
 ---
 
 **A Hybrid Approach to Identifying National Peer Institutions**  
-[PDF Link – Texas Association for Institutional Research (TAIR)](https://www.texas-air.org/wp-content/uploads/2022/03/E3-A-Hybrid-Approach-to-Identifying-National-Peer-Institutions.pdf)  
-The TAIR report describes a hybrid approach that combines statistical clustering
-with expert judgment to identify peer institutions. Initial peer groups are
-generated from performance and enrollment data, then refined through local
-review to improve face validity and usefulness. This work underscores that
-cluster results gain value when paired with institutional context, a point that
-frames this capstone’s clusters as a starting point for peer benchmarking
-rather than a final classification.
+[PDF Link – Texas Association for Institutional Research](https://www.texas-air.org/wp-content/uploads/2022/03/E3-A-Hybrid-Approach-to-Identifying-National-Peer-Institutions.pdf)  
+The TAIR report shows a hybrid method that starts with statistical clustering and then layers in expert judgment. The initial clusters come from performance and enrollment data, then reviewers adjust the groups to make them more useful in practice. It reinforces that cluster results work best as a starting point for peer benchmarking rather than a locked in classification.
 
 </div>
 </details>
+
 
 
 ## Methods
@@ -193,30 +141,22 @@ higher education clustering and institutional classification [@lloyd1982least].
 
 ---
 
-### Objective and Notation
+## Objective and Notation
 
-Let \(X \in \mathbb{R}^{n \times d}\) be the standardized feature matrix, where
-each row represents an institution and each column a numeric feature (for
-example, revenue per FTE, tuition, or completion rate). The goal of K-Means is
-to partition \(n\) observations into \(k\) clusters
-\(C = \{C_1, C_2, \ldots, C_k\}\) and determine centroids
-\(\{\mu_1, \mu_2, \ldots, \mu_k\}\) that minimize the within-cluster sum of
-squares (WCSS):
+Let $X \in \mathbb{R}^{n \times d}$ be the standardized feature matrix, where each row represents an institution and each column represents a numeric feature such as revenue per FTE, tuition, or completion rate. The goal of K Means is to partition $n$ observations into $k$ clusters $C = \{C_1, C_2, \ldots, C_k\}$ and to estimate centroids $\mu_1, \mu_2, \ldots, \mu_k$ that minimize the within cluster sum of squares (WCSS):
 
 $$
-\min_{C} \sum_{i=1}^{k} \sum_{x_j \in C_i} \|x_j - \mu_i\|^2
+\min_{C} \sum_{i=1}^{k} \sum_{x_j \in C_i} \lVert x_j - \mu_i \rVert^2
 $$
 
-For a fixed cluster assignment, the optimal centroid \(\mu_i\) is the
-arithmetic mean of all observations in \(C_i\):
+For a fixed cluster assignment, the centroid for cluster $i$ is the mean of the observations in $C_i$:
 
 $$
 \mu_i = \frac{1}{|C_i|} \sum_{x_j \in C_i} x_j
 $$
 
-This optimization problem is NP-hard in general, so the standard Lloyd–Forgy
-iterative heuristic [@lloyd1982least] is used to approximate convergence
-through alternating assignment and update steps.
+This optimization problem is NP hard, so this capstone uses the Lloyd Forgy routine [@lloyd1982least] to approximate a solution through alternating assignment and update st
+
 
 ---
 

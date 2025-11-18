@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Benjamin Minor">
-<meta name="dcterms.date" content="2025-11-15">
+<meta name="dcterms.date" content="2025-11-18">
 
 <title>Data-Driven Segmentation of U.S. Colleges and Universities Using K-Means Clustering on IPEDS Data – Capstone Project: K-Means Clustering on Retail Data</title>
 <style>
@@ -4909,9 +4909,9 @@ window.Quarto = {
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
   <li><a href="#literature-review" id="toc-literature-review" class="nav-link" data-scroll-target="#literature-review">Literature Review</a></li>
-  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a>
+  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a></li>
+  <li><a href="#objective-and-notation" id="toc-objective-and-notation" class="nav-link" data-scroll-target="#objective-and-notation">Objective and Notation</a>
   <ul class="collapse">
-  <li><a href="#objective-and-notation" id="toc-objective-and-notation" class="nav-link" data-scroll-target="#objective-and-notation">Objective and Notation</a></li>
   <li><a href="#lloyds-algorithm-assignment-and-update" id="toc-lloyds-algorithm-assignment-and-update" class="nav-link" data-scroll-target="#lloyds-algorithm-assignment-and-update">Lloyd’s Algorithm (Assignment and Update)</a></li>
   <li><a href="#feature-scaling-and-preprocessing" id="toc-feature-scaling-and-preprocessing" class="nav-link" data-scroll-target="#feature-scaling-and-preprocessing">Feature Scaling and Preprocessing</a></li>
   <li><a href="#implementation-procedure" id="toc-implementation-procedure" class="nav-link" data-scroll-target="#implementation-procedure">Implementation Procedure</a></li>
@@ -4957,7 +4957,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">November 15, 2025</p>
+      <p class="date">November 18, 2025</p>
     </div>
   </div>
   
@@ -4987,39 +4987,39 @@ window.Quarto = {
 <div class="markdown" style="margin-top:1rem;">
 <p><strong>Proposal of a New Method to Classify Higher Education Institutions</strong><br>
 <a href="https://digitalcommons.otterbein.edu/cgi/viewcontent.cgi?article=1031&amp;context=stu_dist">PDF Link – Otterbein University Digital Commons</a><br>
-Elam (2016) develops a two-step method that combines factor analysis and cluster analysis to generate a new, data-driven classification of higher education institutions. The study selects academic, financial, and demographic variables, then uses clustering to uncover institutional types that better reflect observed diversity than traditional labels. The results show how quantitative segmentation can support more nuanced comparisons among colleges and universities.</p>
+Elam (2016) lays out a two step setup that mixes factor analysis with cluster analysis to build a cleaner, data driven way to sort colleges. The study pulls academic, financial, and demographic variables and lets the clusters form from what the numbers actually show. The results give a more grounded picture of institutional differences than the usual labels ever do.</p>
 <hr>
 <p><strong>Cluster Analysis of Multivariate Data: Efficiency Versus Interpretability of Classifications</strong><br>
-<a href="https://doi.org/10.2307/2528559">PDF Link – Biometrics (JSTOR/Publisher site)</a><br>
-Forgy (1965) is one of the early papers that lays out practical procedures for cluster analysis in multivariate settings, including what became known as the “Forgy initialization” for K-Means. The work discusses trade-offs between statistical efficiency and interpretability when constructing groups from continuous variables. It provides foundational guidance on how to select and evaluate clustering structures, which informs later algorithmic choices in this project.</p>
+<a href="https://doi.org/10.2307/2528559">PDF Link – Biometrics</a><br>
+Forgy (1965) is one of the earliest pieces that explains how to run clustering in multivariate settings, including what later got called the Forgy initialization for K Means. The paper talks through the balance between squeezing out statistical efficiency and keeping the results readable. A lot of the choices in this project about how clusters are initialized and evaluated trace back to this foundation.</p>
 <hr>
 <p><strong>Cluster Analysis in Higher Education Research</strong><br>
 <a href="https://link.springer.com/content/pdf/10.1007/1-4020-3279-X_8.pdf">PDF Link – Springer</a><br>
-Huberty, Jordan, and Brandt (2005) review how cluster analysis has been used to study structural diversity and performance patterns across higher education institutions. They show that statistical grouping can reveal institutional similarities that conventional categories obscure, especially when using multiple financial and outcome measures. The chapter also emphasizes methodological issues such as variable selection, scaling, and validation, all of which directly shape the design of this capstone.</p>
+Huberty, Jordan, and Brandt (2005) show how cluster analysis has been used to study diversity and performance patterns across colleges. They point out that clustering can reveal similarities and gaps that the standard categories hide, especially when you stack financial and outcome data together. They also go over variable choice, scaling, and validation, which feeds directly into the structure of this capstone.</p>
 <hr>
-<p><strong>Data Clustering: 50 Years Beyond K-Means</strong><br>
+<p><strong>Data Clustering: 50 Years Beyond K Means</strong><br>
 <a href="https://doi.org/10.1016/j.patrec.2009.09.011">PDF Link – Pattern Recognition Letters</a><br>
-Jain (2010) surveys five decades of clustering research, using K-Means as a starting point and comparing it to alternative algorithms and distance measures. The paper highlights strengths of K-Means—speed, simplicity, and interpretability—while also noting limitations around non-spherical clusters and sensitivity to initialization. This broad context supports the decision to use K-Means here while being clear about what kinds of structure it can and cannot capture in institutional data.</p>
+Jain (2010) looks back over five decades of clustering research. K Means is the anchor point, but the paper compares it to other algorithms and distance choices. It highlights what works about K Means, like its speed and clarity, and also where it struggles, like odd shaped clusters and sensitivity to initialization. This context supports using K Means here while being honest about its limits with institutional data.</p>
 <hr>
 <p><strong>Merging Data to Facilitate Analyses</strong><br>
 <a href="https://robertkelchen.com/wp-content/uploads/2019/11/kelchen_merging_original.pdf">PDF Link – Robert Kelchen</a><br>
-Kelchen (2019) provides a practical guide to joining and cleaning education datasets such as IPEDS and federal aid files. The report walks through common problems—schema differences, missing values, duplicated identifiers, and inconsistent labels—and recommends documentation practices for reproducible research. This study follows those recommendations in how IPEDS components are merged on <code>UNITID</code>, how derived variables (for example, revenue per FTE) are constructed, and how missingness is handled.</p>
+Kelchen (2019) gives a straightforward walkthrough on how to merge and clean education datasets like IPEDS and federal aid files. It shows the usual pain points like mismatched schemas, missing data, duplicate identifiers, and messy labels, and lays out practices for making the work reproducible. This capstone follows that framework in how IPEDS files are merged on UNITID, how measures like revenue per FTE are built, and how missing data is handled.</p>
 <hr>
 <p><strong>Least Squares Quantization in PCM</strong><br>
 <a href="https://doi.org/10.1109/TIT.1982.1056489">PDF Link – IEEE Transactions on Information Theory</a><br>
-Lloyd (1982) formalizes what is now widely known as the Lloyd algorithm for K-Means clustering, framing it as a least-squares quantization problem. The paper provides the iterative assignment-and-update procedure and shows that it monotonically decreases the objective function, even though it may converge to local minima. This work provides the mathematical basis for the K-Means implementation used in the capstone and justifies the use of multiple random starts.</p>
+Lloyd (1982) formalizes what became the Lloyd algorithm for K Means, framing it as a least squares quantization problem. It explains the iterative assignment and update steps and shows that the objective will always drop even though the algorithm can land in local minima. This gives the mathematical backbone for the K Means run in this project and backs the choice to use multiple random starts.</p>
 <hr>
-<p><strong>Identification of Student Behavioral Patterns in Higher Education Using K-Means Clustering and Support Vector Machine</strong><br>
+<p><strong>Identification of Student Behavioral Patterns in Higher Education Using K Means Clustering and Support Vector Machine</strong><br>
 <a href="https://www.mdpi.com/2076-3417/13/5/3267">PDF Link – MDPI Applied Sciences</a><br>
-Mohd Talib et al. (2023) apply K-Means clustering to student behavior and performance data, then use a Support Vector Machine to validate the resulting groups. They show how normalized features and careful cluster validation can reveal distinct learning behavior patterns that are actionable for instructors. The study illustrates how unsupervised clustering can simplify complex education datasets into interpretable segments, reinforcing the modeling choices in this project.</p>
+Mohd Talib et al. (2023) use K Means to group student behavior and performance patterns, then bring in a Support Vector Machine to check how stable the clusters are. They show that normalized features and careful validation can uncover meaningful student behavior groups that instructors can actually use. It backs the idea that unsupervised clustering can simplify complex education data into readable segments.</p>
 <hr>
 <p><strong>Institutional Groupings in IPEDS: Considerations for Data Use</strong><br>
 <a href="https://nces.ed.gov/ipeds/use-the-data/institutional-groupings-in-ipeds">Web Link – NCES</a><br>
-The NCES guidance on institutional groupings explains how IPEDS constructs and documents sector, control, and other grouping variables. It stresses the need for consistency and transparency when comparing institutions across official groupings and derived peer sets. These recommendations motivate the use of clear sector labels, harmonized finance fields, and reproducible code when constructing the analytic file.</p>
+NCES explains how IPEDS builds and documents sector, control, and other grouping variables. The guidance pushes for consistent definitions when comparing institutions across official groupings and custom peer sets. These points shape how this capstone uses sector labels, aligned finance fields, and clear documentation when building the analytic file.</p>
 <hr>
 <p><strong>A Hybrid Approach to Identifying National Peer Institutions</strong><br>
-<a href="https://www.texas-air.org/wp-content/uploads/2022/03/E3-A-Hybrid-Approach-to-Identifying-National-Peer-Institutions.pdf">PDF Link – Texas Association for Institutional Research (TAIR)</a><br>
-The TAIR report describes a hybrid approach that combines statistical clustering with expert judgment to identify peer institutions. Initial peer groups are generated from performance and enrollment data, then refined through local review to improve face validity and usefulness. This work underscores that cluster results gain value when paired with institutional context, a point that frames this capstone’s clusters as a starting point for peer benchmarking rather than a final classification.</p>
+<a href="https://www.texas-air.org/wp-content/uploads/2022/03/E3-A-Hybrid-Approach-to-Identifying-National-Peer-Institutions.pdf">PDF Link – Texas Association for Institutional Research</a><br>
+The TAIR report shows a hybrid method that starts with statistical clustering and then layers in expert judgment. The initial clusters come from performance and enrollment data, then reviewers adjust the groups to make them more useful in practice. It reinforces that cluster results work best as a starting point for peer benchmarking rather than a locked in classification.</p>
 </div>
 </details>
 </section>
@@ -5027,19 +5027,19 @@ The TAIR report describes a hybrid approach that combines statistical clustering
 <h2 class="anchored" data-anchor-id="methods">Methods</h2>
 <p>This study applies the <strong>K-Means clustering algorithm</strong> to group U.S. higher education institutions into data-driven segments based on scale, resources, access, and outcomes. The process follows the standard Lloyd–Forgy heuristic for iterative centroid-based optimization, as described in the literature on higher education clustering and institutional classification <span class="citation" data-cites="lloyd1982least">(<a href="#ref-lloyd1982least" role="doc-biblioref">Lloyd 1982</a>)</span>.</p>
 <hr>
-<section id="objective-and-notation" class="level3">
-<h3 class="anchored" data-anchor-id="objective-and-notation">Objective and Notation</h3>
-<p>Let (X ^{n d}) be the standardized feature matrix, where each row represents an institution and each column a numeric feature (for example, revenue per FTE, tuition, or completion rate). The goal of K-Means is to partition (n) observations into (k) clusters (C = {C_1, C_2, , C_k}) and determine centroids ({_1, _2, , _k}) that minimize the within-cluster sum of squares (WCSS):</p>
+</section>
+<section id="objective-and-notation" class="level2">
+<h2 class="anchored" data-anchor-id="objective-and-notation">Objective and Notation</h2>
+<p>Let <span class="math inline">\(X \in \mathbb{R}^{n \times d}\)</span> be the standardized feature matrix, where each row represents an institution and each column represents a numeric feature such as revenue per FTE, tuition, or completion rate. The goal of K Means is to partition <span class="math inline">\(n\)</span> observations into <span class="math inline">\(k\)</span> clusters <span class="math inline">\(C = \{C_1, C_2, \ldots, C_k\}\)</span> and to estimate centroids <span class="math inline">\(\mu_1, \mu_2, \ldots, \mu_k\)</span> that minimize the within cluster sum of squares (WCSS):</p>
 <p><span class="math display">\[
-\min_{C} \sum_{i=1}^{k} \sum_{x_j \in C_i} \|x_j - \mu_i\|^2
+\min_{C} \sum_{i=1}^{k} \sum_{x_j \in C_i} \lVert x_j - \mu_i \rVert^2
 \]</span></p>
-<p>For a fixed cluster assignment, the optimal centroid (_i) is the arithmetic mean of all observations in (C_i):</p>
+<p>For a fixed cluster assignment, the centroid for cluster <span class="math inline">\(i\)</span> is the mean of the observations in <span class="math inline">\(C_i\)</span>:</p>
 <p><span class="math display">\[
 \mu_i = \frac{1}{|C_i|} \sum_{x_j \in C_i} x_j
 \]</span></p>
-<p>This optimization problem is NP-hard in general, so the standard Lloyd–Forgy iterative heuristic <span class="citation" data-cites="lloyd1982least">(<a href="#ref-lloyd1982least" role="doc-biblioref">Lloyd 1982</a>)</span> is used to approximate convergence through alternating assignment and update steps.</p>
+<p>This optimization problem is NP hard, so this capstone uses the Lloyd Forgy routine <span class="citation" data-cites="lloyd1982least">(<a href="#ref-lloyd1982least" role="doc-biblioref">Lloyd 1982</a>)</span> to approximate a solution through alternating assignment and update st</p>
 <hr>
-</section>
 <section id="lloyds-algorithm-assignment-and-update" class="level3">
 <h3 class="anchored" data-anchor-id="lloyds-algorithm-assignment-and-update">Lloyd’s Algorithm (Assignment and Update)</h3>
 <p>The algorithm alternates between two phases until it converges:</p>
@@ -5359,20 +5359,20 @@ s(i) = \frac{b(i) - a(i)}{\max[a(i), b(i)]}
 <span id="cb1-157"><a href="#cb1-157" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_percent</span>(<span class="at">columns =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">decimals =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div id="tewulpcjoc" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#tewulpcjoc table {
+<div id="jznxlkmdem" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#jznxlkmdem table {
 font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
 }
-#tewulpcjoc thead, #tewulpcjoc tbody, #tewulpcjoc tfoot, #tewulpcjoc tr, #tewulpcjoc td, #tewulpcjoc th {
+#jznxlkmdem thead, #jznxlkmdem tbody, #jznxlkmdem tfoot, #jznxlkmdem tr, #jznxlkmdem td, #jznxlkmdem th {
 border-style: none;
 }
-#tewulpcjoc p {
+#jznxlkmdem p {
 margin: 0;
 padding: 0;
 }
-#tewulpcjoc .gt_table {
+#jznxlkmdem .gt_table {
 display: table;
 border-collapse: collapse;
 line-height: normal;
@@ -5397,11 +5397,11 @@ border-left-style: none;
 border-left-width: 2px;
 border-left-color: #D3D3D3;
 }
-#tewulpcjoc .gt_caption {
+#jznxlkmdem .gt_caption {
 padding-top: 4px;
 padding-bottom: 4px;
 }
-#tewulpcjoc .gt_title {
+#jznxlkmdem .gt_title {
 color: #333333;
 font-size: 125%;
 font-weight: initial;
@@ -5412,7 +5412,7 @@ padding-right: 5px;
 border-bottom-color: #FFFFFF;
 border-bottom-width: 0;
 }
-#tewulpcjoc .gt_subtitle {
+#jznxlkmdem .gt_subtitle {
 color: #333333;
 font-size: 85%;
 font-weight: initial;
@@ -5423,7 +5423,7 @@ padding-right: 5px;
 border-top-color: #FFFFFF;
 border-top-width: 0;
 }
-#tewulpcjoc .gt_heading {
+#jznxlkmdem .gt_heading {
 background-color: #FFFFFF;
 text-align: center;
 border-bottom-color: #FFFFFF;
@@ -5434,12 +5434,12 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#tewulpcjoc .gt_bottom_border {
+#jznxlkmdem .gt_bottom_border {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#tewulpcjoc .gt_col_headings {
+#jznxlkmdem .gt_col_headings {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -5453,7 +5453,7 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#tewulpcjoc .gt_col_heading {
+#jznxlkmdem .gt_col_heading {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -5472,7 +5472,7 @@ padding-left: 5px;
 padding-right: 5px;
 overflow-x: hidden;
 }
-#tewulpcjoc .gt_column_spanner_outer {
+#jznxlkmdem .gt_column_spanner_outer {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -5483,13 +5483,13 @@ padding-bottom: 0;
 padding-left: 4px;
 padding-right: 4px;
 }
-#tewulpcjoc .gt_column_spanner_outer:first-child {
+#jznxlkmdem .gt_column_spanner_outer:first-child {
 padding-left: 0;
 }
-#tewulpcjoc .gt_column_spanner_outer:last-child {
+#jznxlkmdem .gt_column_spanner_outer:last-child {
 padding-right: 0;
 }
-#tewulpcjoc .gt_column_spanner {
+#jznxlkmdem .gt_column_spanner {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
@@ -5500,10 +5500,10 @@ overflow-x: hidden;
 display: inline-block;
 width: 100%;
 }
-#tewulpcjoc .gt_spanner_row {
+#jznxlkmdem .gt_spanner_row {
 border-bottom-style: hidden;
 }
-#tewulpcjoc .gt_group_heading {
+#jznxlkmdem .gt_group_heading {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -5528,7 +5528,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 text-align: left;
 }
-#tewulpcjoc .gt_empty_group_heading {
+#jznxlkmdem .gt_empty_group_heading {
 padding: 0.5px;
 color: #333333;
 background-color: #FFFFFF;
@@ -5542,13 +5542,13 @@ border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 vertical-align: middle;
 }
-#tewulpcjoc .gt_from_md > :first-child {
+#jznxlkmdem .gt_from_md > :first-child {
 margin-top: 0;
 }
-#tewulpcjoc .gt_from_md > :last-child {
+#jznxlkmdem .gt_from_md > :last-child {
 margin-bottom: 0;
 }
-#tewulpcjoc .gt_row {
+#jznxlkmdem .gt_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -5566,7 +5566,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 overflow-x: hidden;
 }
-#tewulpcjoc .gt_stub {
+#jznxlkmdem .gt_stub {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -5578,7 +5578,7 @@ border-right-color: #D3D3D3;
 padding-left: 5px;
 padding-right: 5px;
 }
-#tewulpcjoc .gt_stub_row_group {
+#jznxlkmdem .gt_stub_row_group {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -5591,13 +5591,13 @@ padding-left: 5px;
 padding-right: 5px;
 vertical-align: top;
 }
-#tewulpcjoc .gt_row_group_first td {
+#jznxlkmdem .gt_row_group_first td {
 border-top-width: 2px;
 }
-#tewulpcjoc .gt_row_group_first th {
+#jznxlkmdem .gt_row_group_first th {
 border-top-width: 2px;
 }
-#tewulpcjoc .gt_summary_row {
+#jznxlkmdem .gt_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -5606,14 +5606,14 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#tewulpcjoc .gt_first_summary_row {
+#jznxlkmdem .gt_first_summary_row {
 border-top-style: solid;
 border-top-color: #D3D3D3;
 }
-#tewulpcjoc .gt_first_summary_row.thick {
+#jznxlkmdem .gt_first_summary_row.thick {
 border-top-width: 2px;
 }
-#tewulpcjoc .gt_last_summary_row {
+#jznxlkmdem .gt_last_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -5622,7 +5622,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#tewulpcjoc .gt_grand_summary_row {
+#jznxlkmdem .gt_grand_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -5631,7 +5631,7 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#tewulpcjoc .gt_first_grand_summary_row {
+#jznxlkmdem .gt_first_grand_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -5640,7 +5640,7 @@ border-top-style: double;
 border-top-width: 6px;
 border-top-color: #D3D3D3;
 }
-#tewulpcjoc .gt_last_grand_summary_row_top {
+#jznxlkmdem .gt_last_grand_summary_row_top {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -5649,10 +5649,10 @@ border-bottom-style: double;
 border-bottom-width: 6px;
 border-bottom-color: #D3D3D3;
 }
-#tewulpcjoc .gt_striped {
+#jznxlkmdem .gt_striped {
 background-color: rgba(128, 128, 128, 0.05);
 }
-#tewulpcjoc .gt_table_body {
+#jznxlkmdem .gt_table_body {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -5660,7 +5660,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#tewulpcjoc .gt_footnotes {
+#jznxlkmdem .gt_footnotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -5673,7 +5673,7 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#tewulpcjoc .gt_footnote {
+#jznxlkmdem .gt_footnote {
 margin: 0px;
 font-size: 90%;
 padding-top: 4px;
@@ -5681,7 +5681,7 @@ padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#tewulpcjoc .gt_sourcenotes {
+#jznxlkmdem .gt_sourcenotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -5694,64 +5694,64 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#tewulpcjoc .gt_sourcenote {
+#jznxlkmdem .gt_sourcenote {
 font-size: 90%;
 padding-top: 4px;
 padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#tewulpcjoc .gt_left {
+#jznxlkmdem .gt_left {
 text-align: left;
 }
-#tewulpcjoc .gt_center {
+#jznxlkmdem .gt_center {
 text-align: center;
 }
-#tewulpcjoc .gt_right {
+#jznxlkmdem .gt_right {
 text-align: right;
 font-variant-numeric: tabular-nums;
 }
-#tewulpcjoc .gt_font_normal {
+#jznxlkmdem .gt_font_normal {
 font-weight: normal;
 }
-#tewulpcjoc .gt_font_bold {
+#jznxlkmdem .gt_font_bold {
 font-weight: bold;
 }
-#tewulpcjoc .gt_font_italic {
+#jznxlkmdem .gt_font_italic {
 font-style: italic;
 }
-#tewulpcjoc .gt_super {
+#jznxlkmdem .gt_super {
 font-size: 65%;
 }
-#tewulpcjoc .gt_footnote_marks {
+#jznxlkmdem .gt_footnote_marks {
 font-size: 75%;
 vertical-align: 0.4em;
 position: initial;
 }
-#tewulpcjoc .gt_asterisk {
+#jznxlkmdem .gt_asterisk {
 font-size: 100%;
 vertical-align: 0;
 }
-#tewulpcjoc .gt_indent_1 {
+#jznxlkmdem .gt_indent_1 {
 text-indent: 5px;
 }
-#tewulpcjoc .gt_indent_2 {
+#jznxlkmdem .gt_indent_2 {
 text-indent: 10px;
 }
-#tewulpcjoc .gt_indent_3 {
+#jznxlkmdem .gt_indent_3 {
 text-indent: 15px;
 }
-#tewulpcjoc .gt_indent_4 {
+#jznxlkmdem .gt_indent_4 {
 text-indent: 20px;
 }
-#tewulpcjoc .gt_indent_5 {
+#jznxlkmdem .gt_indent_5 {
 text-indent: 25px;
 }
-#tewulpcjoc .katex-display {
+#jznxlkmdem .katex-display {
 display: inline-flex !important;
 margin-bottom: 0.75em !important;
 }
-#tewulpcjoc div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#jznxlkmdem div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
 height: 0px !important;
 }
 </style>
