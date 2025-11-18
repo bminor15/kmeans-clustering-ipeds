@@ -16,14 +16,18 @@ The workflow covers:
 
 ## Project Structure
 
-├── data/ # Raw IPEDS files
-├── docs/ # Rendered HTML report for GitHub Pages
-├── index.qmd # Full capstone report
-├── slides.qmd # Presentation slides
-├── literature.qmd # Literature review page
-├── references.bib # BibTeX references
-├── _quarto.yml # Site configuration
+```text
+.
+├── data/                # Raw IPEDS files
+├── docs/                # Rendered HTML report for GitHub Pages
+├── index.qmd            # Full capstone report
+├── slides.qmd           # Presentation slides
+├── literature.qmd       # Literature review page
+├── references.bib       # BibTeX references
+├── _quarto.yml          # Site configuration
 └── README.md
+```
+
 
 
 Live report:  
