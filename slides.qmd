@@ -2,7 +2,7 @@
 title: "Data-Driven Segmentation of U.S. Colleges and Universities"
 subtitle: "Using K-Means Clustering on IPEDS Data"
 author: "Benjamin Minor (Advisor: Dr. Cohen)"
-date: '`r Sys.Date()`'
+date: today
 format:
   revealjs:
     slide-number: true
