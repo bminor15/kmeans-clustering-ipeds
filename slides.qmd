@@ -1,117 +1,193 @@
 ---
-title: "Present a great story for data science projects"
-subtitle: "This is a Slide Template"
-author: "Students names (Advisor: Dr. Cohen)"
+title: "Data-Driven Segmentation of U.S. Colleges and Universities"
+subtitle: "Using K-Means Clustering on IPEDS Data"
+author: "Benjamin Minor (Advisor: Dr. Cohen)"
 date: '`r Sys.Date()`'
 format:
-  revealjs
+  revealjs:
+    slide-number: true
+    transition: fade
+    title-slide: true
+    title-slide-attributes:
+      data-background-color: "#f5f7fa"
+      data-title-font-size: "52px"
+      data-subtitle-font-size: "28px"
+      data-author-font-size: "22px"
 course: Capstone Projects in Data Science
-bibliography: references.bib # file contains bibtex for references
-#always_allow_html: true # this allows to get PDF with HTML features
+bibliography: references.bib
+nocite: |
+  @*
 self-contained: true
 execute: 
   warning: false
   message: false
-editor: 
-  markdown: 
+editor:
+  markdown:
     wrap: 72
 ---
 
-::: callout-important
-**Remember:** Your goal is to make your audience understand and care
-about your findings. By crafting a compelling story, you can effectively
-communicate the value of your data science project.
+## Introduction: Motivation {.smaller}
 
-Carefully read this template since it has instructions and tips to
-writing!
+**Motivation:**  
+Traditional labels (public/private, Carnegie type) often fail to capture how
+institutions actually operate when you examine resources and outcomes.
 
-More information about `revealjs`:
-<https://quarto.org/docs/reference/formats/presentations/revealjs.html>
+::: incremental
+- Institutions with different missions can look very similar numerically.
+- Designations like *elite* or *regional* do not always reflect actual
+  performance.
+- Quantitative grouping provides a more objective baseline for comparison.
 :::
 
-## Introduction  {.smaller}
+## Introduction: Research Question {.smaller}
 
--   Develop a storyline that captures attention and maintains interest.
+::: incremental
+- **Research question:**  
+  **How do U.S. colleges naturally cluster when we focus strictly on
+  quantitative metrics of financial resources and student outcomes per
+  student?**
 
--   Your audience is your peers
+- **Why this matters:**
+  - produces data-driven peer groups grounded in operating behavior  
+  - clarifies differences in resource intensity and student success  
+  - supports more accurate comparisons for funding, policy, and accountability
+:::
 
--   Clearly state the problem or question you're addressing.
+## Introduction: Analytical Approach {.smaller}
 
--   Introduce why it is relevant needs.
+::: incremental
+- integrate 2023–24 IPEDS components into a unified dataset  
+- engineer per-FTE financial and outcome metrics  
+- apply standardization and Winsorization to prepare features  
+- assess candidate values of \(k\) using Elbow and Silhouette methods  
+- fit K-Means to identify institutional groupings  
+:::
 
--   Provide an overview of your approach.
+## Methods: Data Sources {.smaller}
 
-In kernel estimator, weight function is known as kernel function
-[@efr2008]. Cite this paper [@bro2014principal]. The GEE [@wang2014].
-The PCA [@daffertshofer2004pca]\*
+**Data inputs:** Institution-level dataset built from 2023–24 IPEDS components.
 
-## Methods
+::: incremental
+- Finance  
+- Completions  
+- Admissions & Enrollment  
+- Fall Enrollment / FTE  
+:::
 
--   Detail the models or algorithms used.
+## Methods: Feature Engineering {.smaller}
 
--   Justify your choices based on the problem and data.
+::: incremental
+- revenue per FTE  
+- instructional spending per FTE  
+- student services spending per FTE  
+- completion rates  
+- tuition and net price  
+- selectivity indicators (admit rate, yield)  
+:::
+
+## Methods: Preprocessing {.smaller}
+
+::: incremental
+- standardize all numeric variables (mean 0, sd 1)  
+- Winsorize at 1% and 99% to limit extreme outliers  
+- remove institutions with structurally missing or invalid data  
+:::
+
+## Methods: Modeling {.smaller}
+
+::: incremental
+- K-Means clustering on standardized continuous features  
+- Euclidean distance as the similarity metric  
+- Elbow and Silhouette both support \(k = 4\)  
+- refit final model with multiple random starts for stability  
+:::
+
+## Data Exploration: Key Variation {.smaller}
+
+**Initial patterns in the data reveal substantial institutional variation.**
+
+::: incremental
+- **Variation across institutions in:**
+  - enrollment size  
+  - revenue and spending per FTE  
+  - completion rates and selectivity  
+:::
+
+## Data Exploration: Distributional Patterns {.smaller}
+
+::: incremental
+- **Distributional characteristics:**
+  - financial variables are strongly right-skewed  
+  - motivates Winsorization before clustering  
+
+- **Early visual findings:**
+  - clear bands of high-, mid-, and low-resource institutions  
+  - outcomes correlate with resource levels  
+
+- **Implication:**
+  - underlying structure is present even before modeling, suggesting
+    clustering will capture meaningful distinctions
+:::
+
+## Data Visualization: Variable Distributions by Cluster {.smaller}
+
+<div style="text-align:center; margin-top: 10px;">
+  <img src="figs/figure10.png"
+       style="max-width: 90%; max-height: 68vh; object-fit: contain;">
+</div>
+
+## Modeling and Results: Cluster Profiles {.smaller}
+
+**High-level cluster profiles**
+
+::: incremental
+- **Cluster 1:** high revenue & instructional spending per FTE; strong completion
+  rates; generally well-resourced institutions.
+- **Cluster 2:** moderate resources and outcomes; resembles regional public /
+  broad-access institutions.
+- **Cluster 3:** low revenue per FTE and lower completion rates; open-access
+  institutions with constrained resources.
+- **Cluster 4:** higher tuition and net price with mixed completion outcomes;
+  many tuition-dependent private institutions.
+:::
 
 
+## Modeling and Results: Interpretation {.smaller}
 
-## Data Exploration and Visualization
+::: incremental
+- Clusters cut across sector and Carnegie classifications.
+- Institutions with similar operating models cluster together
+  regardless of public/private status.
+- Data-driven clustering surfaces patterns that are not obvious from
+  traditional labels alone.
+:::
 
--   Describe your data sources and collection process.
+## Conclusion {.smaller}
 
--   Present initial findings and insights through visualizations.
+::: incremental
+- **k = 4** produces a stable, interpretable segmentation of U.S.
+  institutions.
+- Resource intensity plus completion outcomes shape cluster membership
+  the most.
+- These clusters provide clearer institutional peer groups than legacy
+  labels and can support more targeted benchmarking and policy analysis.
+:::
 
--   Highlight unexpected patterns or anomalies.
+## Conclusion: Limitations & Future Work {.smaller}
 
-## Data Exploration and Visualization {.smaller}
+::: incremental
+- **Limitations:**
+  - K-Means assumes roughly spherical clusters in standardized space  
+  - feature selection strongly influences cluster structure  
+  - results are descriptive, not causal  
 
-A study was conducted to determine how...
+- **Future Work:**
+  - experiment with Gaussian Mixture Models or hierarchical clustering  
+  - incorporate multi-year financial and outcome trends  
+  - compare clusters by student demographics and debt outcomes  
+:::
 
-```{r, warning=FALSE, echo=F, message=FALSE}
-# loading packages 
-library(tidyverse)
-library(knitr)
-library(ggthemes)
-library(ggrepel)
-library(dslabs)
-```
+## References {.smaller}
 
-```{r, warning=FALSE, echo=F}
-# Load Data
-#kable(head(murders))
-
-ggplot1 = murders %>% ggplot(mapping = aes(x=population/10^6, y=total)) 
-
-  ggplot1 + geom_point(aes(col=region), size = 4) +
-  geom_text_repel(aes(label=abb)) +
-  scale_x_log10() +
-  scale_y_log10() +
-  geom_smooth(formula = "y~x", method=lm,se = F)+
-  xlab("Populations in millions (log10 scale)") + 
-  ylab("Total number of murders (log10 scale)") +
-  ggtitle("US Gun Murders in 2010") +
-  scale_color_discrete(name = "Region")+
-      theme_bw()
-  
-
-```
-
-## Modeling and Results
-
--   Explain your data preprocessing and cleaning steps.
-
--   Present your key findings in a clear and concise manner.
-
--   Use visuals to support your claims.
-
--   **Tell a story about what the data reveals.**
-
-```{r}
-
-```
-
-## Conclusion
-
--   Summarize your key findings.
-
--   Discuss the implications of your results.
-
-## References
+::: {#refs}
+:::
