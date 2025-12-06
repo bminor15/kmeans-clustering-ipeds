@@ -116,7 +116,7 @@
     "href": "slides.html#conclusion",
     "title": "Data-Driven Segmentation of U.S. Colleges and Universities",
     "section": "Conclusion",
-    "text": "Conclusion\n\n\nk = 4 produces a stable, interpretable segmentation of U.S. institutions.\nResource intensity plus completion outcomes shape cluster membership the most.\nThese clusters provide clearer institutional peer groups than legacy labels and can support more targeted benchmarking and policy analysis."
+    "text": "Conclusion\n\n\nk = 4 produces a stable, interpretable segmentation of U.S. institutions.\nResource intensity and completion outcomes are key drivers of cluster membership.\nThe resulting clusters provide a more nuanced view of institutional “peer groups” than legacy classifications alone."
   },
   {
     "objectID": "index2.html",
@@ -256,83 +256,125 @@
     "href": "slides.html#introduction-motivation",
     "title": "Data-Driven Segmentation of U.S. Colleges and Universities",
     "section": "Introduction: Motivation",
-    "text": "Introduction: Motivation\nMotivation:\nTraditional labels (public/private, Carnegie type) often fail to capture how institutions actually operate when you examine resources and outcomes.\n\n\nInstitutions with different missions can look very similar numerically.\nDesignations like elite or regional do not always reflect actual performance.\nQuantitative grouping provides a more objective baseline for comparison."
+    "text": "Introduction: Motivation\nMotivation:\nTraditional labels (public/private, Carnegie type) often fail to capture how institutions actually operate when you examine resources and outcomes.\n\n\nInstitutions with different missions can look very similar numerically.\nDesignations like elite or regional do not always reflect actual performance.\nQuantitative grouping provides a more objective baseline for comparison and peer selection (National Center for Education Statistics 2023; Texas Association for Institutional Research 2022)."
   },
   {
     "objectID": "slides.html#introduction-research-question",
     "href": "slides.html#introduction-research-question",
     "title": "Data-Driven Segmentation of U.S. Colleges and Universities",
     "section": "Introduction: Research Question",
-    "text": "Introduction: Research Question\n\n\nResearch question:\nHow do U.S. colleges naturally cluster when we focus strictly on quantitative metrics of financial resources and student outcomes per student?\nWhy this matters:\n\nproduces data-driven peer groups grounded in operating behavior\n\nclarifies differences in resource intensity and student success\n\nsupports more accurate comparisons for funding, policy, and accountability"
+    "text": "Introduction: Research Question\n\n\nResearch question:\nHow do U.S. colleges naturally cluster when we focus strictly on quantitative metrics of financial resources and student outcomes per student?\nWhy this matters:\n\nbuilds peer groups grounded in operating behavior instead of labels\n\nclarifies differences in resource intensity and student success\n\nsupports more accurate comparisons for funding, policy, and accountability"
   },
   {
     "objectID": "slides.html#introduction-analytical-approach",
     "href": "slides.html#introduction-analytical-approach",
     "title": "Data-Driven Segmentation of U.S. Colleges and Universities",
     "section": "Introduction: Analytical Approach",
-    "text": "Introduction: Analytical Approach\n\n\nintegrate 2023–24 IPEDS components into a unified dataset\n\nengineer per-FTE financial and outcome metrics\n\napply standardization and Winsorization to prepare features\n\nassess candidate values of (k) using Elbow and Silhouette methods\n\nfit K-Means to identify institutional groupings"
+    "text": "Introduction: Analytical Approach\n\n\nintegrate 2023–24 IPEDS components into a unified institution-level dataset\n\nengineer per-FTE financial and outcome metrics\n\napply standardization and Winsorization to prepare features\n\nuse Elbow and Silhouette methods to select (k)\n\nfit K-Means and interpret the resulting institutional groupings"
   },
   {
     "objectID": "slides.html#methods-data-sources",
     "href": "slides.html#methods-data-sources",
     "title": "Data-Driven Segmentation of U.S. Colleges and Universities",
     "section": "Methods: Data Sources",
-    "text": "Methods: Data Sources\nData inputs: Institution-level dataset built from 2023–24 IPEDS components.\n\n\nFinance\n\nCompletions\n\nAdmissions & Enrollment\n\nFall Enrollment / FTE"
+    "text": "Methods: Data Sources\nData inputs: institution-level dataset built from 2023–24 IPEDS components.\n\n\nFinance\n\nCompletions\n\nAdmissions & Enrollment\n\nFall Enrollment / FTE\n\nThese components are merged on UNITID following standard data-merging practices in higher education analytics (Kelchen 2019)."
   },
   {
     "objectID": "slides.html#methods-feature-engineering",
     "href": "slides.html#methods-feature-engineering",
     "title": "Data-Driven Segmentation of U.S. Colleges and Universities",
     "section": "Methods: Feature Engineering",
-    "text": "Methods: Feature Engineering\n\n\nrevenue per FTE\n\ninstructional spending per FTE\n\nstudent services spending per FTE\n\ncompletion rates\n\ntuition and net price\n\nselectivity indicators (admit rate, yield)"
+    "text": "Methods: Feature Engineering\n\n\nrevenue per FTE\n\ninstructional spending per FTE\n\nstudent services spending per FTE\n\ncompletion rates for first-time, full-time cohorts\n\ntuition and net price\n\nselectivity indicators (admit rate, yield)\n\nAll features are numeric and interpretable, so clusters can be described in terms that make sense to institutional researchers and leadership."
   },
   {
     "objectID": "slides.html#methods-preprocessing",
     "href": "slides.html#methods-preprocessing",
     "title": "Data-Driven Segmentation of U.S. Colleges and Universities",
     "section": "Methods: Preprocessing",
-    "text": "Methods: Preprocessing\n\n\nstandardize all numeric variables (mean 0, sd 1)\n\nWinsorize at 1% and 99% to limit extreme outliers\n\nremove institutions with structurally missing or invalid data"
+    "text": "Methods: Preprocessing\n\n\nstandardize all numeric variables (mean 0, sd 1) so no single scale dominates\n\nWinsorize at 1% and 99% to limit the influence of extreme outliers\n\nremove institutions with structurally missing or invalid data\n\nThis prepares a clean, comparable feature space for distance-based clustering."
   },
   {
     "objectID": "slides.html#methods-modeling",
     "href": "slides.html#methods-modeling",
     "title": "Data-Driven Segmentation of U.S. Colleges and Universities",
     "section": "Methods: Modeling",
-    "text": "Methods: Modeling\n\n\nK-Means clustering on standardized continuous features\n\nEuclidean distance as the similarity metric\n\nElbow and Silhouette both support (k = 4)\n\nrefit final model with multiple random starts for stability"
+    "text": "Methods: Modeling\n\n\nK-Means clustering on standardized continuous features\n\nEuclidean distance as the similarity metric\n\ninternal validation:\n\nElbow method\n\naverage Silhouette score\n\n\nK-Means is a classic, well-studied partitioning algorithm (Lloyd 1982; Forgy 1965; Jain 2010), and has been used in higher education and student analytics contexts (Huberty, Jordan, and Brandt 2005; Mohd Talib, Abd Majid, and Sahran 2023)."
   },
   {
     "objectID": "slides.html#data-exploration-key-variation",
     "href": "slides.html#data-exploration-key-variation",
     "title": "Data-Driven Segmentation of U.S. Colleges and Universities",
     "section": "Data Exploration: Key Variation",
-    "text": "Data Exploration: Key Variation\nInitial patterns in the data reveal substantial institutional variation.\n\n\nVariation across institutions in:\n\nenrollment size\n\nrevenue and spending per FTE\n\ncompletion rates and selectivity"
+    "text": "Data Exploration: Key Variation\nInitial patterns in the data reveal substantial institutional variation.\n\n\nVariation across institutions in:\n\nenrollment size\n\nrevenue and spending per FTE\n\ncompletion rates and selectivity\n\nprominent differences in financial intensity and outcomes even before modeling"
   },
   {
     "objectID": "slides.html#data-exploration-distributional-patterns",
     "href": "slides.html#data-exploration-distributional-patterns",
     "title": "Data-Driven Segmentation of U.S. Colleges and Universities",
     "section": "Data Exploration: Distributional Patterns",
-    "text": "Data Exploration: Distributional Patterns\n\n\nDistributional characteristics:\n\nfinancial variables are strongly right-skewed\n\nmotivates Winsorization before clustering\n\nEarly visual findings:\n\nclear bands of high-, mid-, and low-resource institutions\n\noutcomes correlate with resource levels\n\nImplication:\n\nunderlying structure is present even before modeling, suggesting clustering will capture meaningful distinctions"
+    "text": "Data Exploration: Distributional Patterns\n\n\nDistributional characteristics:\n\nfinancial variables are heavily right-skewed\n\nmotivates Winsorization before clustering\n\nEarly visual findings:\n\nclear bands of high-, mid-, and low-resource institutions\n\noutcomes correlate with resource levels\n\nImplication:\n\nunderlying structure is present even before modeling, suggesting clustering will capture meaningful distinctions"
   },
   {
     "objectID": "slides.html#modeling-and-results-cluster-profiles",
     "href": "slides.html#modeling-and-results-cluster-profiles",
     "title": "Data-Driven Segmentation of U.S. Colleges and Universities",
     "section": "Modeling and Results: Cluster Profiles",
-    "text": "Modeling and Results: Cluster Profiles\nHigh-level cluster profiles\n\n\nCluster 1: high revenue & instructional spending per FTE; strong completion rates; generally well-resourced institutions.\nCluster 2: moderate resources and outcomes; resembles regional public / broad-access institutions.\nCluster 3: low revenue per FTE and lower completion rates; open-access institutions with constrained resources.\nCluster 4: higher tuition and net price with mixed completion outcomes; many tuition-dependent private institutions."
+    "text": "Modeling and Results: Cluster Profiles\nHigh-level cluster profiles\n\n\nCluster 1: high revenue & instructional spending per FTE; strong completion rates; generally well-resourced institutions.\nCluster 2: moderate resources and outcomes; resembles regional public and broad-access institutions.\nCluster 3: low revenue per FTE and lower completion rates; open-access institutions with constrained resources.\nCluster 4: higher tuition and net price with mixed completion outcomes; many tuition-dependent private institutions."
   },
   {
     "objectID": "slides.html#modeling-and-results-interpretation",
     "href": "slides.html#modeling-and-results-interpretation",
     "title": "Data-Driven Segmentation of U.S. Colleges and Universities",
     "section": "Modeling and Results: Interpretation",
-    "text": "Modeling and Results: Interpretation\n\n\nClusters cut across sector and Carnegie classifications.\nInstitutions with similar operating models cluster together regardless of public/private status.\nData-driven clustering surfaces patterns that are not obvious from traditional labels alone."
+    "text": "Modeling and Results: Interpretation\n\n\nClusters cut across sector and Carnegie classifications.\nInstitutions with similar operating models cluster together regardless of public/private status.\nSome open-access institutions and low-cost providers cluster together despite different labels.\nData-driven clustering surfaces patterns that are not obvious from traditional groupings or rankings."
   },
   {
     "objectID": "slides.html#conclusion-limitations-future-work",
     "href": "slides.html#conclusion-limitations-future-work",
     "title": "Data-Driven Segmentation of U.S. Colleges and Universities",
     "section": "Conclusion: Limitations & Future Work",
-    "text": "Conclusion: Limitations & Future Work\n\n\nLimitations:\n\nK-Means assumes roughly spherical clusters in standardized space\n\nfeature selection strongly influences cluster structure\n\nresults are descriptive, not causal\n\nFuture Work:\n\nexperiment with Gaussian Mixture Models or hierarchical clustering\n\nincorporate multi-year financial and outcome trends\n\ncompare clusters by student demographics and debt outcomes"
+    "text": "Conclusion: Limitations & Future Work\n\n\nLimitations:\n\nK-Means assumes roughly spherical clusters in standardized space\n\ncluster structure is sensitive to feature selection\n\nthe analysis is descriptive and does not establish causality\n\nFuture work:\n\nexperiment with Gaussian Mixture Models or hierarchical clustering\n\nincorporate multi-year financial and outcome trends\n\ncompare clusters by student demographics, debt outcomes, and labor market results"
+  },
+  {
+    "objectID": "slides.html#conclusion-limitations-and-future-work",
+    "href": "slides.html#conclusion-limitations-and-future-work",
+    "title": "Data-Driven Segmentation of U.S. Colleges and Universities",
+    "section": "Conclusion: Limitations and Future Work",
+    "text": "Conclusion: Limitations and Future Work\n\n\nLimitations:\n\nK-Means assumes spherical clusters in standardized space\n\ncluster structure depends on feature selection\n\nresults are descriptive rather than causal\n\nFuture work:\n\nexplore Gaussian mixture or hierarchical clustering\n\nincorporate multi-year trends in finances and outcomes\n\nexamine differences in student demographics across clusters"
+  },
+  {
+    "objectID": "slides.html#modeling-results-cluster-sizes",
+    "href": "slides.html#modeling-results-cluster-sizes",
+    "title": "Data-Driven Segmentation of U.S. Colleges and Universities",
+    "section": "Modeling Results: Cluster Sizes",
+    "text": "Modeling Results: Cluster Sizes"
+  },
+  {
+    "objectID": "slides.html#introduction-project-story",
+    "href": "slides.html#introduction-project-story",
+    "title": "Data-Driven Segmentation of U.S. Colleges and Universities",
+    "section": "Introduction: Project Story",
+    "text": "Introduction: Project Story\nGoal: Tell a clear, data-driven story about how U.S. colleges group together once you ignore their labels and focus on resources and outcomes.\n\n\nAudience: peers in a data science capstone course who know the methods but not this specific application.\nInstead of rankings or marketing categories, use clustering to reveal operating models based on financial and outcome data.\nThis fits into a broader line of work using cluster analysis in higher education research (Huberty, Jordan, and Brandt 2005; Mohd Talib, Abd Majid, and Sahran 2023)."
+  },
+  {
+    "objectID": "slides.html#framing-the-story",
+    "href": "slides.html#framing-the-story",
+    "title": "Data-Driven Segmentation of U.S. Colleges and Universities",
+    "section": "Framing the Story",
+    "text": "Framing the Story\nGoal: use K-Means to uncover data-driven groups of U.S. colleges and universities based on how they actually operate.\n\nTraditional labels (public/private, Carnegie type, “regional,” “elite”) are convenient but coarse.\nInstitutions with very different brands can look similar when you line up their resources and outcomes.\nCluster analysis is already used in higher education research to define peer groups and typologies (Huberty, Jordan, and Brandt 2005; National Center for Education Statistics 2023; Elam 2016; Texas Association for Institutional Research 2022).\n\nThe core story: what do the clusters look like when we ignore marketing and focus strictly on money and student results?"
+  },
+  {
+    "objectID": "slides.html#modeling-and-results-choosing-k",
+    "href": "slides.html#modeling-and-results-choosing-k",
+    "title": "Data-Driven Segmentation of U.S. Colleges and Universities",
+    "section": "Modeling and Results: Choosing k",
+    "text": "Modeling and Results: Choosing k\nInternal validation for the number of clusters.\n\n\nElbow method: clear bend at (k = 4) in within-cluster sum of squares.\n\nSilhouette score: average silhouette peaks around (k = 4) and flattens afterwards.\n\n(k = 4) offers a balance between model fit and interpretability.\n\nThis aligns with guidance in the clustering literature (Jain 2010; Huberty, Jordan, and Brandt 2005)."
+  },
+  {
+    "objectID": "slides.html#modeling-and-results-cluster-sizes",
+    "href": "slides.html#modeling-and-results-cluster-sizes",
+    "title": "Data-Driven Segmentation of U.S. Colleges and Universities",
+    "section": "Modeling and Results: Cluster Sizes",
+    "text": "Modeling and Results: Cluster Sizes"
   }
 ]

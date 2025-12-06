@@ -15,8 +15,6 @@ format:
       data-author-font-size: "22px"
 course: Capstone Projects in Data Science
 bibliography: references.bib
-nocite: |
-  @*
 self-contained: true
 execute: 
   warning: false
@@ -26,18 +24,21 @@ editor:
     wrap: 72
 ---
 
-## Introduction: Motivation {.smaller}
+## Framing the Story {.smaller}
 
-**Motivation:**  
-Traditional labels (public/private, Carnegie type) often fail to capture how
-institutions actually operate when you examine resources and outcomes.
+**Goal:** use K-Means to uncover data-driven groups of U.S. colleges and
+universities based on how they actually operate.
 
-::: incremental
-- Institutions with different missions can look very similar numerically.
-- Designations like *elite* or *regional* do not always reflect actual
-  performance.
-- Quantitative grouping provides a more objective baseline for comparison.
-:::
+- Traditional labels (public/private, Carnegie type, “regional,” “elite”)
+  are convenient but coarse.
+- Institutions with very different brands can look similar when you line up
+  their resources and outcomes.
+- Cluster analysis is already used in higher education research to define
+  peer groups and typologies [@huberty2005cluster; @nces2023groupings;
+  @elam2016classification; @tair2022peer].
+
+The core story: what do the clusters look like when we ignore marketing
+and focus strictly on money and student results?
 
 ## Introduction: Research Question {.smaller}
 
@@ -48,7 +49,7 @@ institutions actually operate when you examine resources and outcomes.
   student?**
 
 - **Why this matters:**
-  - produces data-driven peer groups grounded in operating behavior  
+  - builds peer groups grounded in operating behavior instead of labels  
   - clarifies differences in resource intensity and student success  
   - supports more accurate comparisons for funding, policy, and accountability
 :::
@@ -56,22 +57,25 @@ institutions actually operate when you examine resources and outcomes.
 ## Introduction: Analytical Approach {.smaller}
 
 ::: incremental
-- integrate 2023–24 IPEDS components into a unified dataset  
+- integrate 2023–24 IPEDS components into a unified institution-level dataset  
 - engineer per-FTE financial and outcome metrics  
 - apply standardization and Winsorization to prepare features  
-- assess candidate values of \(k\) using Elbow and Silhouette methods  
-- fit K-Means to identify institutional groupings  
+- use Elbow and Silhouette methods to select \(k\)  
+- fit K-Means and interpret the resulting institutional groupings  
 :::
 
 ## Methods: Data Sources {.smaller}
 
-**Data inputs:** Institution-level dataset built from 2023–24 IPEDS components.
+**Data inputs:** institution-level dataset built from 2023–24 IPEDS components.
 
 ::: incremental
 - Finance  
 - Completions  
 - Admissions & Enrollment  
 - Fall Enrollment / FTE  
+
+These components are merged on UNITID following standard data-merging
+practices in higher education analytics [@kelchen2019merging].
 :::
 
 ## Methods: Feature Engineering {.smaller}
@@ -80,17 +84,23 @@ institutions actually operate when you examine resources and outcomes.
 - revenue per FTE  
 - instructional spending per FTE  
 - student services spending per FTE  
-- completion rates  
+- completion rates for first-time, full-time cohorts  
 - tuition and net price  
 - selectivity indicators (admit rate, yield)  
+
+All features are numeric and interpretable, so clusters can be described
+in terms that make sense to institutional researchers and leadership.
 :::
 
 ## Methods: Preprocessing {.smaller}
 
 ::: incremental
-- standardize all numeric variables (mean 0, sd 1)  
-- Winsorize at 1% and 99% to limit extreme outliers  
+- standardize all numeric variables (mean 0, sd 1) so no single scale dominates  
+- Winsorize at 1% and 99% to limit the influence of extreme outliers  
 - remove institutions with structurally missing or invalid data  
+
+This prepares a clean, comparable feature space for distance-based
+clustering.
 :::
 
 ## Methods: Modeling {.smaller}
@@ -98,8 +108,14 @@ institutions actually operate when you examine resources and outcomes.
 ::: incremental
 - K-Means clustering on standardized continuous features  
 - Euclidean distance as the similarity metric  
-- Elbow and Silhouette both support \(k = 4\)  
-- refit final model with multiple random starts for stability  
+- internal validation:
+  - Elbow method  
+  - average Silhouette score  
+
+K-Means is a classic, well-studied partitioning algorithm
+[@lloyd1982least; @forgy1965cluster; @jain2010data], and has been used
+in higher education and student analytics contexts
+[@huberty2005cluster; @mohdtalib2023behavioral].
 :::
 
 ## Data Exploration: Key Variation {.smaller}
@@ -111,13 +127,16 @@ institutions actually operate when you examine resources and outcomes.
   - enrollment size  
   - revenue and spending per FTE  
   - completion rates and selectivity  
+
+- prominent differences in financial intensity and outcomes even before
+  modeling  
 :::
 
 ## Data Exploration: Distributional Patterns {.smaller}
 
 ::: incremental
 - **Distributional characteristics:**
-  - financial variables are strongly right-skewed  
+  - financial variables are heavily right-skewed  
   - motivates Winsorization before clustering  
 
 - **Early visual findings:**
@@ -133,7 +152,30 @@ institutions actually operate when you examine resources and outcomes.
 
 <div style="text-align:center; margin-top: 10px;">
   <img src="figs/figure10.png"
+       alt="Distribution of key variables across clusters"
        style="max-width: 90%; max-height: 68vh; object-fit: contain;">
+</div>
+
+## Modeling and Results: Choosing k {.smaller}
+
+**Internal validation for the number of clusters.**
+
+::: incremental
+- Elbow method: clear bend at \(k = 4\) in within-cluster sum of squares.  
+- Silhouette score: average silhouette peaks around \(k = 4\) and flattens
+  afterwards.  
+- \(k = 4\) offers a balance between model fit and interpretability.
+
+This aligns with guidance in the clustering literature
+[@jain2010data; @huberty2005cluster].
+:::
+
+## Modeling and Results: Cluster Sizes {.smaller}
+
+<div style="text-align:center; margin-top: 10px;">
+  <img src="figs/figure9_cluster_sizes.png"
+       alt="Cluster sizes for k = 4"
+       style="max-width: 80%; max-height: 60vh; object-fit: contain;">
 </div>
 
 ## Modeling and Results: Cluster Profiles {.smaller}
@@ -141,25 +183,26 @@ institutions actually operate when you examine resources and outcomes.
 **High-level cluster profiles**
 
 ::: incremental
-- **Cluster 1:** high revenue & instructional spending per FTE; strong completion
-  rates; generally well-resourced institutions.
-- **Cluster 2:** moderate resources and outcomes; resembles regional public /
-  broad-access institutions.
+- **Cluster 1:** high revenue & instructional spending per FTE; strong
+  completion rates; generally well-resourced institutions.
+- **Cluster 2:** moderate resources and outcomes; resembles regional public
+  and broad-access institutions.
 - **Cluster 3:** low revenue per FTE and lower completion rates; open-access
   institutions with constrained resources.
 - **Cluster 4:** higher tuition and net price with mixed completion outcomes;
   many tuition-dependent private institutions.
 :::
 
-
 ## Modeling and Results: Interpretation {.smaller}
 
 ::: incremental
 - Clusters cut across sector and Carnegie classifications.
-- Institutions with similar operating models cluster together
-  regardless of public/private status.
+- Institutions with similar operating models cluster together regardless
+  of public/private status.
+- Some open-access institutions and low-cost providers cluster together
+  despite different labels.
 - Data-driven clustering surfaces patterns that are not obvious from
-  traditional labels alone.
+  traditional groupings or rankings.
 :::
 
 ## Conclusion {.smaller}
@@ -167,10 +210,10 @@ institutions actually operate when you examine resources and outcomes.
 ::: incremental
 - **k = 4** produces a stable, interpretable segmentation of U.S.
   institutions.
-- Resource intensity plus completion outcomes shape cluster membership
-  the most.
-- These clusters provide clearer institutional peer groups than legacy
-  labels and can support more targeted benchmarking and policy analysis.
+- Resource intensity and completion outcomes are key drivers of cluster
+  membership.
+- The resulting clusters provide a more nuanced view of institutional
+  “peer groups” than legacy classifications alone.
 :::
 
 ## Conclusion: Limitations & Future Work {.smaller}
@@ -178,13 +221,14 @@ institutions actually operate when you examine resources and outcomes.
 ::: incremental
 - **Limitations:**
   - K-Means assumes roughly spherical clusters in standardized space  
-  - feature selection strongly influences cluster structure  
-  - results are descriptive, not causal  
+  - cluster structure is sensitive to feature selection  
+  - the analysis is descriptive and does not establish causality  
 
-- **Future Work:**
+- **Future work:**
   - experiment with Gaussian Mixture Models or hierarchical clustering  
   - incorporate multi-year financial and outcome trends  
-  - compare clusters by student demographics and debt outcomes  
+  - compare clusters by student demographics, debt outcomes, and labor market
+    results  
 :::
 
 ## References {.smaller}
