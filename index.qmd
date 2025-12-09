@@ -197,7 +197,7 @@ Lloyd–Forgy heuristic for iterative centroid-based optimization, as
 described in the literature on higher education clustering and
 institutional classification [@lloyd1982least].
 
-------------------------------------------------------------------------
+-------------------------------------------------------------------------
 
 ## Objective and Notation
 
